@@ -1,0 +1,5 @@
+.main_itinerary {
+  background-color: gold;
+  height: 85vh;
+  overflow-y: auto;
+}
