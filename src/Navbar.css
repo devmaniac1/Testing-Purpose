@@ -1,6 +1,12 @@
+html{
+  font-size: 62.5%;
+}
+
 .main__navbar {
-  width: 100vw;
+  width: 95vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 1.6rem auto;
+  font-size: 1.6rem;
 }

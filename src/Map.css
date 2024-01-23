@@ -1,4 +1,5 @@
 .main_map {
   background-color: beige;
   height: 85vh;
+  border-radius: 1rem;
 }

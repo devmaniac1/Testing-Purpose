@@ -2,4 +2,5 @@
   background-color: gold;
   height: 85vh;
   overflow-y: auto;
+  border-radius: 1rem;
 }
