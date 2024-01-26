@@ -1,6 +1,88 @@
 .main_itinerary {
-  background-color: gold;
+  display: flexbox;
+  justify-content: center;
+  background-color: rgba(217, 241, 238, 0.731);
   height: 85vh;
   overflow-y: auto;
   border-radius: 1rem;
+}
+
+.banner-container{
+  display: flex;
+  position: relative;
+  width: 500px;
+  height: 200px;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 3vh;
+  background-color: rgb(229, 206, 206);
+}
+
+.transparent-box{
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: calc(40% + 50px);
+  transform: translateX(-50%);
+  width: 300PX;
+  height: 100PX;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  background-color:rgba(192, 72, 72, 0.231) ;
+}
+
+.transparent-box p{
+  margin: 0;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+
+}
+
+.date-info{
+  position:absolute;
+  right: 10px;
+  top: 75px;
+  text-align: right;
+  display: flex;
+  align-items: center;
+
+}
+
+.date-svg{
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;;
+}
+.date-info p{
+  font-size: smaller;
+  margin-left: 5px;
+}
+
+
+.Full-Plan {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.dropDown {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+
+}
+
+.dropDown p {
+  margin: 0;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.dropDown svg {
+  width: 20px;
+  height: 20px;
 }
