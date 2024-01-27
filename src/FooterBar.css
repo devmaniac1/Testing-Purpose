@@ -1,0 +1,16 @@
+html {
+  font-size: 62.5%;
+}
+
+.footer-bar {
+  font-size: 1.6rem;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+}
