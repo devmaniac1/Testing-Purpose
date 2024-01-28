@@ -1,23 +1,9 @@
-*{
-  padding:5px;
-}
 
-
-
-
-
-/* Reset some default browser styles */
-body, h1, h2, h3, p, ul {
-  margin: 0;
-  padding: 0;
-}
-
-/* Set a baseline font size */
 html {
   font-size: 62.5%;
 }
 
-/* Main Navbar styles */
+
 .main__navbar {
   width: 95vw;
   display: flex;
@@ -33,7 +19,7 @@ html {
   height: 2.4rem;
 }
 
-/* Sidebar Panel styles */
+
 .sidebar-panel {
   position: fixed;
   top: 0;
@@ -59,7 +45,6 @@ html {
   gap: 3rem;
 }
 
-/* Responsive Styles for Tablets and Smaller Screens */
 @media (max-width: 1024px) {
   .main__navbar {
     flex-direction: column;
@@ -100,4 +85,6 @@ html {
     gap: 3rem;
   }
 }
+
+=======
 

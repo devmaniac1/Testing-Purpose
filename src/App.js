@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from "./logo.svg";
+import "./App.css";
+import Itinerary from "./Itinerary.js";
+import Navbar from "./Navbar.js";
+import Map from "./Map.js";
+import FooterBar from "./FooterBar.js";
+import React, { useEffect, useState } from "react";
 
 function App() {
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.New Branch layout
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Navbar />
       </header>
+      <div className="main_app">
+        <Itinerary />
+        {viewportWidth > 800 && <Map />}
+      </div>
+      {viewportWidth <= 800 && <FooterBar />}
     </div>
   );
 }
