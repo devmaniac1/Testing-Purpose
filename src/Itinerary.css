@@ -88,4 +88,8 @@
     grid-template-columns: 1fr;
     /* height: 80vh; */
   }
+  .main_itinerary{
+    flex-grow: 1;
+    padding-bottom: 6rem;
+  }
 }

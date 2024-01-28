@@ -8,6 +8,7 @@ body {
 .App {
   height: 100vh;
   overflow-y: hidden;
+  /* position: relative; */
 }
 
 .main_app {
@@ -25,7 +26,14 @@ body {
 }
 
 @media (max-width: 50em) {
+  .App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
   .main_app {
     grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
 }
