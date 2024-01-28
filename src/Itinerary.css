@@ -24,7 +24,7 @@
   left: 50%;
   top: calc(40% + 50px);
   transform: translateX(-50%);
-  width: 300PX;
+  width: 50%;
   height: 100PX;
   border-radius: 5px;
   align-items: center;
