@@ -1,13 +1,15 @@
 .main_itinerary {
   display: flexbox;
   justify-content: center;
-  background-color: rgba(217, 241, 238, 0.731);
+  background-color: #e2f5f3;
   height: 85vh;
   overflow-y: auto;
   border-radius: 1rem;
 }
 
 .banner-container {
+  background-image: url("./images/banner.jpg");
+  background-size: cover;
   display: flex;
   position: relative;
   width: 500px;
@@ -24,20 +26,20 @@
   left: 50%;
   top: calc(40% + 50px);
   transform: translateX(-50%);
-  width: 50%;
+  width: 300PX;
   height: 100PX;
-
   border-radius: 5px;
   align-items: center;
   justify-content: center;
-  background-color: rgba(192, 72, 72, 0.231);
+  background-color: rgba(255, 255, 255, 0.712);
 }
 
 .transparent-box p {
   margin: 0;
   font-size: 18px;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
+
 }
 
 .date-info {
@@ -47,30 +49,54 @@
   text-align: right;
   display: flex;
   align-items: center;
+
 }
 
 .date-svg {
   width: 20px;
   height: 20px;
   margin-right: 5px;
+  ;
 }
+
 .date-info p {
   font-size: smaller;
   margin-left: 5px;
 }
 
-.Full-Plan {
+
+.All-Dates {
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 20px;
+  width: 400px;
+}
+
+.Full-Plan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.Full-Plan>div {
+  display: flex;
+  align-items: center;
+}
+
+.Full-Plan>div>h1 {
+  margin-right: 80px;
+  color: #254E72;
 }
 
 .dropDown {
   display: flex;
   align-items: center;
   margin-top: 10px;
+
 }
 
 .dropDown p {
@@ -84,9 +110,52 @@
   height: 20px;
 }
 
-@media (max-width: 50em) {
-  .main_app {
-    grid-template-columns: 1fr;
-    /* height: 80vh; */
-  }
+.day {
+  font-weight: bold;
+  font-size: 20px;
+  color: #254E72;
+}
+
+.items {
+  margin: 20px 0px;
+  color: #254E72;
+  font-size: 13px;
+}
+
+.items>div {
+  margin-bottom: 8px;
+}
+
+.items>div>span {
+  font-weight: bold;
+}
+
+.sub-items {
+  margin-left: 20px;
+}
+
+.sub-items>div {
+  margin-bottom: 2px;
+}
+
+.btn {
+  background-color: #319396;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0px 5px;
+  cursor: pointer;
+}
+
+.icon {
+  left: 9px !important;
+  top: 12px !important;
+  height: 20px !important;
+  width: 20px !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.vertical-timeline::before {
+  width: 2px !important;
 }
