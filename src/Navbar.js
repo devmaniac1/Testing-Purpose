@@ -1,26 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Navbar.css";
 
-function Navbar() {
+const Navbar = () => {
+  console.log("Navbar Component Rendering");
   const [navIsOpen, setNavIsOpen] = useState(false);
 
   function handleClick() {
+    console.log("Before Toggle:", navIsOpen);
     setNavIsOpen(!navIsOpen);
+    console.log("After Toggle:", navIsOpen);
   }
+
+  useEffect(() => {
+    console.log("Navbar Component Rendering. IsOpen:", navIsOpen);
+  }, [navIsOpen]);
+
+  const sidebarPanelClass = `sidebar-panel ${navIsOpen ? "sidebar-open" : ""}`;
 
   return (
     <nav className="main__navbar">
       {navIsOpen ? (
-        <div className={`sidebar-panel ${navIsOpen ? "sidebar-open" : ""}`}>
-          <MenuIcon OnViewSideBar={handleClick} navIsOpen={navIsOpen} />
-          <h4>Lankan Amigo</h4>
-          <ul>
-            <li>Home</li>
-            <li>Trip Assistant</li>
-            <li>Edit Plan</li>
-            <li>User Account</li>
-          </ul>
-        </div>
+        <>
+          <div
+            className="empty-container"
+            aria-label="Empty Container"
+            role="presentation"
+            style={{ height: "2rem", margin: "0.4rem" }}
+          ></div>
+          <div className={sidebarPanelClass}>
+            <CloseIcon OnViewSideBar={handleClick} navIsOpen={navIsOpen} />
+            <h4>Lankan Amigo</h4>
+            <ul>
+              <li>Home</li>
+              <li>Trip Assistant</li>
+              <li>Edit Plan</li>
+              <li>User Account</li>
+            </ul>
+          </div>
+        </>
       ) : (
         <>
           <MenuIcon OnViewSideBar={handleClick} />
@@ -29,7 +46,7 @@ function Navbar() {
       )}
     </nav>
   );
-}
+};
 
 function UserIcon() {
   return (
@@ -52,9 +69,21 @@ function UserIcon() {
   );
 }
 
+function CloseIcon({OnViewSideBar, navIsOpen}){
+  return <div className={`menu ${navIsOpen ? "open-sidebar" : ""}`} onClick={OnViewSideBar}>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 nav-icon">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+</svg>
+</div>
+
+}
+
 function MenuIcon({ OnViewSideBar, navIsOpen }) {
   return (
-    <div className={`menu ${navIsOpen ? "open-sidebar" : ""}`} onClick={OnViewSideBar}>
+    <div
+      className={`menu ${navIsOpen ? "open-sidebar" : ""}`}
+      onClick={OnViewSideBar}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
