@@ -1,4 +1,6 @@
-html{
+@import url("https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap");
+
+html {
   font-size: 62.5%;
 }
 
@@ -9,4 +11,65 @@ html{
   justify-content: space-between;
   margin: 1.6rem auto;
   font-size: 1.6rem;
+}
+
+.nav-icon {
+  stroke: black;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.sidebar-panel {
+  position: fixed; /* Change to fixed for full-height sidebar */
+  top: 0;
+  left: -100vw; /* Use left instead of transform for initial position */
+  background-color: #fff;
+  height: 100vh;
+  width: 25vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 8;
+  transition: left 0.5s ease-in-out; /* Use left instead of transform for animation */
+}
+
+.sidebar-panel.sidebar-open {
+  font-family: "Inria Serif", serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  left: 0; /* Use left instead of transform for animation */
+  display: flex;
+  justify-content: flex-start;
+  gap: 3rem;
+  background-color: #c3fae8;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3);
+  transition: all 1s ease-in;
+}
+
+@media (max-width: 50em) {
+  .sidebar-panel {
+    width: 50vw;
+  }
+}
+
+.menu.open-sidebar {
+  align-self: flex-end;
+  margin: 1.6rem 1rem;
+}
+
+.sidebar-panel.sidebar-open h4 {
+  align-self: center;
+  color: #0ca678;
+  text-decoration: underline solid 2px #0ca678;
+}
+
+.sidebar-panel.sidebar-open ul {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  list-style: none;
+  text-align: center;
+  font-size: 1.6rem;
+  padding: 0;
 }
