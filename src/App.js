@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 
 function App() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [currentWindow, setCurrentWindow] = useState("Itinerary");
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,16 +22,23 @@ function App() {
     };
   }, []);
 
+  function handleChangeWindow(windowName) {
+    setCurrentWindow(windowName);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <Navbar />
       </header>
       <div className="main_app">
-        <Itinerary />
+        {currentWindow === "Itinerary" && <Itinerary />}
+        {currentWindow === "Map" && <Map />}
         {viewportWidth > 800 && <Map />}
       </div>
-      {viewportWidth <= 800 && <FooterBar />}
+      {viewportWidth <= 800 && (
+        <FooterBar onChangeWindow={handleChangeWindow} />
+      )}
     </div>
   );
 }

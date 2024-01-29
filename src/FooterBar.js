@@ -1,6 +1,9 @@
 import "./FooterBar.css";
 
-function FooterBar() {
+function FooterBar({ onChangeWindow }) {
+  function handleClick(windowName) {
+    onChangeWindow(windowName);
+  }
   return (
     <div className="footer-bar">
       <svg
@@ -10,6 +13,7 @@ function FooterBar() {
         strokeWidth={1.5}
         stroke="currentColor"
         className="w-6 h-6 footer-icon"
+        onClick={() => handleClick("Itinerary")}
       >
         <path
           strokeLinecap="round"
@@ -40,6 +44,7 @@ function FooterBar() {
         strokeWidth={1.5}
         stroke="currentColor"
         className="w-6 h-6 footer-icon"
+        onClick={() => handleClick("Map")}
       >
         <path
           strokeLinecap="round"
