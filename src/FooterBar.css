@@ -18,9 +18,9 @@ html {
   bottom: 0;
   display: flex;
   justify-content: space-around;
+  z-index: 10;
   /* transform: translateY(100%); */
 }
-
 
 .footer-icon {
   width: 3.2rem;
