@@ -7,11 +7,24 @@ function Map() {
   const [column2Width, setColumn2Width] = useState(0);
 
   useEffect(() => {
-    const currentWidth = column2Ref.current.offsetWidth;
+    const handleResize = () => {
+      const currentWidth = column2Ref.current.offsetWidth;
+      console.log("Column 2 Width:", currentWidth);
+      setColumn2Width(currentWidth);
+    };
+    handleResize();
 
-    console.log("Column 2 Width:", currentWidth);
+    window.addEventListener("resize", handleResize);
 
-    setColumn2Width(currentWidth);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+
+    // const currentWidth = column2Ref.current.offsetWidth;
+
+    // console.log("Column 2 Width:", currentWidth);
+
+    // setColumn2Width(currentWidth);
   }, []);
 
   return (
