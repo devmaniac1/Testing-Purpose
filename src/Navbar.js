@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Navbar.css";
 
-const Navbar = () => {
-  console.log("Navbar Component Rendering");
+const Navbar = ({viewportWidth}) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
 
   function handleClick() {
@@ -20,33 +19,59 @@ const Navbar = () => {
   return (
     <nav className="main__navbar">
       {navIsOpen ? (
-        <>
-          <div
-            className="empty-container"
-            aria-label="Empty Container"
-            role="presentation"
-            style={{ height: "2rem", margin: "0.4rem" }}
-          ></div>
-          <div className={sidebarPanelClass}>
-            <CloseIcon OnViewSideBar={handleClick} navIsOpen={navIsOpen} />
-            <h4>Lankan Amigo</h4>
-            <ul>
-              <li>Home</li>
-              <li>Trip Assistant</li>
-              <li>Edit Plan</li>
-              <li>User Account</li>
-            </ul>
-          </div>
-        </>
+        <SideBarPanel
+          sidebarPanelClass={sidebarPanelClass}
+          OnViewSideBar={handleClick}
+          navIsOpen={navIsOpen}
+        />
       ) : (
         <>
-          <MenuIcon OnViewSideBar={handleClick} />
+          {viewportWidth <= 800 && <MenuIcon OnViewSideBar={handleClick} />}
+          {viewportWidth > 800 && <DesktopNavigation />}
+
           <UserIcon />
         </>
       )}
     </nav>
   );
 };
+
+function SideBarPanel({ sidebarPanelClass, OnViewSideBar, navIsOpen }) {
+  return (
+    <>
+      <div
+        className="empty-container"
+        aria-label="Empty Container"
+        role="presentation"
+        style={{ height: "2rem", margin: "0.4rem" }}
+      ></div>
+      <div className={sidebarPanelClass}>
+        <CloseIcon OnViewSideBar={OnViewSideBar} navIsOpen={navIsOpen} />
+        <h4>Lankan Amigo</h4>
+        <ul>
+          <li>Home</li>
+          <li>Trip Assistant</li>
+          <li>Edit Plan</li>
+          <li>User Account</li>
+        </ul>
+      </div>
+    </>
+  );
+}
+
+function DesktopNavigation() {
+  return (
+    <div className="navigation-panel">
+      <h4>Lankan Amigo</h4>
+      <ul className="main-nav-links">
+        <li className="main-nav-link">Home</li>
+        <li className="main-nav-link">Edit</li>
+        <li className="main-nav-link">Places</li>
+        <li className="main-nav-link">Reviews</li>
+      </ul>
+    </div>
+  );
+}
 
 function UserIcon() {
   return (
@@ -103,3 +128,4 @@ function MenuIcon({ OnViewSideBar, navIsOpen }) {
 }
 
 export default Navbar;
+

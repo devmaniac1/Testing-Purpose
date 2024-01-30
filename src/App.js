@@ -29,7 +29,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Navbar />
+        <Navbar viewportWidth={viewportWidth} />
       </header>
       <div className="main_app">
         {currentWindow === "Itinerary" && <Itinerary />}
