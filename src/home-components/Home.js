@@ -3,18 +3,18 @@ import heroImage from "../images/hero1.jpg";
 import "./Home.css";
 import Navbar from "../Navbar";
 
-function Home() {
+function Home({ viewportWidth }) {
   return (
     <>
-      <Hero />
+      <Hero viewportWidth={viewportWidth} />
     </>
   );
 }
 
-function Hero() {
+function Hero({ viewportWidth }) {
   return (
     <section className="section section--hero">
-      <Navbar viewportWidth={1300} />
+      <Navbar viewportWidth={viewportWidth} />
       <img src={heroImage} alt="hero" />
       <div className="hero--textbox">
         <p className="hero-header">Explore the World with Travel Amigo</p>

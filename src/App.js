@@ -29,7 +29,7 @@ function App() {
   }
 
   return currentPage ? (
-    <Home />
+    <Home viewportWidth={viewportWidth} />
   ) : (
     <ApplicationInterface
       handleChangeWindow={handleChangeWindow}

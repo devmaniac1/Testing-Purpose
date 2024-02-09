@@ -48,6 +48,10 @@ const Navbar = ({ viewportWidth }) => {
   );
 };
 
+const temp = {
+  zIndex: "100",
+};
+
 function SideBarPanel({ sidebarPanelClass, OnViewSideBar, navIsOpen }) {
   return (
     <>
@@ -57,7 +61,7 @@ function SideBarPanel({ sidebarPanelClass, OnViewSideBar, navIsOpen }) {
         role="presentation"
         style={{ height: "2rem", margin: "0.4rem" }}
       ></div>
-      <div className={sidebarPanelClass}>
+      <div className={sidebarPanelClass} style={temp}>
         <CloseIcon OnViewSideBar={OnViewSideBar} navIsOpen={navIsOpen} />
         <h4>Lankan Amigo</h4>
         <ul>
