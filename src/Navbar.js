@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import "./Navbar.css";
+import logo from "./images/hero-logo.png";
 
-const Navbar = ({viewportWidth}) => {
+const Navbar = ({ viewportWidth }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
 
   function handleClick() {
@@ -15,9 +16,20 @@ const Navbar = ({viewportWidth}) => {
   }, [navIsOpen]);
 
   const sidebarPanelClass = `sidebar-panel ${navIsOpen ? "sidebar-open" : ""}`;
-
+  const navbarStyle = {
+    position: "absolute",
+    top: "0",
+    left: "50%",
+    transform: "translateX(-50%)",
+    // backgroundColor: "#265073",
+    width: "100vw",
+    padding: "1.6rem 3.2rem",
+    margin: "0",
+    // color: "#FFf",
+    // boxShadow: "0rem 0.5rem 0.5rem rgba(0,0,0,0.5)",
+  };
   return (
-    <nav className="main__navbar">
+    <nav className="main__navbar" style={navbarStyle}>
       {navIsOpen ? (
         <SideBarPanel
           sidebarPanelClass={sidebarPanelClass}
@@ -62,7 +74,7 @@ function SideBarPanel({ sidebarPanelClass, OnViewSideBar, navIsOpen }) {
 function DesktopNavigation() {
   return (
     <div className="navigation-panel">
-      <h4>Lankan Amigo</h4>
+      <img src={logo} alt="logo"></img>
       <ul className="main-nav-links">
         <li className="main-nav-link">Home</li>
         <li className="main-nav-link">Edit</li>
@@ -94,13 +106,28 @@ function UserIcon() {
   );
 }
 
-function CloseIcon({OnViewSideBar, navIsOpen}){
-  return <div className={`menu ${navIsOpen ? "open-sidebar" : ""}`} onClick={OnViewSideBar}>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 nav-icon">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-</svg>
-</div>
-
+function CloseIcon({ OnViewSideBar, navIsOpen }) {
+  return (
+    <div
+      className={`menu ${navIsOpen ? "open-sidebar" : ""}`}
+      onClick={OnViewSideBar}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-6 h-6 nav-icon"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M6 18 18 6M6 6l12 12"
+        />
+      </svg>
+    </div>
+  );
 }
 
 function MenuIcon({ OnViewSideBar, navIsOpen }) {
@@ -128,4 +155,3 @@ function MenuIcon({ OnViewSideBar, navIsOpen }) {
 }
 
 export default Navbar;
-

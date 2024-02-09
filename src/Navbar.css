@@ -14,19 +14,24 @@ html {
   transition: all 1s ease;
 }
 
-.navigation-panel{
+.navigation-panel {
   display: flex;
-  gap: 2.4rem;
+  gap: 4.8rem;
   font-family: "Inria Serif", serif;
   align-items: center;
   font-weight: 700;
   color: #0ca678;
 }
-.main-nav-links{
+.navigation-panel > img {
+  width: 17.5rem;
+}
+
+.main-nav-links {
   display: flex;
   gap: 2rem;
   list-style: none;
   color: #000;
+  color: #fff;
 }
 
 .nav-icon {

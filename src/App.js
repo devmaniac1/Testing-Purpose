@@ -4,7 +4,7 @@ import Itinerary from "./Itinerary.js";
 import Navbar from "./Navbar.js";
 import Map from "./Map.js";
 import FooterBar from "./FooterBar.js";
-import Home from "./Home.js";
+import Home from "./home-components/Home.js";
 import React, { useEffect, useState } from "react";
 
 function App() {
