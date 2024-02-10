@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 
-const MapContainer = ({ google, width }) => {
+const MapContainer = ({
+  google,
+  width,
+  fromLocation,
+  toLocation,
+  toLatitude,
+  toLongitude,
+  fromLatitude,
+  fromLongitude,
+}) => {
   const [markers, setMarkers] = useState([]);
   const [mapKey, setMapKey] = useState(0);
 
   useEffect(() => {
-    const location1 = { lat: 6.9271, lng: 79.8612 };
-    const location2 = { lat: 7.8731, lng: 80.7718 };
+    const from = {
+      lat: fromLatitude,
+      lng: fromLongitude,
+    };
+    const to = {
+      lat: toLatitude,
+      lng: toLongitude,
+    };
+    // const location1 = { lat: 6.9271, lng: 79.8612 };
+    const location1 = from;
+    const location2 = to;
+    // const location2 = { lat: 7.8731, lng: 80.7718 };
 
     setMarkers([location1, location2]);
 

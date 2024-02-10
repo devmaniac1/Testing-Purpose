@@ -1,3 +1,15 @@
+/**********************
+*******GENERAL*********
+**********************/
+
+*:focus {
+  outline: none;
+}
+
+/**********************
+*********HERO**********
+**********************/
+
 .section--hero > img {
   width: 100vw;
   height: 100vh;
@@ -44,7 +56,7 @@
 }
 
 .btn-cta {
-  padding: 1.6rem 3.2rem;
+  /* padding: 1.6rem 3.2rem; */
   background-color: #333;
   border-radius: 50px;
   text-decoration: none;
@@ -77,6 +89,109 @@
 .main_nav {
   display: flex;
   justify-content: space-between;
+}
+
+/**********************
+*********CTA***********
+**********************/
+
+.section--cta {
+  width: 50%;
+  margin: 9.6rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2.4rem;
+}
+
+/**********************
+******GENERATE*********
+**********************/
+
+.section--generate {
+  width: 100%;
+  margin: 9.6rem auto;
+  padding: 2.4rem;
+  background-color: #e3f0ed;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* border-radius: 10px; */
+  color: #265073;
+}
+
+.section--generate p {
+  text-align: center;
+}
+
+.generate--header {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.generate--text {
+  font-size: 1.6rem;
+  margin: 1.6rem 0 4.8rem 0;
+}
+
+.section--generate form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1.6rem;
+  row-gap: 2.4rem;
+}
+
+.location--details {
+  /* background-color: #fff; */
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.location--details div {
+  display: flex;
+  align-items: center;
+}
+
+.section--generate label {
+  font-size: 1.6rem;
+  margin-right: 10px;
+  font-weight: bold;
+  width: max-content;
+}
+
+.section--generate input,
+.section--generate select {
+  margin: 5px 0;
+  padding: 10px;
+  flex-grow: 1;
+  box-sizing: border-box;
+  /* border: 1px solid #caaaaa; */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #265073;
+}
+
+.section--generate button {
+  margin: 10px 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  /* grid-column: span 2; */
+  justify-self: center;
+}
+
+.suggestions {
+  font-size: 1.6rem;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  background-color: #fff;
+  width: 100%;
+  
 }
 
 /******************
