@@ -141,10 +141,11 @@ function ApplicationInterface({
   toLatitude,
   toLongitude,
 }) {
+  const style = { position: "relative", color: "#000" };
   return (
     <div className="App">
       <header className="App-header">
-        <Navbar viewportWidth={viewportWidth} />
+        <Navbar viewportWidth={viewportWidth} style={style} />
       </header>
       <div className="main_app">
         {currentWindow === "Itinerary" && <Itinerary />}

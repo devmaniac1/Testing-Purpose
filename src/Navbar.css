@@ -30,8 +30,8 @@ html {
   display: flex;
   gap: 2rem;
   list-style: none;
-  color: #000;
-  color: #fff;
+  /* color: #000; */
+  /* color: #fff; */
 }
 
 .nav-icon {

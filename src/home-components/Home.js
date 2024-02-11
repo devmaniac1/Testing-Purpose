@@ -41,9 +41,10 @@ function Home({
 }
 
 function Hero({ viewportWidth }) {
+  const style = { position: "absolute", color: "#fff" };
   return (
     <section className="section section--hero">
-      <Navbar viewportWidth={viewportWidth} />
+      <Navbar viewportWidth={viewportWidth} style={style} />
       <img src={heroImage} alt="hero" />
       <div className="hero--textbox">
         <p className="hero-header">Explore the World with Travel Amigo</p>
@@ -211,24 +212,12 @@ function Footer() {
           <div className="footer-links-div">
             <h4>Plan Your Trip</h4>
             <div>
-              <a href="/explore">
-                <p>Destinations</p>
-              </a>
-              <a href="/accommodation">
-                <p>Accommodations</p>
-              </a>
-              <a href="/activities">
-                <p>Book Activities</p>
-              </a>
-              <a href="/experiences">
-                <p>Discover Experiences</p>
-              </a>
-              <a href="/budgettips">
-                <p>Budgeting Tips</p>
-              </a>
-              <a href="/customizeplan">
-                <p>Customize Your Plan</p>
-              </a>
+              <a href="/explore">Destination</a>
+              <a href="/accommodation">Accommodations</a>
+              <a href="/activities">Book Activities</a>
+              <a href="/experiences">Discover Experiences</a>
+              <a href="/budgettips">Budgeting Tips</a>
+              <a href="/customizeplan">Customize Your Plan</a>
             </div>
           </div>
           <div className="footer-links-div">

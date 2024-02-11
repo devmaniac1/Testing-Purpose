@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import "./Navbar.css";
 import logo from "./images/hero-logo.png";
 
-const Navbar = ({ viewportWidth }) => {
+const Navbar = ({ viewportWidth, style }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
-
+  const position = style.position;
+  const color = style.color;
+  console.log(color);
   function handleClick() {
     console.log("Before Toggle:", navIsOpen);
     setNavIsOpen(!navIsOpen);
@@ -17,7 +19,7 @@ const Navbar = ({ viewportWidth }) => {
 
   const sidebarPanelClass = `sidebar-panel ${navIsOpen ? "sidebar-open" : ""}`;
   const navbarStyle = {
-    position: "absolute",
+    position: position,
     top: "0",
     left: "50%",
     transform: "translateX(-50%)",
@@ -25,7 +27,7 @@ const Navbar = ({ viewportWidth }) => {
     width: "100vw",
     padding: "1.6rem 3.2rem",
     margin: "0",
-    // color: "#FFf",
+    color: color,
     // boxShadow: "0rem 0.5rem 0.5rem rgba(0,0,0,0.5)",
   };
   return (
@@ -39,7 +41,7 @@ const Navbar = ({ viewportWidth }) => {
       ) : (
         <>
           {viewportWidth <= 800 && <MenuIcon OnViewSideBar={handleClick} />}
-          {viewportWidth > 800 && <DesktopNavigation />}
+          {viewportWidth > 800 && <DesktopNavigation color={color} />}
 
           <UserIcon />
         </>
@@ -59,8 +61,7 @@ function SideBarPanel({ sidebarPanelClass, OnViewSideBar, navIsOpen }) {
         className="empty-container"
         aria-label="Empty Container"
         role="presentation"
-        style={{ height: "2rem", margin: "0.4rem" }}
-      ></div>
+        style={{ height: "2rem", margin: "0.4rem" }}></div>
       <div className={sidebarPanelClass} style={temp}>
         <CloseIcon OnViewSideBar={OnViewSideBar} navIsOpen={navIsOpen} />
         <h4>Lankan Amigo</h4>
@@ -75,11 +76,11 @@ function SideBarPanel({ sidebarPanelClass, OnViewSideBar, navIsOpen }) {
   );
 }
 
-function DesktopNavigation() {
+function DesktopNavigation({ color }) {
   return (
     <div className="navigation-panel">
       <img src={logo} alt="logo"></img>
-      <ul className="main-nav-links">
+      <ul className="main-nav-links" style={{ color }}>
         <li className="main-nav-link">Home</li>
         <li className="main-nav-link">Edit</li>
         <li className="main-nav-link">Places</li>
@@ -98,8 +99,7 @@ function UserIcon() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-6 h-6 nav-icon"
-      >
+        className="w-6 h-6 nav-icon">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -114,16 +114,14 @@ function CloseIcon({ OnViewSideBar, navIsOpen }) {
   return (
     <div
       className={`menu ${navIsOpen ? "open-sidebar" : ""}`}
-      onClick={OnViewSideBar}
-    >
+      onClick={OnViewSideBar}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-6 h-6 nav-icon"
-      >
+        className="w-6 h-6 nav-icon">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -138,16 +136,14 @@ function MenuIcon({ OnViewSideBar, navIsOpen }) {
   return (
     <div
       className={`menu ${navIsOpen ? "open-sidebar" : ""}`}
-      onClick={OnViewSideBar}
-    >
+      onClick={OnViewSideBar}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-6 h-6 nav-icon"
-      >
+        className="w-6 h-6 nav-icon">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
