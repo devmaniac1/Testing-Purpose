@@ -2,6 +2,12 @@ import { Children, useState, useEffect } from "react";
 import heroImage from "../images/hero1.jpg";
 import "./Home.css";
 import Navbar from "../Navbar.js";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaLinkedinIn,
+} from "react-icons/fa";
 
 function Home({
   viewportWidth,
@@ -29,6 +35,7 @@ function Home({
         toSuggestions={toSuggestions}
         fromSuggestions={fromSuggestions}
       />
+      <Footer />
     </>
   );
 }
@@ -87,8 +94,7 @@ function CTA({
           fontSize={1.4}
           color={"#fff"}
           padding={"1.6rem 2.4rem"}
-          onHandleStatPlan={handleStartPlan}
-        >
+          onHandleStatPlan={handleStartPlan}>
           Start Planning
         </Button>
         <Button fontSize={1.4} color={"#fff"} padding={"1.6rem 2.4rem"}>
@@ -141,15 +147,13 @@ function GeneratePlan({
           <input
             type="text"
             value={fromLocation}
-            onChange={handleFromLocationChange}
-          ></input>
+            onChange={handleFromLocationChange}></input>
           <div className="suggestions">
             {fromSuggestions &&
               fromSuggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  onClick={() => handleFromSuggestionClick(suggestion)}
-                >
+                  onClick={() => handleFromSuggestionClick(suggestion)}>
                   {suggestion}
                 </div>
               ))}
@@ -160,15 +164,13 @@ function GeneratePlan({
           <input
             type="text"
             value={toLocation}
-            onChange={handleToLocationChange}
-          ></input>
+            onChange={handleToLocationChange}></input>
           <div className="suggestions">
             {toSuggestions &&
               toSuggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  onClick={() => handleToSuggestionClick(suggestion)}
-                >
+                  onClick={() => handleToSuggestionClick(suggestion)}>
                   {suggestion}
                 </div>
               ))}
@@ -198,6 +200,136 @@ function GeneratePlan({
         <button onClick={handleCurrentPage}>Generate</button>
       </form>
     </section>
+  );
+}
+
+function Footer() {
+  return (
+    <div className="footer">
+      <div className="footer-section-padding">
+        <div className="footer-links">
+          <div className="footer-links-div">
+            <h4>Plan Your Trip</h4>
+            <div>
+              <a href="/explore">
+                <p>Destinations</p>
+              </a>
+              <a href="/accommodation">
+                <p>Accommodations</p>
+              </a>
+              <a href="/activities">
+                <p>Book Activities</p>
+              </a>
+              <a href="/experiences">
+                <p>Discover Experiences</p>
+              </a>
+              <a href="/budgettips">
+                <p>Budgeting Tips</p>
+              </a>
+              <a href="/customizeplan">
+                <p>Customize Your Plan</p>
+              </a>
+            </div>
+          </div>
+          <div className="footer-links-div">
+            <h4>Our Partners</h4>
+            <div>
+              <a href="/agencies">
+                <p>Travel Agencies</p>
+              </a>
+              <a href="/accomodationproviders">
+                <p>Accommodation Providers</p>
+              </a>
+              <a href="/guides">
+                <p>Local Guides</p>
+              </a>
+            </div>
+          </div>
+
+          <div className="footer-links-div">
+            <h4>About Us</h4>
+            <div>
+              <a href="/about">
+                <p>Company Overview</p>
+              </a>
+              <a href="/coverage">
+                <p>Press Coverage</p>
+              </a>
+              <a href="/team">
+                <p>Career Opportunities</p>
+              </a>
+              <a href="/contact">
+                <p>Contact Information</p>
+              </a>
+            </div>
+          </div>
+          <div className="footer-links-div">
+            <h4>Connect With Us</h4>
+            <div className="social-media-icons">
+              <div className="social-media-set">
+                <a
+                  href="https://www.facebook.com"
+                  className="social-media-link">
+                  <FaFacebookF />
+                  <span>Facebook</span>
+                </a>
+              </div>
+              <div className="social-media-set">
+                <a
+                  href="https://www.instagram.com"
+                  className="social-media-link">
+                  <FaInstagram />
+                  <span>Instagram</span>
+                </a>
+              </div>
+              <div className="social-media-set">
+                <a href="https://www.twitter.com" className="social-media-link">
+                  <FaTwitter />
+                  <span>Twitter</span>
+                </a>
+              </div>
+              <div className="social-media-set">
+                <a
+                  href="https://www.linkedin.com"
+                  className="social-media-link">
+                  <FaLinkedinIn />
+                  <span>LinkedIn</span>
+                </a>
+              </div>
+            </div>
+            <a href="/newsletter-signup" className="newsletter-link">
+              Newsletter Signup
+            </a>
+          </div>
+        </div>
+      </div>
+      <hr></hr>
+      <div className="footer-below">
+        <div class="footer-copyright">
+          <p>
+            &copy; <span id="copyright-year"></span> LankanAmigo. All rights
+            reserved.
+          </p>
+        </div>
+        {/* <div class="footer-section">
+            <h4>Legal Information</h4>
+            <ul>
+              <li>
+                <a href="/terms">Terms & Conditions</a>
+              </li>
+              <li>
+                <a href="/privacy">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="/security">Security Measures</a>
+              </li>
+              <li>
+                <a href="/cookie">Cookie Usage</a>
+              </li>
+            </ul>
+          </div> */}
+      </div>
+    </div>
   );
 }
 
@@ -315,14 +447,12 @@ function Suggestions({ suggestions, handleSuggestionClick }) {
   return (
     <div
       className="dropdown--suggestion"
-      style={{ position: "absolute", padding: 0 }}
-    >
+      style={{ position: "absolute", padding: 0 }}>
       {suggestions.map((suggestion, index) => (
         <div
           key={index}
           onClick={() => handleSuggestionClick(suggestion)}
-          style={{ cursor: "pointer" }}
-        >
+          style={{ cursor: "pointer" }}>
           {suggestion}
         </div>
       ))}
@@ -341,8 +471,7 @@ function Button({ fontSize, color, padding, onHandleStatPlan, children }) {
       href="www.google.com"
       style={buttonStyle}
       className="btn-cta"
-      onClick={onHandleStatPlan}
-    >
+      onClick={onHandleStatPlan}>
       {children}
     </a>
   );
