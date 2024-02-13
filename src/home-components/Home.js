@@ -1,4 +1,4 @@
-import { Children, useState, useEffect } from "react";
+import { Children, useState, useEffect, useRef } from "react";
 import heroImage from "../images/hero1.jpg";
 import "./Home.css";
 import Navbar from "../Navbar.js";
@@ -8,6 +8,7 @@ import {
   FaTwitter,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 
 function Home({
   viewportWidth,
@@ -133,9 +134,26 @@ function GeneratePlan({
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [travelMode, setTravelMode] = useState("");
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyBkePZHNAeceiSPlP4LuZIPd28NpBJcaF8",
+    libraries: ["places"],
+  });
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const originRef = useRef();
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destiantionRef = useRef();
+  if (!isLoaded) {
+    return <div>Wrong Api</div>;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  };
+
+  const printLocation = () => {
+    // console.log(originRef.current.value, destiantionRef.current.value);
+    handleFromLocationChange(originRef.current.value);
+    handleToLocationChange(destiantionRef.current.value);
   };
 
   return (
@@ -145,37 +163,23 @@ function GeneratePlan({
       <form onSubmit={handleSubmit}>
         <div className="location--details">
           <label>From</label>
-          <input
-            type="text"
-            value={fromLocation}
-            onChange={handleFromLocationChange}></input>
-          <div className="suggestions">
-            {fromSuggestions &&
-              fromSuggestions.map((suggestion, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleFromSuggestionClick(suggestion)}>
-                  {suggestion}
-                </div>
-              ))}
-          </div>
+          <Autocomplete>
+            <input
+              type="text"
+              value={fromLocation}
+              onChange={printLocation}
+              ref={originRef}></input>
+          </Autocomplete>
         </div>
         <div className="location--details">
           <label>Destination</label>
-          <input
-            type="text"
-            value={toLocation}
-            onChange={handleToLocationChange}></input>
-          <div className="suggestions">
-            {toSuggestions &&
-              toSuggestions.map((suggestion, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleToSuggestionClick(suggestion)}>
-                  {suggestion}
-                </div>
-              ))}
-          </div>
+          <Autocomplete>
+            <input
+              type="text"
+              value={toLocation}
+              onChange={printLocation}
+              ref={destiantionRef}></input>
+          </Autocomplete>
         </div>
         <div className="location--details">
           <label>Start Date</label>
@@ -198,7 +202,10 @@ function GeneratePlan({
           <label>Budget</label>
           <input type="text"></input>
         </div>
-        <button onClick={handleCurrentPage}>Generate</button>
+        {/* Testing Purpose OnMouseEnter */}
+        <button onClick={handleCurrentPage} onMouseEnter={printLocation}>
+          Generate
+        </button>
       </form>
     </section>
   );

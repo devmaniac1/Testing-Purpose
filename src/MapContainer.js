@@ -1,53 +1,85 @@
-import React, { useEffect, useState } from "react";
-import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
+import React, { useRef, useState } from "react";
+// import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
+import {
+  useJsApiLoader,
+  GoogleMap,
+  Marker,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 
-const MapContainer = ({
-  google,
-  width,
-  fromLocation,
-  toLocation,
-  toLatitude,
-  toLongitude,
-  fromLatitude,
-  fromLongitude,
-}) => {
-  const [markers, setMarkers] = useState([]);
-  const [mapKey, setMapKey] = useState(0);
+const center = { lat: 48.8584, lng: 2.2945 };
 
-  useEffect(() => {
-    const from = {
-      lat: fromLatitude,
-      lng: fromLongitude,
-    };
-    const to = {
-      lat: toLatitude,
-      lng: toLongitude,
-    };
-    // const location1 = { lat: 6.9271, lng: 79.8612 };
-    const location1 = from;
-    const location2 = to;
-    // const location2 = { lat: 7.8731, lng: 80.7718 };
+function MapContainer({ fromLocation, toLocation, width }) {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyBkePZHNAeceiSPlP4LuZIPd28NpBJcaF8",
+    libraries: ["places"],
+  });
+  const [map, setMap] = useState(/** @type google.maps.Map */ (null));
+  const [directionsResponse, setDirectionsResponse] = useState(null);
 
-    setMarkers([location1, location2]);
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const originRef = useRef();
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destiantionRef = useRef();
+  if (!isLoaded) {
+    return <div>Wrong Api</div>;
+  }
 
-    setMapKey((prevKey) => prevKey + 1);
-  }, [width]);
+  async function calculateRoute() {
+    if (fromLocation === "" || toLocation === "") {
+      return;
+    }
+    console.log(fromLocation, toLocation);
+
+    // eslint-disable-next-line no-undef
+    const directionsService = new google.maps.DirectionsService();
+    const results = await directionsService.route({
+      origin: fromLocation,
+      destination: toLocation,
+      // eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.TRANSIT,
+    });
+    setDirectionsResponse(results);
+    console.log(results);
+    // setDistance(results.routes[0].legs[0].distance.text);
+    // setDuration(results.routes[0].legs[0].duration.text);
+  }
+
+  function clearRoute() {
+    setDirectionsResponse(null);
+    // setDistance("");
+    // setDuration("");
+    originRef.current.value = "";
+    destiantionRef.current.value = "";
+  }
+  // calculateRoute();
 
   return (
-    <Map
-      google={google}
-      zoom={8}
-      initialCenter={{ lat: 7.8731, lng: 80.7718 }}
-      style={{ height: "85vh", width: `${width}px`, borderRadius: "1rem" }}
-      key={mapKey}
-    >
-      {markers.map((marker, index) => (
-        <Marker key={index} position={marker} title={`Location ${index + 1}`} />
-      ))}
-    </Map>
+    <>
+      <GoogleMap
+        center={center}
+        zoom={15}
+        mapContainerStyle={{
+          height: "85vh",
+          width: `${width}px`,
+          borderRadius: "1rem",
+        }}
+        options={{
+          zoomControl: false,
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false,
+        }}
+        onLoad={(map) => {
+          setMap(map);
+          calculateRoute();
+        }}>
+        <Marker position={center} />
+        {directionsResponse && (
+          <DirectionsRenderer directions={directionsResponse} />
+        )}
+      </GoogleMap>
+    </>
   );
-};
-
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyBkePZHNAeceiSPlP4LuZIPd28NpBJcaF8",
-})(MapContainer);
+}
+export default MapContainer;

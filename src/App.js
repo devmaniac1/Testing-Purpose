@@ -62,12 +62,12 @@ function App() {
       });
   }, [fromLocation, toLocation]);
 
-  const handleFromLocationChange = (e) => {
-    setFromLocation(e.target.value);
+  const handleFromLocationChange = (from) => {
+    setFromLocation(from);
   };
 
-  const handleToLocationChange = (e) => {
-    setToLocation(e.target.value);
+  const handleToLocationChange = (to) => {
+    setToLocation(to);
   };
 
   const handleFromSuggestionClick = (suggestion) => {
