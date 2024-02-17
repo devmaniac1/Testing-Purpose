@@ -455,3 +455,102 @@ a {
   transform: scaleY(1);
   opacity: 1;
 }
+
+/*How Works CSS*/
+
+.header {
+  text-align: center;
+  font-size: 3rem;
+  font-family: "Inria Serif", serif;
+  margin-bottom: 5.5rem;
+}
+.lankan-amigo {
+  color: #0ca678; 
+}
+.steps {
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  font-size: large;
+  
+}
+
+.step-box {
+  background-color: #265073;
+  border-radius: 5rem;
+  padding: 7px;
+  padding-right: 20px;
+  margin-bottom: 20px;
+  width: fit-content;
+  position: relative;
+}
+
+.step-box:hover {
+  transform: scale(1.05);
+  transition: transform 0.5s ease; 
+}
+
+.step-content {
+  display: flex;
+  align-items: center;
+}
+
+.step-number {
+  background-color: #ffffff;
+  color: #148e44;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: large;
+}
+
+.step-text {
+  color: #ffffff;
+  font-size: large;
+}
+.stepstyle1 {
+  margin-left: 30px;
+}
+
+.stepstyle2 {
+  margin-left: 100px;
+}
+
+/*Shine effect */
+.step-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.1) 80%, rgba(255, 255, 255, 0) 100%);
+  z-index: 1;
+  animation: shine 4s infinite;
+}
+
+/*Animation for shine effect */
+@keyframes shine {
+  0% {
+    transform: translateX(-150%);
+  }
+  100% {
+    transform: translateX(20%);
+  }
+}
+.HowWorksContainer {
+  display: flex;
+  justify-content: space-evenly;
+  
+}
+.slideshow img {
+  width: 400px;
+  height: 270px; 
+  max-height: 400px;
+  border-radius: 0.6rem;
+  margin-bottom: 3rem;
+}

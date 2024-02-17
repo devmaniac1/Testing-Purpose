@@ -1,5 +1,13 @@
 import { Children, useState, useEffect, useRef } from "react";
 import heroImage from "../images/hero1.jpg";
+
+/* Slide images */
+import slideI1 from "../images/Slide images/slideI1.jpg"
+import slideI2 from "../images/Slide images/slideI2.jpg"
+import slideI3 from "../images/Slide images/slideI3.jpg"
+import slideI4 from "../images/Slide images/slideI4.jpg"
+
+
 import "./Home.css";
 import Navbar from "../Navbar.js";
 import {
@@ -36,6 +44,7 @@ function Home({
         toSuggestions={toSuggestions}
         fromSuggestions={fromSuggestions}
       />
+      <HowWorksItems/> 
       <Footer />
     </>
   );
@@ -210,6 +219,72 @@ function GeneratePlan({
     </section>
   );
 }
+
+
+/*How Works JS*/
+
+function StepBox({ text, number,style}) {
+  return (
+    <div className={`step-box ${style}`}>
+      <div className="step-content">
+        <div className="step-number">{number}</div>
+        <div className="step-text">{text}</div>
+      </div>
+    </div>
+  );
+}
+
+function HowWorksItems() {
+  const steps = [
+    "Select Your Destination",
+    "Choose Your Accommodations",
+    "Get Recommendations & Plan Your Trip",
+    "Have a great time with your Friends!"
+  ];
+  const images = [
+    slideI1,
+    slideI2,
+    slideI3,
+    slideI4
+  ];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex(prevIndex =>
+        (prevIndex + 1) % images.length
+      );
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <>
+    
+      <p className="header">How <span className="lankan-amigo">Lankan Amigo</span> Works!</p>
+      <div className="HowWorksContainer">
+        
+        <div className="steps">
+          {steps.map((step, index) => (
+            <StepBox
+              key={index} 
+              text={step} 
+              number={index + 1}
+              style={index % 2 === 0 ? "stepstyle1" : "stepstyle2"} 
+            />
+          ))}
+        </div>
+
+        <div className="slideshow">
+        <img src={images[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
+        </div>
+      </div>
+    </>
+  );
+}
+
+
 
 function Footer() {
   return (
@@ -472,5 +547,6 @@ function Button({ fontSize, color, padding, onHandleStatPlan, children }) {
     </a>
   );
 }
+
 
 export default Home;
