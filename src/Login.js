@@ -1,62 +1,86 @@
+import { Container } from "@mui/material";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import "./App.css";
+import LoginBgImg from "./images/login1.png";
 
-import { Container } from "@mui/material"
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import './App.css';
-import LoginBgImg from './images/login1.png';
-
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
-
+import CssBaseline from "@mui/material/CssBaseline";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
 
 function Login() {
+  const [signUp, setSignUp] = useState(true);
+
+  const handleSignPage = () => {
+    setSignUp(!signUp);
+  };
+
   return (
     <div
       style={{
-        backgroundImage: `url(${LoginBgImg})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        width: '100vw',
-        height: '100vh',
+        backgroundImage: `url(${LoginBgImg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        width: "100vw",
+        height: "100vh",
       }}>
-        <Container sx={{width: '70%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Box sx={{ minWidth: 275, alignItems: 'center', display: "flex", justifyContent: "space-between"}}>
-            <Typography variant='h1' sx={{
-              fontFamily: '"Katibeh", serif', 
-              fontStyle: 'normal', 
-              fontWeight: "bold", 
+      <Container
+        sx={{
+          width: "70%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
+        <Box
+          sx={{
+            minWidth: 275,
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "space-between",
+          }}>
+          <Typography
+            variant="h1"
+            sx={{
+              fontFamily: '"Katibeh", serif',
+              fontStyle: "normal",
+              fontWeight: "bold",
               fontSize: "8rem",
               color: "WHITE",
-              mx: 8}}>Lankan Amigo
-            </Typography>
-            <Card variant="outlined" sx={{ width: '25vw', pb: 4, my: 4, mx: 8}}>
-              <SignUp/>
-            </Card>
-          </Box>
-        </Container>
+              mx: 8,
+            }}>
+            Lankan Amigo
+          </Typography>
+          <Card variant="outlined" sx={{ width: "25vw", pb: 4, my: 4, mx: 8 }}>
+            {signUp ? (
+              <SignUp handleSignPage={handleSignPage} />
+            ) : (
+              <SignIn handleSignPage={handleSignPage} />
+            )}
+          </Card>
+        </Box>
+      </Container>
     </div>
   );
 }
 
 const defaultTheme = createTheme();
 
-function SignIn() {
+function SignIn({ handleSignPage }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: data.get("email"),
+      password: data.get("password"),
     });
   };
 
@@ -67,15 +91,18 @@ function SignIn() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Typography component="h1" variant="h4" sx={{fontWeight: "bold"}}>
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -104,8 +131,7 @@ function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, bgcolor: "green" }}
-            >
+              sx={{ mt: 3, mb: 2, bgcolor: "green" }}>
               Sign In
             </Button>
             <Grid container>
@@ -116,7 +142,7 @@ function SignIn() {
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  <p onClick={handleSignPage}>Don't have an account? Sign Up</p>
                 </Link>
               </Grid>
             </Grid>
@@ -127,13 +153,13 @@ function SignIn() {
   );
 }
 
-function SignUp() {
+function SignUp({ handleSignPage }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: data.get("email"),
+      password: data.get("password"),
     });
   };
 
@@ -144,15 +170,18 @@ function SignUp() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Typography component="h1" variant="h4" sx={{fontWeight: "bold"}}>
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -194,7 +223,7 @@ function SignUp() {
                   autoComplete="email"
                 />
               </Grid>
-              
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -217,20 +246,20 @@ function SignUp() {
                   autoComplete="off"
                 />
               </Grid>
-              
             </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, bgcolor: "green"}}
-            >
+              sx={{ mt: 3, mb: 2, bgcolor: "green" }}>
               Sign Up
             </Button>
             <Grid container justifyContent="space-around">
               <Grid item>
                 <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                  <p onClick={handleSignPage}>
+                    Already have an account? Sign in
+                  </p>
                 </Link>
               </Grid>
             </Grid>
@@ -240,7 +269,5 @@ function SignUp() {
     </ThemeProvider>
   );
 }
-
-
 
 export default Login;

@@ -2,12 +2,12 @@ import { Children, useState, useEffect, useRef } from "react";
 import heroImage from "../images/hero1.jpg";
 
 /* Slide images */
-import slideI1 from "../images/Slide images/slideI1.jpg"
-import slideI2 from "../images/Slide images/slideI2.jpg"
-import slideI3 from "../images/Slide images/slideI3.jpg"
-import slideI4 from "../images/Slide images/slideI4.jpg"
+import slideI1 from "../images/Slide images/slideI1.jpg";
+import slideI2 from "../images/Slide images/slideI2.jpg";
+import slideI3 from "../images/Slide images/slideI3.jpg";
+import slideI4 from "../images/Slide images/slideI4.jpg";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
 import Navbar from "../Navbar.js";
@@ -20,9 +20,6 @@ import {
 } from "react-icons/fa";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 
-
-
-
 function Home({
   viewportWidth,
   handleCurrentPage,
@@ -34,35 +31,42 @@ function Home({
   handleToSuggestionClick,
   toSuggestions,
   fromSuggestions,
-  
-})
- {
+}) {
+  const [signUp, setSignUp] = useState(false);
+
+  function handleClick(e) {
+    e.preventDefault();
+    setSignUp(!signUp);
+  }
   return (
     <>
-    <Login/>
-      <Hero viewportWidth={viewportWidth} />
-      <CTA
-        handleCurrentPage={handleCurrentPage}
-        fromLocation={fromLocation}
-        toLocation={toLocation}
-        handleToLocationChange={handleToLocationChange}
-        handleFromLocationChange={handleFromLocationChange}
-        handleFromSuggestionClick={handleFromSuggestionClick}
-        handleToSuggestionClick={handleToSuggestionClick}
-        toSuggestions={toSuggestions}
-        fromSuggestions={fromSuggestions}
-      />
-      <Features/>
-      <HowWorksItems/> 
-      <Footer />
+      {signUp ? (
+        <Login />
+      ) : (
+        <>
+          <Hero viewportWidth={viewportWidth} handleClick={handleClick} />
+          <CTA
+            handleCurrentPage={handleCurrentPage}
+            fromLocation={fromLocation}
+            toLocation={toLocation}
+            handleToLocationChange={handleToLocationChange}
+            handleFromLocationChange={handleFromLocationChange}
+            handleFromSuggestionClick={handleFromSuggestionClick}
+            handleToSuggestionClick={handleToSuggestionClick}
+            toSuggestions={toSuggestions}
+            fromSuggestions={fromSuggestions}
+          />
+          <Features />
+          <HowWorksItems />
+          <Footer />
+        </>
+      )}
     </>
   );
 }
 
-function Hero({ viewportWidth }) {
+function Hero({ viewportWidth, handleClick }) {
   const style = { position: "absolute", color: "#fff" };
-
-  
 
   return (
     <section className="section section--hero">
@@ -79,7 +83,11 @@ function Hero({ viewportWidth }) {
           <Button fontSize={1.6} color={"#fff"} padding={"1.6rem 3.2rem"}>
             Start Planning
           </Button>
-          <Button fontSize={1.6} color={"#fff"} padding={"1.6rem 3.2rem"}>
+          <Button
+            handleClick={handleClick}
+            fontSize={1.6}
+            color={"#fff"}
+            padding={"1.6rem 3.2rem"}>
             Sign Up
           </Button>
         </div>
@@ -117,7 +125,7 @@ function CTA({
           fontSize={1.4}
           color={"#fff"}
           padding={"1.6rem 2.4rem"}
-          onHandleStatPlan={handleStartPlan}>
+          handleClick={handleStartPlan}>
           Start Planning
         </Button>
         <Button fontSize={1.4} color={"#fff"} padding={"1.6rem 2.4rem"}>
@@ -232,10 +240,9 @@ function GeneratePlan({
   );
 }
 
-
 /*How Works JS*/
 
-function StepBox({ text, number,style}) {
+function StepBox({ text, number, style }) {
   return (
     <div className={`step-box ${style}`}>
       <div className="step-content">
@@ -251,21 +258,14 @@ function HowWorksItems() {
     "Select Your Destination",
     "Choose Your Accommodations",
     "Get Recommendations & Plan Your Trip",
-    "Have a great time with your Friends!"
+    "Have a great time with your Friends!",
   ];
-  const images = [
-    slideI1,
-    slideI2,
-    slideI3,
-    slideI4
-  ];
+  const images = [slideI1, slideI2, slideI3, slideI4];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex(prevIndex =>
-        (prevIndex + 1) % images.length
-      );
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 4000);
 
     return () => clearInterval(interval);
@@ -273,30 +273,31 @@ function HowWorksItems() {
 
   return (
     <>
-    
-      <p className="header">How <span className="lankan-amigo">Lankan Amigo</span> Works!</p>
+      <p className="header">
+        How <span className="lankan-amigo">Lankan Amigo</span> Works!
+      </p>
       <div className="HowWorksContainer">
-        
         <div className="steps">
           {steps.map((step, index) => (
             <StepBox
-              key={index} 
-              text={step} 
+              key={index}
+              text={step}
               number={index + 1}
-              style={index % 2 === 0 ? "stepstyle1" : "stepstyle2"} 
+              style={index % 2 === 0 ? "stepstyle1" : "stepstyle2"}
             />
           ))}
         </div>
 
         <div className="slideshow">
-        <img src={images[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
+          <img
+            src={images[currentImageIndex]}
+            alt={`Slide ${currentImageIndex + 1}`}
+          />
         </div>
       </div>
     </>
   );
 }
-
-
 
 function Footer() {
   return (
@@ -543,18 +544,14 @@ function Suggestions({ suggestions, handleSuggestionClick }) {
   );
 }
 
-function Button({ fontSize, color, padding, onHandleStatPlan, children }) {
+function Button({ fontSize, color, padding, handleClick, children }) {
   const buttonStyle = {
     color: color,
     fontSize: `${fontSize}rem`,
     padding: padding,
   };
   return (
-    <a
-      href="www.google.com"
-      style={buttonStyle}
-      className="btn-cta"
-      onClick={onHandleStatPlan}>
+    <a href="" style={buttonStyle} className="btn-cta" onClick={handleClick}>
       {children}
     </a>
   );
@@ -562,39 +559,37 @@ function Button({ fontSize, color, padding, onHandleStatPlan, children }) {
 
 /* Features page */
 function Features() {
-  return(
+  return (
     <div className="features--mainContainer">
-      <p className="features--header"><span>LANKAN AMIGO</span> Features</p>
+      <p className="features--header">
+        <span>LANKAN AMIGO</span> Features
+      </p>
       <div className="features--CardsContainer">
-        <FeatureCards/>
+        <FeatureCards />
       </div>
     </div>
-  )
+  );
 }
-
 
 function FeatureCards() {
   const featureList = [
     "Sample feature sample sample 1",
     "Sample feature sample sample 2",
     "Sample feature sample sample 3",
-    "Sample feature sample sample 4"
+    "Sample feature sample sample 4",
   ];
 
-  return(
-  <div className="features--featureCard">
-    
-
-    {featureList.map((step, index) => (
-      <StepBox
-        key={index} 
-        text={step} 
-        style={index % 2 === 0 ? "stepstyle1" : "stepstyle2"} 
-      />
-    ))}
-  </div>
-  )
+  return (
+    <div className="features--featureCard">
+      {featureList.map((step, index) => (
+        <StepBox
+          key={index}
+          text={step}
+          style={index % 2 === 0 ? "stepstyle1" : "stepstyle2"}
+        />
+      ))}
+    </div>
+  );
 }
-
 
 export default Home;
