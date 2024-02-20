@@ -7,9 +7,11 @@ import slideI2 from "../images/Slide images/slideI2.jpg"
 import slideI3 from "../images/Slide images/slideI3.jpg"
 import slideI4 from "../images/Slide images/slideI4.jpg"
 
+import { useNavigate } from 'react-router-dom';
 
 import "./Home.css";
 import Navbar from "../Navbar.js";
+import Login from "../Login.js";
 import {
   FaFacebookF,
   FaInstagram,
@@ -17,6 +19,9 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
+
+
+
 
 function Home({
   viewportWidth,
@@ -29,9 +34,12 @@ function Home({
   handleToSuggestionClick,
   toSuggestions,
   fromSuggestions,
-}) {
+  
+})
+ {
   return (
     <>
+    <Login/>
       <Hero viewportWidth={viewportWidth} />
       <CTA
         handleCurrentPage={handleCurrentPage}
@@ -44,6 +52,7 @@ function Home({
         toSuggestions={toSuggestions}
         fromSuggestions={fromSuggestions}
       />
+      <Features/>
       <HowWorksItems/> 
       <Footer />
     </>
@@ -52,6 +61,9 @@ function Home({
 
 function Hero({ viewportWidth }) {
   const style = { position: "absolute", color: "#fff" };
+
+  
+
   return (
     <section className="section section--hero">
       <Navbar viewportWidth={viewportWidth} style={style} />
@@ -546,6 +558,42 @@ function Button({ fontSize, color, padding, onHandleStatPlan, children }) {
       {children}
     </a>
   );
+}
+
+/* Features page */
+function Features() {
+  return(
+    <div className="features--mainContainer">
+      <p className="features--header"><span>LANKAN AMIGO</span> Features</p>
+      <div className="features--CardsContainer">
+        <FeatureCards/>
+      </div>
+    </div>
+  )
+}
+
+
+function FeatureCards() {
+  const featureList = [
+    "Sample feature sample sample 1",
+    "Sample feature sample sample 2",
+    "Sample feature sample sample 3",
+    "Sample feature sample sample 4"
+  ];
+
+  return(
+  <div className="features--featureCard">
+    
+
+    {featureList.map((step, index) => (
+      <StepBox
+        key={index} 
+        text={step} 
+        style={index % 2 === 0 ? "stepstyle1" : "stepstyle2"} 
+      />
+    ))}
+  </div>
+  )
 }
 
 
