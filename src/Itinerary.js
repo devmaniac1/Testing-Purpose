@@ -5,6 +5,8 @@ import {
 } from "react-vertical-timeline-component";
 
 import "react-vertical-timeline-component/style.min.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const days = [
   {
@@ -40,6 +42,19 @@ const days = [
 ];
 
 function Itinerary() {
+  const [hotelsData, setHotelsData] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/Google-hotels");
+        setHotelsData(response.data.properties);
+        // console.log(hotelsData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="main_itinerary">
       <BannerContainer />
@@ -62,8 +77,7 @@ function BannerContainer() {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
-            >
+              class="w-6 h-6">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -116,8 +130,7 @@ function AllDates() {
                 boxShadow: "0px 0px 0px 0px",
               }}
               iconClassName="icon"
-              contentArrowStyle={{ display: "none" }}
-            >
+              contentArrowStyle={{ display: "none" }}>
               <div className="day">DAY {day.day}</div>
               <div className="items">
                 <div>
