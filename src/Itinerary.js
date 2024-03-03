@@ -41,20 +41,69 @@ const days = [
   },
 ];
 
-function Itinerary() {
+function Itinerary({ toLocation }) {
   const [hotelsData, setHotelsData] = useState(null);
+  const [placesData, setPlacesData] = useState(null);
+  const [filteredPlacesData, setFilteredPlacesData] = useState([]);
+  const numberOfDays = 3; //Temporary
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/Google-hotels");
+        const response = await axios.get(
+          "http://localhost:3001/Google-hotels",
+          {
+            params: {
+              toLocation: toLocation,
+            },
+          }
+        );
         setHotelsData(response.data.properties);
-        // console.log(hotelsData);
+        console.log(toLocation);
+        const reponcePlaces = await axios.get("http://localhost:3001/places", {
+          params: {
+            toLocation: toLocation,
+          },
+        });
+        setPlacesData(reponcePlaces.data.top_sights.sights);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (hotelsData && placesData) {
+      filterData(hotelsData);
+      filterNearby(placesData);
+    }
+  }, [hotelsData, placesData]);
+
+  function filterData(hotelsData) {
+    hotelsData.sort((a, b) => b.overall_rating - a.overall_rating);
+    // console.log(hotelsData);
+  }
+  function filterNearby(placesData) {
+    placesData.sort((a, b) => b.rating - a.rating);
+    // const meanReviews =
+    //   placesData.reduce((acc, cur) => {
+    //     typeof cur.reviews === "number" ? (acc += cur.reviews) : (acc += 0);
+    //     return acc;
+    //   }, 0) / placesData.length;
+    const filteredData = placesData.filter(
+      (place) =>
+        place.description === "Tourist attraction" ||
+        place.description === "Hiking area" ||
+        place.description === "Bridge" ||
+        place.description.toLowerCase().includes("museum") ||
+        place.description.toLowerCase().includes("fortress") ||
+        place.description.toLowerCase().includes("national") ||
+        place.description.toLowerCase().includes("temple")
+    );
+    setFilteredPlacesData(filteredData);
+  }
+
   return (
     <div className="main_itinerary">
       <BannerContainer />
@@ -77,7 +126,8 @@ function BannerContainer() {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6">
+              class="w-6 h-6"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -130,7 +180,8 @@ function AllDates() {
                 boxShadow: "0px 0px 0px 0px",
               }}
               iconClassName="icon"
-              contentArrowStyle={{ display: "none" }}>
+              contentArrowStyle={{ display: "none" }}
+            >
               <div className="day">DAY {day.day}</div>
               <div className="items">
                 <div>

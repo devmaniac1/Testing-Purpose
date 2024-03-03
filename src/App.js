@@ -148,7 +148,9 @@ function ApplicationInterface({
         <Navbar viewportWidth={viewportWidth} style={style} />
       </header>
       <div className="main_app">
-        {currentWindow === "Itinerary" && <Itinerary />}
+        {currentWindow === "Itinerary" && (
+          <Itinerary toLocation={toLocation.split(",")[0]} />
+        )}
         {currentWindow === "Map" && (
           <Map
             fromLocation={fromLocation}
