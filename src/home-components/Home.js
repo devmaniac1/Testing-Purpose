@@ -116,6 +116,7 @@ function GeneratePlan({ handleCurrentPage }) {
   const [toLocation, setToLocation] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [budget, setBudget] = useState("");
   const [travelMode, setTravelMode] = useState("");
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyBkePZHNAeceiSPlP4LuZIPd28NpBJcaF8",
@@ -149,6 +150,23 @@ function GeneratePlan({ handleCurrentPage }) {
     setToLocation(e.target.value);
   };
 
+  const handleFromDate = (e) => {
+    setFromDate(e.target.value);
+  };
+
+  const handleToDate = (e) => {
+    setToDate(e.target.value);
+  };
+
+  const handleBudget = (e) => {
+    setBudget(Number(e.target.value));
+  };
+  const handleTravelMode = (e) => {
+    setTravelMode(e.target.value);
+  };
+
+  // const handled
+
   return (
     <section className="section--generate">
       <p className="generate--header">Create your plan</p>
@@ -180,15 +198,15 @@ function GeneratePlan({ handleCurrentPage }) {
         </div>
         <div className="location--details">
           <label>Start Date</label>
-          <input type="text"></input>
+          <input type="date" onChange={handleFromDate} value={fromDate}></input>
         </div>
         <div className="location--details">
           <label>End Date</label>
-          <input type="text"></input>
+          <input type="date" onChange={handleToDate} value={toDate}></input>
         </div>
         <div className="location--details">
           <label>Mode</label>
-          <select value={travelMode}>
+          <select onChange={handleTravelMode} value={travelMode}>
             <option value="">Select mode</option>
             <option value="bus">Bus</option>
             <option value="train">Train</option>
@@ -197,14 +215,24 @@ function GeneratePlan({ handleCurrentPage }) {
         </div>
         <div className="location--details">
           <label>Budget</label>
-          <input type="text"></input>
+          <input type="number" onChange={handleBudget} value={budget}></input>
         </div>
         {/* Testing Purpose OnMouseEnter */}
         {originRef.current &&
           destiantionRef.current &&
           originRef.current.value &&
           destiantionRef.current.value && (
-            <Link to="/trip" state={{ from: fromLocation, to: toLocation }}>
+            <Link
+              to="/trip"
+              state={{
+                from: fromLocation,
+                to: toLocation,
+                fromDate: fromDate,
+                toDate: toDate,
+                budget: budget,
+                travelMode: travelMode,
+              }}
+            >
               <button>Generate</button>
             </Link>
           )}

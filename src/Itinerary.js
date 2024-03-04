@@ -41,7 +41,7 @@ const days = [
   },
 ];
 
-function Itinerary({ toLocation }) {
+function Itinerary({ toLocation, toDate, fromDate, budget, travelMode }) {
   const [hotelsData, setHotelsData] = useState(null);
   const [placesData, setPlacesData] = useState(null);
   const [filteredPlacesData, setFilteredPlacesData] = useState([]);
@@ -54,6 +54,10 @@ function Itinerary({ toLocation }) {
           {
             params: {
               toLocation: toLocation,
+              toDate: toDate,
+              fromDate: fromDate,
+              budget: budget,
+              travelMode: travelMode,
             },
           }
         );
@@ -99,7 +103,8 @@ function Itinerary({ toLocation }) {
         place.description.toLowerCase().includes("museum") ||
         place.description.toLowerCase().includes("fortress") ||
         place.description.toLowerCase().includes("national") ||
-        place.description.toLowerCase().includes("temple")
+        place.description.toLowerCase().includes("temple") ||
+        place.description.toLowerCase().includes("historical")
     );
     setFilteredPlacesData(filteredData);
   }

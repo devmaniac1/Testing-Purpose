@@ -9,7 +9,7 @@ import {
 
 const center = { lat: 48.8584, lng: 2.2945 };
 
-function MapContainer({ fromLocation, toLocation, width }) {
+function MapContainer({ fromLocation, toLocation, width, travelMode }) {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyBkePZHNAeceiSPlP4LuZIPd28NpBJcaF8",
     libraries: ["places"],
@@ -30,14 +30,20 @@ function MapContainer({ fromLocation, toLocation, width }) {
       return;
     }
     console.log(fromLocation, toLocation);
-
+    let mode = "";
+    mode =
+      travelMode === "bus" || travelMode === "train"
+        ? // eslint-disable-next-line no-undef
+          google.maps.TravelMode.TRANSIT
+        : // eslint-disable-next-line no-undef
+          google.maps.TravelMode.DRIVING;
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService();
     const results = await directionsService.route({
       origin: fromLocation,
       destination: toLocation,
       // eslint-disable-next-line no-undef
-      travelMode: google.maps.TravelMode.TRANSIT,
+      travelMode: mode,
     });
     setDirectionsResponse(results);
     console.log(results);
@@ -73,7 +79,8 @@ function MapContainer({ fromLocation, toLocation, width }) {
         onLoad={(map) => {
           setMap(map);
           calculateRoute();
-        }}>
+        }}
+      >
         <Marker position={center} />
         {directionsResponse && (
           <DirectionsRenderer directions={directionsResponse} />

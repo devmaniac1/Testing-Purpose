@@ -66,7 +66,7 @@ function ApplicationInterface({
   const { type } = useParams();
   const location = useLocation();
   const params = new URLSearchParams(location.state);
-  const { from, to } = location.state;
+  const { from, to, fromDate, toDate, budget, travelMode } = location.state;
 
   console.log(location);
   // const from
@@ -78,9 +78,21 @@ function ApplicationInterface({
         <Navbar viewportWidth={viewportWidth} style={style} />
       </header>
       <div className="main_app">
-        {currentWindow === "Itinerary" && <Itinerary />}
-        {currentWindow === "Map" && <Map fromLocation={from} toLocation={to} />}
-        {viewportWidth > 800 && <Map fromLocation={from} toLocation={to} />}
+        {currentWindow === "Itinerary" && (
+          <Itinerary
+            toLocation={to}
+            toDate={toDate}
+            fromDate={fromDate}
+            budget={budget}
+            travelMode={travelMode}
+          />
+        )}
+        {currentWindow === "Map" && (
+          <Map fromLocation={from} toLocation={to} travelMode={travelMode} />
+        )}
+        {viewportWidth > 800 && (
+          <Map fromLocation={from} toLocation={to} travelMode={travelMode} />
+        )}
       </div>
       {viewportWidth <= 800 && (
         <FooterBar onChangeWindow={handleChangeWindow} />
