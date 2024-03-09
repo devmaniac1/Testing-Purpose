@@ -8,8 +8,6 @@ root.render(
   <React.StrictMode>
     <>
       <App />
-      <SpeedInsights />
-      <Analytics />
     </>
   </React.StrictMode>
 );

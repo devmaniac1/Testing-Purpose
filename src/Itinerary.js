@@ -7,48 +7,68 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useScrollTrigger } from "@mui/material";
 
-const days = [
-  {
-    day: 1,
-    date: "2023-08-13",
-    location: "Nuwara Eliya",
-    accommadation: "Gregory Lake Inn",
-    accPrice: 8000.0,
-    placesToVisit: ["Garden", "Gregory Lake"],
-    events: ["BnS Concert"],
-    foodAlloc: { breakfast: 200, lunch: 500, dinner: 500 },
-  },
-  {
-    day: 2,
-    date: "2023-08-14",
-    location: "Ella",
-    accommadation: "Gregory Lake Inn",
-    accPrice: 8000.0,
-    placesToVisit: [],
-    events: [],
-    foodAlloc: { breakfast: 200, lunch: 500, dinner: 500 },
-  },
-  {
-    day: 3,
-    date: "2023-08-15",
-    location: "Nuwara Eliya",
-    accommadation: "Gregory Lake Inn",
-    accPrice: 8000.0,
-    placesToVisit: [],
-    events: [],
-    foodAlloc: { breakfast: 200, lunch: 600, dinner: 800 },
-  },
+let days = [
+  // {
+  //   day: 1,
+  //   date: "2023-08-13",
+  //   location: "Nuwara Eliya",
+  //   accommadation: "Gregory Lake Inn",
+  //   accPrice: 8000.0,
+  //   placesToVisit: ["Garden", "Gregory Lake"],
+  //   events: ["BnS Concert"],
+  //   foodAlloc: { breakfast: 200, lunch: 500, dinner: 500 },
+  // },
+  // {
+  //   day: 2,
+  //   date: "2023-08-14",
+  //   location: "Ella",
+  //   accommadation: "Gregory Lake Inn",
+  //   accPrice: 8000.0,
+  //   placesToVisit: [],
+  //   events: [],
+  //   foodAlloc: { breakfast: 200, lunch: 500, dinner: 500 },
+  // },
+  // {
+  //   day: 3,
+  //   date: "2023-08-15",
+  //   location: "Nuwara Eliya",
+  //   accommadation: "Gregory Lake Inn",
+  //   accPrice: 8000.0,
+  //   placesToVisit: [],
+  //   events: [],
+  //   foodAlloc: { breakfast: 200, lunch: 600, dinner: 800 },
+  // },
 ];
 
-function Itinerary({ toLocation, toDate, fromDate, budget, travelMode }) {
+function Itinerary({
+  toLocation,
+  toDate,
+  fromDate,
+  // budget,
+  travelMode,
+}) {
+  // const toLocation = "Nuwara Eliya, Sri Lanka";
+  // const toDate = "2024-03-13";
+  // const fromDate = "2024-03-10";
+  const budget = 25000;
   const [hotelsData, setHotelsData] = useState(null);
+  const [filteredHotel, setFIlteredHotel] = useState(null);
   const [placesData, setPlacesData] = useState(null);
-  const [filteredPlacesData, setFilteredPlacesData] = useState([]);
-  const numberOfDays = 3; //Temporary
+  const [filteredPlacesData, setFilteredPlacesData] = useState(null);
+
+  const toDateObj = new Date(toDate);
+  const fromDateObj = new Date(fromDate);
+  const differenceInTime = toDateObj.getTime() - fromDateObj.getTime();
+  const numberOfDays = differenceInTime / (1000 * 3600 * 24);
+
+  // const numberOfDays = 3; //Temporary
+  console.log(numberOfDays);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // console.log((budget * 0.6) / 307.56 / numberOfDays);
         const response = await axios.get(
           "http://localhost:3001/Google-hotels",
           {
@@ -56,11 +76,12 @@ function Itinerary({ toLocation, toDate, fromDate, budget, travelMode }) {
               toLocation: toLocation,
               toDate: toDate,
               fromDate: fromDate,
-              budget: budget,
+              budget: Math.trunc((budget * 0.5) / 307.56 / numberOfDays),
               travelMode: travelMode,
             },
           }
         );
+
         setHotelsData(response.data.properties);
         console.log(toLocation);
         const reponcePlaces = await axios.get("http://localhost:3001/places", {
@@ -80,14 +101,34 @@ function Itinerary({ toLocation, toDate, fromDate, budget, travelMode }) {
   useEffect(() => {
     if (hotelsData && placesData) {
       filterData(hotelsData);
+      filterHotel(hotelsData);
       filterNearby(placesData);
+      filteredHotel && filteredPlacesData && createItinerary();
     }
   }, [hotelsData, placesData]);
 
   function filterData(hotelsData) {
-    hotelsData.sort((a, b) => b.overall_rating - a.overall_rating);
+    // hotelsData.sort((a, b) => b.overall_rating - a.overall_rating);
+    hotelsData.sort((a, b) => b.reviews - a.reviews);
     // console.log(hotelsData);
   }
+
+  function filterHotel(hotelsData) {
+    const filter = hotelsData && hotelsData.filter((hotel) => hotel.reviews);
+    if (filter && filter.length > 0) {
+      const totalReviews = filter.reduce(
+        (acc, hotel) => acc + hotel.reviews,
+        0
+      );
+      const meanReviews = totalReviews / filter.length;
+      const filterHotel = filter.filter(
+        (hotel) => hotel.reviews >= meanReviews
+      );
+      filterHotel.sort((a, b) => b.overall_rating - a.overall_rating);
+      setFIlteredHotel(filterHotel);
+    }
+  }
+
   function filterNearby(placesData) {
     placesData.sort((a, b) => b.rating - a.rating);
     // const meanReviews =
@@ -109,20 +150,52 @@ function Itinerary({ toLocation, toDate, fromDate, budget, travelMode }) {
     setFilteredPlacesData(filteredData);
   }
 
+  const createItinerary = () => {
+    if (filteredHotel && filteredPlacesData) {
+      const placePerDay = Math.trunc(filteredPlacesData.length / numberOfDays);
+      let index = 0;
+      days = [];
+      for (let i = 1; i <= numberOfDays; i++) {
+        let slicedObjects = filteredPlacesData.slice(
+          index,
+          index + placePerDay
+        );
+        console.log(slicedObjects.map((obj) => obj.name));
+        index += placePerDay;
+        days.push({
+          day: i,
+          date: "2024-03-10",
+          location: toLocation.split(",")[0],
+          accommadation: filteredHotel[0].name,
+          accPrice: `${
+            filteredHotel[0].total_rate.extracted_lowest * 307.5
+          } rupees`,
+          placesToVisit: slicedObjects.map((obj) => obj.title),
+          events: ["a"],
+          foodAlloc: { breakfast: 200, lunch: 600, dinner: 800 },
+        });
+      }
+    }
+  };
+
   return (
     <div className="main_itinerary">
-      <BannerContainer />
+      <BannerContainer
+        toLocation={toLocation}
+        fromDate={fromDate}
+        toDate={toDate}
+      />
       <FullPlan />
     </div>
   );
 }
 
-function BannerContainer() {
+function BannerContainer({ toLocation, fromDate, toDate }) {
   return (
     <div className="banner-container">
       <img src="../banner.jpg" alt="" />
       <div className="transparent-box">
-        <p>Trip to Somewhere</p>
+        <p>Trip to {toLocation}</p>
         <div className="date-info">
           <div className="date-svg">
             <svg
@@ -140,9 +213,9 @@ function BannerContainer() {
               />
             </svg>
           </div>
-          <p>Start Date: 2024.01.01</p>
+          <p>Start Date: {fromDate}</p>
           <p>|</p>
-          <p>End Date: 2024.12.31</p>
+          <p>End Date: {toDate}</p>
         </div>
       </div>
     </div>
