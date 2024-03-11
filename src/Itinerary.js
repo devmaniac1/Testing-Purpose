@@ -8,6 +8,7 @@ import "react-vertical-timeline-component/style.min.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Card, Typography, useScrollTrigger } from "@mui/material";
+import testIMG from "./images/Slide images/slideI3.jpg"
 
 let days = [
   // {
@@ -351,14 +352,14 @@ function AllAccommodationsCard() {
   )
 } 
 
-function AccommodationCard(props) {
-  const accImg = "test.jpg"
+/*function AccommodationCard(props) {
+
   return(
     <Card variant="outlined" sx={{m: "1rem"}}>
       <div style={{display: "flex", margin: "2rem", justifyContent: "space-between"}}>
         <div style={{display: "flex"}}>
           <div style={{border: "1px solid black", height: "10rem", width: "10rem"}}>
-            <img src={accImg}/>
+            <img src={testIMG}/>
           </div>
           <div style={{marginLeft: "1rem "}}>
             <Typography variant="h5" fontWeight="bold">
@@ -370,6 +371,34 @@ function AccommodationCard(props) {
           </div>
         </div>
         <div style={{textAlign: "right"}}>
+          <Typography variant="h5" fontWeight="bold">Rs. {props.features[2]}</Typography>
+          <Button variant="contained">
+            Book via BluePillow
+          </Button>
+        </div>
+      </div>
+    </Card>
+  )
+}*/
+
+function AccommodationCard(props) {
+  return (
+    <Card variant="outlined" sx={{ m: "1rem" }}>
+      <div style={{ display: "flex", margin: "2rem", justifyContent: "space-between" }}>
+        <div style={{ display: "flex" }}>
+          {/* Placed the image as the background Image of the box */}
+          <div style={{ border: "1px solid black", height: "10rem", width: "10rem", backgroundImage: `url(${testIMG})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+          </div>
+          <div style={{ marginLeft: "1rem" }}>
+            <Typography variant="h5" fontWeight="bold">
+              {props.features[0]}
+            </Typography>
+            {props.features[1].map((prop) =>
+              <Typography variant="h5">{prop}</Typography>
+            )}
+          </div>
+        </div>
+        <div style={{ textAlign: "right" }}>
           <Typography variant="h5" fontWeight="bold">Rs. {props.features[2]}</Typography>
           <Button variant="contained">
             Book via BluePillow
