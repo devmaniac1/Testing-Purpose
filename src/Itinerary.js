@@ -7,7 +7,7 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useScrollTrigger } from "@mui/material";
+import { Button, Card, Typography, useScrollTrigger } from "@mui/material";
 
 let days = [
   // {
@@ -178,6 +178,11 @@ function Itinerary({
     }
   };
 
+
+
+
+
+
   return (
     <div className="main_itinerary">
       <BannerContainer
@@ -185,7 +190,10 @@ function Itinerary({
         fromDate={fromDate}
         toDate={toDate}
       />
-      <FullPlan />
+      <AllAccommodationsCard/>
+      <DaysDetailsCard/>
+      <DayDetailCard placeInfo={placesDetails}/>
+      <BudgetTrackerCard/>
     </div>
   );
 }
@@ -320,6 +328,155 @@ function AllDates() {
     </div>
   );
 }
+
+
+//New Components
+
+function AllAccommodationsCard() {
+
+  const accdetails = [
+    ["Ella River Inn", ["Free Wifi", "Breakfast Included", "Swimming Pool"], 13000], 
+    ["Galle Villa", ["Free Wifi", "Breakfast Included", "Swimming Pool"], 25000]
+  ]
+
+
+  return(
+    <Card variant="outlined" style={{width: "33vw", alignSelf: "center", margin: "2rem 0rem"}}>
+      <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">Your Accommodations</Typography>
+      {accdetails.map((detail) => 
+        <AccommodationCard features={detail}/>
+      )}
+      
+    </Card>
+  )
+} 
+
+function AccommodationCard(props) {
+  const accImg = "test.jpg"
+  return(
+    <Card variant="outlined" sx={{m: "1rem"}}>
+      <div style={{display: "flex", margin: "2rem", justifyContent: "space-between"}}>
+        <div style={{display: "flex"}}>
+          <div style={{border: "1px solid black", height: "10rem", width: "10rem"}}>
+            <img src={accImg}/>
+          </div>
+          <div style={{marginLeft: "1rem "}}>
+            <Typography variant="h5" fontWeight="bold">
+              {props.features[0]}
+            </Typography>
+            {props.features[1].map((prop) => 
+              <Typography variant="h5">{prop}</Typography>
+            ) }
+          </div>
+        </div>
+        <div style={{textAlign: "right"}}>
+          <Typography variant="h5" fontWeight="bold">Rs. {props.features[2]}</Typography>
+          <Button variant="contained">
+            Book via BluePillow
+          </Button>
+        </div>
+      </div>
+    </Card>
+  )
+}
+
+
+function DaysDetailsCard() {
+  return(
+    <Card variant="outlined" style={{width: "33vw", alignSelf: "center"}}>
+      {placesDetails.map((day, index) =>
+      <DayCard dayNumber={index + 1}/>
+      )}
+    </Card>
+  )
+}
+
+function DayCard(props){
+  return(
+    <Card variant="outlined" sx={{p: "2rem", m: "1rem"}}>
+      <Typography variant="h4" component="h1" fontWeight="bold" >
+        Day {props.dayNumber}
+      </Typography>
+    </Card>
+  )
+}
+
+
+
+  //Places to visit sample data variable
+  const placesDetails = [
+    [{placename: "Ella Rock", placeRating: 4.8, placeReviews: 26},
+    {placename: "Nine Arch", placeRating: 4.2, placeReviews: 56}],
+  
+    [{placename: "Ella Rock", placeRating: 4.8, placeReviews: 26},
+    {placename: "Nine Arch", placeRating: 4.2, placeReviews: 56}]
+  ]
+
+  const indexDay = 0
+
+function DayDetailCard(props) {
+
+  return(
+    <Card variant="outlined" style={{width: "33vw", alignSelf: "center", marginTop: "2rem"}}>
+      
+      {props.placeInfo.map((x, index) => 
+        <SingleDayCard x={x} dayIn={index + 1}/>
+      )}
+    </Card>
+  )
+}
+
+function SingleDayCard(props) {
+  return (
+    <Card variant="outlined" sx={{ m: "1rem", p: "1rem" }}>
+      <Typography variant="h3" component="h1" fontWeight="bold">
+        Day {props.dayIn}
+      </Typography>
+      <Typography variant="h4" component="h1" sx={{ mt: "1.5rem" }}>
+        Places to visit:
+      </Typography>
+
+      {props.x.map((y) => (
+        <VisitingPlaceInfo place={y} />
+      ))}
+    </Card>
+  );
+}
+
+
+function VisitingPlaceInfo(props) {
+  return(
+  <div style={{display: "flex", marginTop: "1rem"}}>
+
+    <div style={{border: "1px solid black", height: "10rem", width: "10rem"}}>
+
+    </div>
+    <div style={{marginLeft: "1rem ", marginTop: "0.5rem"}}>
+      <Typography variant="h5" component="h2" fontWeight="bold">
+        {props.place.placename}
+      </Typography>
+      <Typography variant="h5" component="h2">
+        Rating: {props.place.placeRating}
+      </Typography>
+      <Typography variant="h5" component="h2">
+        Reviews: {props.place.placeReviews}
+      </Typography>
+    </div>
+  </div>
+  )
+}
+
+
+function BudgetTrackerCard() {
+  return(
+  <Card variant="outlined" style={{width: "33vw", alignSelf: "center", margin: "2rem 0rem"}}>
+    <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">Budget Tracker</Typography>
+  </Card>
+  )
+}
+
+
+
 
 export default Itinerary;
 

@@ -19,6 +19,7 @@ import {
 } from "react-icons/fa";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import Dashboard from "../Dashboard.js";
+import Itinerary from "../Itinerary.js";
 
 
 
@@ -43,7 +44,7 @@ function Home({ viewportWidth, handleCurrentPage }) {
         <Login />
       ) : (
         <>
-          <Dashboard />
+          <Itinerary/>
           <Hero viewportWidth={viewportWidth} handleClick={handleClick} />
           <CTA handleCurrentPage={handleCurrentPage} />
           <Features />
