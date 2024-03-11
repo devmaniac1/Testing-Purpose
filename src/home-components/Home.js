@@ -20,6 +20,12 @@ import {
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import Dashboard from "../Dashboard.js";
 
+
+
+
+
+
+
 function Home({ viewportWidth, handleCurrentPage }) {
   const [signUp, setSignUp] = useState(false);
   const navigate = useNavigate();
