@@ -14,8 +14,6 @@ function Dashboard() {
           <TripDetailCard tripname="Trip name 001" budget="25000.00" date="02/06/2024"/>
           <TripDetailCard tripname="Trip name 001" budget="25000.00" date="02/06/2024"/>
         </Card>
-
-        <Button variant="outlined" style={{backgroundImage: "LoginBgImg"}}>Events</Button>
       </div>
 
     </div>
