@@ -18,6 +18,7 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
+import Dashboard from "../Dashboard.js";
 
 function Home({ viewportWidth, handleCurrentPage }) {
   const [signUp, setSignUp] = useState(false);
@@ -36,6 +37,7 @@ function Home({ viewportWidth, handleCurrentPage }) {
         <Login />
       ) : (
         <>
+          <Dashboard />
           <Hero viewportWidth={viewportWidth} handleClick={handleClick} />
           <CTA handleCurrentPage={handleCurrentPage} />
           <Features />
