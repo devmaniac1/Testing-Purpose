@@ -134,7 +134,7 @@ function SignIn({ handleSignPage }) {
               sx={{ mt: 3, mb: 2, bgcolor: "green" }}>
               Sign In
             </Button>
-            <Grid container>
+            <Grid container spacing={1} justifyContent="center">
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
@@ -143,6 +143,14 @@ function SignIn({ handleSignPage }) {
               <Grid item>
                 <Link href="#" variant="body2">
                   <p onClick={handleSignPage}>Don't have an account? Sign Up</p>
+                </Link>
+              </Grid>
+
+              {/* Back To Home Link in Sign Up Page */}
+
+              <Grid item>
+                <Link href="/" variant="Itinerary" style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif" }}>
+                  Back to home
                 </Link>
               </Grid>
             </Grid>
@@ -260,6 +268,14 @@ function SignUp({ handleSignPage }) {
                   <p onClick={handleSignPage}>
                     Already have an account? Sign in
                   </p>
+                </Link>
+              </Grid>
+
+              {/* Back To Home Link in Sign Up Page */}
+
+              <Grid item>
+              <Link href="/" variant="Itinerary" style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif" }}>
+                  Back to home
                 </Link>
               </Grid>
             </Grid>
