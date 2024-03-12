@@ -13,15 +13,16 @@ import {
   useLocation,
   useParams,
 } from "react-router-dom";
+import Login from "./Login.js";
 
 function App() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [currentWindow, setCurrentWindow] = useState("Itinerary");
-  const [currentPage, setCurrentPage] = useState(true);
+  // const [currentPage, setCurrentPage] = useState(true);
 
-  function handlePage() {
-    setCurrentPage(!currentPage);
-  }
+  // function handlePage() {
+  //   setCurrentPage(!currentPage);
+  // }
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,6 +54,8 @@ function App() {
             />
           }
         />
+        <Route path="/signUp" element={<Login />} />
+        {/* <Route path="/login" element={<SignIn />} /> */}
       </Routes>
     </BrowserRouter>
   );

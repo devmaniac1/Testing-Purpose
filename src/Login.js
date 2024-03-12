@@ -14,6 +14,7 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 function Login() {
   const [signUp, setSignUp] = useState(true);
@@ -31,7 +32,8 @@ function Login() {
         backgroundRepeat: "no-repeat",
         width: "100vw",
         height: "100vh",
-      }}>
+      }}
+    >
       <Container
         sx={{
           width: "70%",
@@ -39,14 +41,16 @@ function Login() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Box
           sx={{
             minWidth: 275,
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <Typography
             variant="h1"
             sx={{
@@ -56,7 +60,8 @@ function Login() {
               fontSize: "8rem",
               color: "WHITE",
               mx: 8,
-            }}>
+            }}
+          >
             Lankan Amigo
           </Typography>
           <Card variant="outlined" sx={{ width: "25vw", pb: 4, my: 4, mx: 8 }}>
@@ -75,13 +80,40 @@ function Login() {
 const defaultTheme = createTheme();
 
 function SignIn({ handleSignPage }) {
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    // const { email, password } = this.state;
+    try {
+      const userData = new FormData(event.currentTarget);
+      const email = userData.get("email");
+      const password = userData.get("password");
+      console.log(email, password);
+      const response = await fetch("http://localhost:3001/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        throw new Error("Invalid credentials");
+      }
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      console.log("Ok Logged");
+      // Redirect or set authenticated state
+    } catch (error) {
+      console.error("Login failed:", error.message);
+    }
   };
 
   return (
@@ -94,7 +126,8 @@ function SignIn({ handleSignPage }) {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-          }}>
+          }}
+        >
           <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
             Sign in
           </Typography>
@@ -102,7 +135,8 @@ function SignIn({ handleSignPage }) {
             component="form"
             onSubmit={handleSubmit}
             noValidate
-            sx={{ mt: 1 }}>
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -131,7 +165,8 @@ function SignIn({ handleSignPage }) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, bgcolor: "green" }}>
+              sx={{ mt: 3, mb: 2, bgcolor: "green" }}
+            >
               Sign In
             </Button>
             <Grid container spacing={1} justifyContent="center">
@@ -149,7 +184,11 @@ function SignIn({ handleSignPage }) {
               {/* Back To Home Link in Sign Up Page */}
 
               <Grid item>
-                <Link href="/" variant="Itinerary" style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif" }}>
+                <Link
+                  href="/"
+                  variant="Itinerary"
+                  style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif" }}
+                >
                   Back to home
                 </Link>
               </Grid>
@@ -162,13 +201,40 @@ function SignIn({ handleSignPage }) {
 }
 
 function SignUp({ handleSignPage }) {
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    // const { firstName, lastName, email, password } = this.state;
+    try {
+      const data = new FormData(event.currentTarget);
+      const firstName = data.get("firstName");
+      const lastName = data.get("lastName");
+      const email = data.get("email");
+      const password = data.get("password");
+      console.log(firstName, lastName, email, password);
+      const response = await fetch("http://localhost:3001/api/users/signUp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({ firstName, lastName, email, password }),
+        body: JSON.stringify({ firstName, lastName, email, password }),
+      });
+      if (!response.ok) {
+        throw new Error("Signup failed");
+      }
+      // Optionally, handle successful signup, e.g., show success message
+      console.log("Signup successful");
+    } catch (error) {
+      console.error("Signup failed:", error.message);
+    }
   };
 
   return (
@@ -181,7 +247,8 @@ function SignUp({ handleSignPage }) {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-          }}>
+          }}
+        >
           <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
             Sign up
           </Typography>
@@ -189,7 +256,8 @@ function SignUp({ handleSignPage }) {
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 3 }}>
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -259,7 +327,8 @@ function SignUp({ handleSignPage }) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, bgcolor: "green" }}>
+              sx={{ mt: 3, mb: 2, bgcolor: "green" }}
+            >
               Sign Up
             </Button>
             <Grid container justifyContent="space-around">
@@ -274,7 +343,11 @@ function SignUp({ handleSignPage }) {
               {/* Back To Home Link in Sign Up Page */}
 
               <Grid item>
-              <Link href="/" variant="Itinerary" style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif" }}>
+                <Link
+                  href="/"
+                  variant="Itinerary"
+                  style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif" }}
+                >
                   Back to home
                 </Link>
               </Grid>

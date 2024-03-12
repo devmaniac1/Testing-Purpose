@@ -1,6 +1,6 @@
-import { Children, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import heroImage from "../images/hero1.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 /* Slide images */
 import slideI1 from "../images/Slide images/slideI1.jpg";
@@ -10,7 +10,7 @@ import slideI4 from "../images/Slide images/slideI4.jpg";
 
 import "./Home.css";
 import Navbar from "../Navbar.js";
-import Login from "../Login.js";
+// import Login from "../Login.js";
 import {
   FaFacebookF,
   FaInstagram,
@@ -21,42 +21,39 @@ import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import Dashboard from "../Dashboard.js";
 import Itinerary from "../Itinerary.js";
 
-
-
-
-
-
-
-function Home({ viewportWidth, handleCurrentPage }) {
-  const [signUp, setSignUp] = useState(false);
-  const navigate = useNavigate();
-  const handleGenerateClick = () => {
-    // Perform form validation or data processing here (if needed)
-    navigate("/applicationInterface"); // Navigate to the desired route
-  };
-  function handleClick(e) {
+function Home({ viewportWidth }) {
+  const ctaRef = useRef(null);
+  // const [signUp, setSignUp] = useState(false);
+  // const navigate = useNavigate();
+  // const handleGenerateClick = () => {
+  //   // Perform form validation or data processing here (if needed)
+  //   navigate("/applicationInterface"); // Navigate to the desired route
+  // };
+  // unction handleClick(e) {
+  //   e.preventDefault();
+  //   setSignUp(!signUp);
+  // }f
+  const scrollToCTA = (e) => {
     e.preventDefault();
-    setSignUp(!signUp);
-  }
+    ctaRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
-      {signUp ? (
-        <Login />
-      ) : (
-        <>
-          <Itinerary/>
-          <Hero viewportWidth={viewportWidth} handleClick={handleClick} />
-          <CTA handleCurrentPage={handleCurrentPage} />
-          <Features />
-          <HowWorksItems />
-          <Footer />
-        </>
-      )}
+      <Hero viewportWidth={viewportWidth} scrollToCTA={scrollToCTA} />
+      <CTA ref={ctaRef} />
+      <Features />
+      <HowWorksItems />
+      <Footer />
     </>
   );
 }
 
-function Hero({ viewportWidth, handleClick }) {
+function Hero({ viewportWidth, scrollToCTA }) {
+  const handleClick = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    scrollToCTA(); // Call scrollToCTA function when clicked
+  };
   const style = { position: "absolute", color: "#fff" };
 
   return (
@@ -71,17 +68,24 @@ function Hero({ viewportWidth, handleClick }) {
           your desires.
         </p>
         <div className="btns--cta">
-          <Button fontSize={1.6} color={"#fff"} padding={"1.6rem 3.2rem"}>
-            Start Planning
-          </Button>
           <Button
-            handleClick={handleClick}
             fontSize={1.6}
             color={"#fff"}
             padding={"1.6rem 3.2rem"}
+            onClick={handleClick}
           >
-            Sign Up
+            Start Planning
           </Button>
+          <Link to="/signUp">
+            <Button
+              // handleClick={handleClick}
+              fontSize={1.6}
+              color={"#fff"}
+              padding={"1.6rem 3.2rem"}
+            >
+              Sign Up
+            </Button>
+          </Link>
         </div>
       </div>
       <Button color={"#fff"} fontSize={1.6} padding={"1.6rem 3.2rem"}>
@@ -91,7 +95,7 @@ function Hero({ viewportWidth, handleClick }) {
   );
 }
 
-function CTA({ handleCurrentPage }) {
+const CTA = React.forwardRef((props, ref) => {
   const [startPlan, setStartPlan] = useState(false);
 
   function handleStartPlan(e) {
@@ -100,7 +104,7 @@ function CTA({ handleCurrentPage }) {
   }
 
   return (
-    <section className="section--cta">
+    <section className="section--cta" ref={ref}>
       <p className="cta--header">Start Planning and save your time by half</p>
       <div className="btns--cta">
         <Button
@@ -115,12 +119,12 @@ function CTA({ handleCurrentPage }) {
           Sign Up
         </Button>
       </div>
-      {startPlan && <GeneratePlan handleCurrentPage={handleCurrentPage} />}
+      {startPlan && <GeneratePlan />}
     </section>
   );
-}
+});
 
-function GeneratePlan({ handleCurrentPage }) {
+function GeneratePlan() {
   const [fromLocation, setFromLocation] = useState("");
   const [toLocation, setToLocation] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -413,25 +417,6 @@ function Footer() {
   );
 }
 
-function Suggestions({ suggestions, handleSuggestionClick }) {
-  return (
-    <div
-      className="dropdown--suggestion"
-      style={{ position: "absolute", padding: 0 }}
-    >
-      {suggestions.map((suggestion, index) => (
-        <div
-          key={index}
-          onClick={() => handleSuggestionClick(suggestion)}
-          style={{ cursor: "pointer" }}
-        >
-          {suggestion}
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function Button({ fontSize, color, padding, handleClick, children }) {
   const buttonStyle = {
     color: color,
@@ -439,9 +424,9 @@ function Button({ fontSize, color, padding, handleClick, children }) {
     padding: padding,
   };
   return (
-    <a href="" style={buttonStyle} className="btn-cta" onClick={handleClick}>
+    <button style={buttonStyle} className="btn-cta" onClick={handleClick}>
       {children}
-    </a>
+    </button>
   );
 }
 

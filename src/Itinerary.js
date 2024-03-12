@@ -8,40 +8,9 @@ import "react-vertical-timeline-component/style.min.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Card, Typography, useScrollTrigger } from "@mui/material";
-import testIMG from "./images/Slide images/slideI3.jpg"
+import testIMG from "./images/Slide images/slideI3.jpg";
 
-let days = [
-  // {
-  //   day: 1,
-  //   date: "2023-08-13",
-  //   location: "Nuwara Eliya",
-  //   accommadation: "Gregory Lake Inn",
-  //   accPrice: 8000.0,
-  //   placesToVisit: ["Garden", "Gregory Lake"],
-  //   events: ["BnS Concert"],
-  //   foodAlloc: { breakfast: 200, lunch: 500, dinner: 500 },
-  // },
-  // {
-  //   day: 2,
-  //   date: "2023-08-14",
-  //   location: "Ella",
-  //   accommadation: "Gregory Lake Inn",
-  //   accPrice: 8000.0,
-  //   placesToVisit: [],
-  //   events: [],
-  //   foodAlloc: { breakfast: 200, lunch: 500, dinner: 500 },
-  // },
-  // {
-  //   day: 3,
-  //   date: "2023-08-15",
-  //   location: "Nuwara Eliya",
-  //   accommadation: "Gregory Lake Inn",
-  //   accPrice: 8000.0,
-  //   placesToVisit: [],
-  //   events: [],
-  //   foodAlloc: { breakfast: 200, lunch: 600, dinner: 800 },
-  // },
-];
+let days = [];
 
 function Itinerary({
   toLocation,
@@ -71,7 +40,7 @@ function Itinerary({
       try {
         // console.log((budget * 0.6) / 307.56 / numberOfDays);
         const response = await axios.get(
-          "http://localhost:3001/Google-hotels",
+          "http://localhost:3001/serpAPI/Google-hotels",
           {
             params: {
               toLocation: toLocation,
@@ -82,14 +51,18 @@ function Itinerary({
             },
           }
         );
+        console.log(response);
 
         setHotelsData(response.data.properties);
         console.log(toLocation);
-        const reponcePlaces = await axios.get("http://localhost:3001/places", {
-          params: {
-            toLocation: toLocation,
-          },
-        });
+        const reponcePlaces = await axios.get(
+          "http://localhost:3001/serpAPI/places",
+          {
+            params: {
+              toLocation: toLocation,
+            },
+          }
+        );
         setPlacesData(reponcePlaces.data.top_sights.sights);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -179,11 +152,6 @@ function Itinerary({
     }
   };
 
-
-
-
-
-
   return (
     <div className="main_itinerary">
       <BannerContainer
@@ -191,10 +159,10 @@ function Itinerary({
         fromDate={fromDate}
         toDate={toDate}
       />
-      <AllAccommodationsCard/>
-      <DaysDetailsCard/>
-      <DayDetailCard placeInfo={placesDetails}/>
-      <BudgetTrackerCard/>
+      <AllAccommodationsCard />
+      <DaysDetailsCard />
+      <DayDetailCard placeInfo={placesDetails} />
+      <BudgetTrackerCard />
     </div>
   );
 }
@@ -330,27 +298,36 @@ function AllDates() {
   );
 }
 
-
 //New Components
 
 function AllAccommodationsCard() {
-
   const accdetails = [
-    ["Ella River Inn", ["Free Wifi", "Breakfast Included", "Swimming Pool"], 13000], 
-    ["Galle Villa", ["Free Wifi", "Breakfast Included", "Swimming Pool"], 25000]
-  ]
+    [
+      "Ella River Inn",
+      ["Free Wifi", "Breakfast Included", "Swimming Pool"],
+      13000,
+    ],
+    [
+      "Galle Villa",
+      ["Free Wifi", "Breakfast Included", "Swimming Pool"],
+      25000,
+    ],
+  ];
 
-
-  return(
-    <Card variant="outlined" style={{width: "33vw", alignSelf: "center", margin: "2rem 0rem"}}>
-      <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">Your Accommodations</Typography>
-      {accdetails.map((detail) => 
-        <AccommodationCard features={detail}/>
-      )}
-      
+  return (
+    <Card
+      variant="outlined"
+      style={{ width: "33vw", alignSelf: "center", margin: "2rem 0rem" }}
+    >
+      <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">
+        Your Accommodations
+      </Typography>
+      {accdetails.map((detail) => (
+        <AccommodationCard features={detail} />
+      ))}
     </Card>
-  )
-} 
+  );
+}
 
 /*function AccommodationCard(props) {
 
@@ -384,75 +361,91 @@ function AllAccommodationsCard() {
 function AccommodationCard(props) {
   return (
     <Card variant="outlined" sx={{ m: "1rem" }}>
-      <div style={{ display: "flex", margin: "2rem", justifyContent: "space-between" }}>
+      <div
+        style={{
+          display: "flex",
+          margin: "2rem",
+          justifyContent: "space-between",
+        }}
+      >
         <div style={{ display: "flex" }}>
           {/* Placed the image as the background Image of the box */}
-          <div style={{ border: "1px solid black", height: "10rem", width: "10rem", backgroundImage: `url(${testIMG})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-          </div>
+          <div
+            style={{
+              border: "1px solid black",
+              height: "10rem",
+              width: "10rem",
+              backgroundImage: `url(${testIMG})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          ></div>
           <div style={{ marginLeft: "1rem" }}>
             <Typography variant="h5" fontWeight="bold">
               {props.features[0]}
             </Typography>
-            {props.features[1].map((prop) =>
+            {props.features[1].map((prop) => (
               <Typography variant="h5">{prop}</Typography>
-            )}
+            ))}
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          <Typography variant="h5" fontWeight="bold">Rs. {props.features[2]}</Typography>
-          <Button variant="contained">
-            Book via BluePillow
-          </Button>
+          <Typography variant="h5" fontWeight="bold">
+            Rs. {props.features[2]}
+          </Typography>
+          <Button variant="contained">Book via BluePillow</Button>
         </div>
       </div>
     </Card>
-  )
+  );
 }
-
 
 function DaysDetailsCard() {
-  return(
-    <Card variant="outlined" style={{width: "33vw", alignSelf: "center"}}>
-      {placesDetails.map((day, index) =>
-      <DayCard dayNumber={index + 1}/>
-      )}
+  return (
+    <Card variant="outlined" style={{ width: "33vw", alignSelf: "center" }}>
+      {placesDetails.map((day, index) => (
+        <DayCard dayNumber={index + 1} />
+      ))}
     </Card>
-  )
+  );
 }
 
-function DayCard(props){
-  return(
-    <Card variant="outlined" sx={{p: "2rem", m: "1rem"}}>
-      <Typography variant="h4" component="h1" fontWeight="bold" >
+function DayCard(props) {
+  return (
+    <Card variant="outlined" sx={{ p: "2rem", m: "1rem" }}>
+      <Typography variant="h4" component="h1" fontWeight="bold">
         Day {props.dayNumber}
       </Typography>
     </Card>
-  )
+  );
 }
 
+//Places to visit sample data variable
+const placesDetails = [
+  [
+    { placename: "Ella Rock", placeRating: 4.8, placeReviews: 26 },
+    { placename: "Nine Arch", placeRating: 4.2, placeReviews: 56 },
+  ],
 
+  [
+    { placename: "Ella Rock", placeRating: 4.8, placeReviews: 26 },
+    { placename: "Nine Arch", placeRating: 4.2, placeReviews: 56 },
+  ],
+];
 
-  //Places to visit sample data variable
-  const placesDetails = [
-    [{placename: "Ella Rock", placeRating: 4.8, placeReviews: 26},
-    {placename: "Nine Arch", placeRating: 4.2, placeReviews: 56}],
-  
-    [{placename: "Ella Rock", placeRating: 4.8, placeReviews: 26},
-    {placename: "Nine Arch", placeRating: 4.2, placeReviews: 56}]
-  ]
-
-  const indexDay = 0
+const indexDay = 0;
 
 function DayDetailCard(props) {
-
-  return(
-    <Card variant="outlined" style={{width: "33vw", alignSelf: "center", marginTop: "2rem"}}>
-      
-      {props.placeInfo.map((x, index) => 
-        <SingleDayCard x={x} dayIn={index + 1}/>
-      )}
+  return (
+    <Card
+      variant="outlined"
+      style={{ width: "33vw", alignSelf: "center", marginTop: "2rem" }}
+    >
+      {props.placeInfo.map((x, index) => (
+        <SingleDayCard x={x} dayIn={index + 1} />
+      ))}
     </Card>
-  )
+  );
 }
 
 function SingleDayCard(props) {
@@ -464,48 +457,47 @@ function SingleDayCard(props) {
       <Typography variant="h4" component="h1" sx={{ mt: "1.5rem" }}>
         Places to visit:
       </Typography>
-
       {props.x.map((y) => (
         <VisitingPlaceInfo place={y} />
       ))}
-    </Card>
-  );
+        
+    </Card>
+  );
 }
-
 
 function VisitingPlaceInfo(props) {
-  return(
-  <div style={{display: "flex", marginTop: "1rem"}}>
-
-    <div style={{border: "1px solid black", height: "10rem", width: "10rem"}}>
-
+  return (
+    <div style={{ display: "flex", marginTop: "1rem" }}>
+      <div
+        style={{ border: "1px solid black", height: "10rem", width: "10rem" }}
+      ></div>
+      <div style={{ marginLeft: "1rem ", marginTop: "0.5rem" }}>
+        <Typography variant="h5" component="h2" fontWeight="bold">
+          {props.place.placename}
+        </Typography>
+        <Typography variant="h5" component="h2">
+          Rating: {props.place.placeRating}
+        </Typography>
+        <Typography variant="h5" component="h2">
+          Reviews: {props.place.placeReviews}
+        </Typography>
+      </div>
     </div>
-    <div style={{marginLeft: "1rem ", marginTop: "0.5rem"}}>
-      <Typography variant="h5" component="h2" fontWeight="bold">
-        {props.place.placename}
-      </Typography>
-      <Typography variant="h5" component="h2">
-        Rating: {props.place.placeRating}
-      </Typography>
-      <Typography variant="h5" component="h2">
-        Reviews: {props.place.placeReviews}
-      </Typography>
-    </div>
-  </div>
-  )
+  );
 }
-
 
 function BudgetTrackerCard() {
-  return(
-  <Card variant="outlined" style={{width: "33vw", alignSelf: "center", margin: "2rem 0rem"}}>
-    <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">Budget Tracker</Typography>
-  </Card>
-  )
+  return (
+    <Card
+      variant="outlined"
+      style={{ width: "33vw", alignSelf: "center", margin: "2rem 0rem" }}
+    >
+      <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">
+        Budget Tracker
+      </Typography>
+    </Card>
+  );
 }
-
-
-
 
 export default Itinerary;
 
