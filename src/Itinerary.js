@@ -10,7 +10,7 @@ import axios from "axios";
 import { Button, Card, Typography, useScrollTrigger } from "@mui/material";
 import testIMG from "./images/Slide images/slideI3.jpg";
 
-let days = [];
+// let days = [];
 
 function Itinerary({
   toLocation,
@@ -27,11 +27,16 @@ function Itinerary({
   const [filteredHotel, setFIlteredHotel] = useState(null);
   const [placesData, setPlacesData] = useState(null);
   const [filteredPlacesData, setFilteredPlacesData] = useState(null);
+  const [days, setDays] = useState([]);
 
   const toDateObj = new Date(toDate);
   const fromDateObj = new Date(fromDate);
   const differenceInTime = toDateObj.getTime() - fromDateObj.getTime();
   const numberOfDays = differenceInTime / (1000 * 3600 * 24);
+
+  const addDay = (day) => {
+    setDays((existingDays) => [...existingDays, day]);
+  };
 
   // const numberOfDays = 3; //Temporary
   console.log(numberOfDays);
@@ -128,7 +133,8 @@ function Itinerary({
     if (filteredHotel && filteredPlacesData) {
       const placePerDay = Math.trunc(filteredPlacesData.length / numberOfDays);
       let index = 0;
-      days = [];
+      // days = [];
+      setDays([]);
       for (let i = 1; i <= numberOfDays; i++) {
         let slicedObjects = filteredPlacesData.slice(
           index,
@@ -136,7 +142,7 @@ function Itinerary({
         );
         console.log(slicedObjects.map((obj) => obj.name));
         index += placePerDay;
-        days.push({
+        addDay({
           day: i,
           date: "2024-03-10",
           location: toLocation.split(",")[0],
@@ -144,7 +150,7 @@ function Itinerary({
           accPrice: `${
             filteredHotel[0].total_rate.extracted_lowest * 307.5
           } rupees`,
-          placesToVisit: slicedObjects.map((obj) => obj.title),
+          placesToVisit: slicedObjects.map((obj) => obj),
           events: ["a"],
           foodAlloc: { breakfast: 200, lunch: 600, dinner: 800 },
         });
@@ -159,9 +165,9 @@ function Itinerary({
         fromDate={fromDate}
         toDate={toDate}
       />
-      <AllAccommodationsCard />
-      <DaysDetailsCard />
-      <DayDetailCard placeInfo={placesDetails} />
+      <AllAccommodationsCard filteredHotel={filteredHotel} />
+      {days && <DaysDetailsCard days={days} />}
+      {/* <DayDetailCard placeInfo={placesDetails} /> */}
       <BudgetTrackerCard />
     </div>
   );
@@ -181,8 +187,7 @@ function BannerContainer({ toLocation, fromDate, toDate }) {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
-            >
+              class="w-6 h-6">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -200,131 +205,116 @@ function BannerContainer({ toLocation, fromDate, toDate }) {
 }
 
 /* Full Plan Details component */
-function FullPlan() {
-  return (
-    <div className="Full-Plan">
-      <div>
-        <h1>Full Plan</h1>
-        <div>
-          <Buttons name="Edit plan" />
-        </div>
-        <div>
-          <Buttons name="Add to my plans" />
-        </div>
-      </div>
-      <AllDates />
-    </div>
-  );
-}
+// function FullPlan() {
+//   return (
+//     <div className="Full-Plan">
+//       <div>
+//         <h1>Full Plan</h1>
+//         <div>
+//           <Buttons name="Edit plan" />
+//         </div>
+//         <div>
+//           <Buttons name="Add to my plans" />
+//         </div>
+//       </div>
+//       <AllDates />
+//     </div>
+//   );
+// }
 
 function Buttons(props) {
   return <button className="btn">{props.name}</button>;
 }
 
-function AllDates() {
-  return (
-    <div className="All-Dates">
-      <VerticalTimeline layout={"1-column-left"} lineColor={"#254E72"}>
-        {days.map((day) => {
-          return (
-            <VerticalTimelineElement
-              key={day.day}
-              iconStyle={{ background: "#254E72" }}
-              contentStyle={{
-                backgroundColor: "#e2f5f3",
-                boxShadow: "0px 0px 0px 0px",
-              }}
-              iconClassName="icon"
-              contentArrowStyle={{ display: "none" }}
-            >
-              <div className="day">DAY {day.day}</div>
-              <div className="items">
-                <div>
-                  <span>Date : </span>
-                  {day.date}
-                </div>
-                <div>
-                  <span>Location : </span>
-                  {day.location}
-                </div>
-                <div>
-                  <span>Accomadation : </span>
-                  {day.accommadation}
-                </div>
-                <div>
-                  <span>Accom. Price : </span>
-                  {day.accPrice}
-                </div>
-                <div>
-                  <span>Places to visit : </span>
-                </div>
-                <div className="sub-items">
-                  {day.placesToVisit.length !== 0 &&
-                    day.placesToVisit.map((place) => {
-                      return <div>{place}</div>;
-                    })}
-                </div>
-                {day.events !== 0 && (
-                  <div>
-                    <span>Events : </span>
-                    {day.events.length === 0
-                      ? "No events for this day"
-                      : day.events.join(", ")}
-                  </div>
-                )}
-                <div>
-                  <span>Food allocation per head : </span>
-                </div>
-                <div className="sub-items">
-                  <div>
-                    <span>Breakfast : </span>
-                    {day.foodAlloc.breakfast}
-                  </div>
-                  <div>
-                    <span>Lunch : </span>
-                    {day.foodAlloc.lunch}
-                  </div>
-                  <div>
-                    <span>Dinner : </span>
-                    {day.foodAlloc.dinner}
-                  </div>
-                </div>
-              </div>
-            </VerticalTimelineElement>
-          );
-        })}
-      </VerticalTimeline>
-    </div>
-  );
-}
+// function AllDates() {
+//   return (
+//     <div className="All-Dates">
+//       <VerticalTimeline layout={"1-column-left"} lineColor={"#254E72"}>
+//         {days.map((day) => {
+//           return (
+//             <VerticalTimelineElement
+//               key={day.day}
+//               iconStyle={{ background: "#254E72" }}
+//               contentStyle={{
+//                 backgroundColor: "#e2f5f3",
+//                 boxShadow: "0px 0px 0px 0px",
+//               }}
+//               iconClassName="icon"
+//               contentArrowStyle={{ display: "none" }}
+//             >
+//               <div className="day">DAY {day.day}</div>
+//               <div className="items">
+//                 <div>
+//                   <span>Date : </span>
+//                   {day.date}
+//                 </div>
+//                 <div>
+//                   <span>Location : </span>
+//                   {day.location}
+//                 </div>
+//                 <div>
+//                   <span>Accomadation : </span>
+//                   {day.accommadation}
+//                 </div>
+//                 <div>
+//                   <span>Accom. Price : </span>
+//                   {day.accPrice}
+//                 </div>
+//                 <div>
+//                   <span>Places to visit : </span>
+//                 </div>
+//                 <div className="sub-items">
+//                   {day.placesToVisit.length !== 0 &&
+//                     day.placesToVisit.map((place) => {
+//                       return <div>{place}</div>;
+//                     })}
+//                 </div>
+//                 {day.events !== 0 && (
+//                   <div>
+//                     <span>Events : </span>
+//                     {day.events.length === 0
+//                       ? "No events for this day"
+//                       : day.events.join(", ")}
+//                   </div>
+//                 )}
+//                 <div>
+//                   <span>Food allocation per head : </span>
+//                 </div>
+//                 <div className="sub-items">
+//                   <div>
+//                     <span>Breakfast : </span>
+//                     {day.foodAlloc.breakfast}
+//                   </div>
+//                   <div>
+//                     <span>Lunch : </span>
+//                     {day.foodAlloc.lunch}
+//                   </div>
+//                   <div>
+//                     <span>Dinner : </span>
+//                     {day.foodAlloc.dinner}
+//                   </div>
+//                 </div>
+//               </div>
+//             </VerticalTimelineElement>
+//           );
+//         })}
+//       </VerticalTimeline>
+//     </div>
+//   );
+// }
 
 //New Components
 
-function AllAccommodationsCard() {
-  const accdetails = [
-    [
-      "Ella River Inn",
-      ["Free Wifi", "Breakfast Included", "Swimming Pool"],
-      13000,
-    ],
-    [
-      "Galle Villa",
-      ["Free Wifi", "Breakfast Included", "Swimming Pool"],
-      25000,
-    ],
-  ];
-
+function AllAccommodationsCard({ filteredHotel }) {
   return (
     <Card
       variant="outlined"
-      style={{ width: "33vw", alignSelf: "center", margin: "2rem 0rem" }}
-    >
+      style={{ alignSelf: "center", margin: "2rem 4rem" }}>
       <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">
         Your Accommodations
       </Typography>
-      {accdetails.map((detail) => (
-        <AccommodationCard features={detail} />
-      ))}
+      {filteredHotel &&
+        filteredHotel.map((hotel) => <AccommodationCard hotel={hotel} />)}
     </Card>
   );
 }
@@ -358,40 +348,47 @@ function AllAccommodationsCard() {
   )
 }*/
 
-function AccommodationCard(props) {
+function AccommodationCard({ hotel }) {
   return (
-    <Card variant="outlined" sx={{ m: "1rem" }}>
+    <Card sx={{ m: "1.6rem" }}>
       <div
         style={{
           display: "flex",
-          margin: "2rem",
+          margin: "1.6rem 2.4rem",
           justifyContent: "space-between",
-        }}
-      >
-        <div style={{ display: "flex" }}>
-          {/* Placed the image as the background Image of the box */}
+        }}>
+        <div style={{ display: "flex", gap: "1rem" }}>
           <div
             style={{
-              border: "1px solid black",
+              // border: "1px solid black",
+              borderRadius: ".6rem",
               height: "10rem",
               width: "10rem",
-              backgroundImage: `url(${testIMG})`,
+              backgroundImage: `url(https://serpapi.com/searches/65f0207e9b6472da3937422c/images/29707e339d84248d6b246383910ba13b168eb0570ddb07c7a129cd8d5ef190f7.jpeg)`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-            }}
-          ></div>
-          <div style={{ marginLeft: "1rem" }}>
-            <Typography variant="h5" fontWeight="bold">
-              {props.features[0]}
+            }}></div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              sx={{ marginBottom: "1rem" }}>
+              {hotel.name}
             </Typography>
-            {props.features[1].map((prop) => (
+            {hotel.amenities.map((prop) => (
               <Typography variant="h5">{prop}</Typography>
             ))}
           </div>
         </div>
-        <div style={{ textAlign: "right" }}>
+        <div
+          style={{
+            textAlign: "right",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+          }}>
           <Typography variant="h5" fontWeight="bold">
-            Rs. {props.features[2]}
+            Rs. {hotel.total_rate.extracted_lowest * 300}
           </Typography>
           <Button variant="contained">Book via BluePillow</Button>
         </div>
@@ -400,47 +397,32 @@ function AccommodationCard(props) {
   );
 }
 
-function DaysDetailsCard() {
+function DaysDetailsCard({ days }) {
   return (
-    <Card variant="outlined" style={{ width: "33vw", alignSelf: "center" }}>
-      {placesDetails.map((day, index) => (
-        <DayCard dayNumber={index + 1} />
-      ))}
+    <Card
+      variant="outlined"
+      style={{ alignSelf: "center", margin: "2rem 4rem" }}>
+      {days &&
+        days.map((day, index) => <DayCard dayNumber={index + 1} day={day} />)}
     </Card>
   );
 }
 
-function DayCard(props) {
+function DayCard({ dayNumber, day }) {
   return (
-    <Card variant="outlined" sx={{ p: "2rem", m: "1rem" }}>
+    <Card sx={{ m: "1.6rem" }}>
       <Typography variant="h4" component="h1" fontWeight="bold">
-        Day {props.dayNumber}
+        <SingleDayCard dayNumber={dayNumber} day={day} />
       </Typography>
     </Card>
   );
 }
 
-//Places to visit sample data variable
-const placesDetails = [
-  [
-    { placename: "Ella Rock", placeRating: 4.8, placeReviews: 26 },
-    { placename: "Nine Arch", placeRating: 4.2, placeReviews: 56 },
-  ],
-
-  [
-    { placename: "Ella Rock", placeRating: 4.8, placeReviews: 26 },
-    { placename: "Nine Arch", placeRating: 4.2, placeReviews: 56 },
-  ],
-];
-
-const indexDay = 0;
-
 function DayDetailCard(props) {
   return (
     <Card
       variant="outlined"
-      style={{ width: "33vw", alignSelf: "center", marginTop: "2rem" }}
-    >
+      style={{ width: "33vw", alignSelf: "center", marginTop: "2rem" }}>
       {props.placeInfo.map((x, index) => (
         <SingleDayCard x={x} dayIn={index + 1} />
       ))}
@@ -448,38 +430,42 @@ function DayDetailCard(props) {
   );
 }
 
-function SingleDayCard(props) {
+function SingleDayCard({ dayNumber, day }) {
   return (
     <Card variant="outlined" sx={{ m: "1rem", p: "1rem" }}>
       <Typography variant="h3" component="h1" fontWeight="bold">
-        Day {props.dayIn}
+        Day {dayNumber}
       </Typography>
       <Typography variant="h4" component="h1" sx={{ mt: "1.5rem" }}>
         Places to visit:
       </Typography>
-      {props.x.map((y) => (
-        <VisitingPlaceInfo place={y} />
+      {day.placesToVisit.map((place) => (
+        <VisitingPlaceInfo place={place} />
       ))}
         
     </Card>
   );
 }
 
-function VisitingPlaceInfo(props) {
+function VisitingPlaceInfo({ place }) {
   return (
     <div style={{ display: "flex", marginTop: "1rem" }}>
       <div
-        style={{ border: "1px solid black", height: "10rem", width: "10rem" }}
-      ></div>
+        style={{
+          borderRadius: ".6rem",
+          height: "10rem",
+          width: "10rem",
+          backgroundImage: `url(${place.thumbnail})`,
+        }}></div>
       <div style={{ marginLeft: "1rem ", marginTop: "0.5rem" }}>
         <Typography variant="h5" component="h2" fontWeight="bold">
-          {props.place.placename}
+          {place.title}
         </Typography>
         <Typography variant="h5" component="h2">
-          Rating: {props.place.placeRating}
+          Rating: {place.rating}
         </Typography>
         <Typography variant="h5" component="h2">
-          Reviews: {props.place.placeReviews}
+          Reviews: {place.reviews}
         </Typography>
       </div>
     </div>
@@ -490,8 +476,7 @@ function BudgetTrackerCard() {
   return (
     <Card
       variant="outlined"
-      style={{ width: "33vw", alignSelf: "center", margin: "2rem 0rem" }}
-    >
+      style={{ width: "33vw", alignSelf: "center", margin: "2rem 0rem" }}>
       <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">
         Budget Tracker
       </Typography>
