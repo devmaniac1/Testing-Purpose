@@ -165,7 +165,7 @@ function Itinerary({
         fromDate={fromDate}
         toDate={toDate}
       />
-      <AllAccommodationsCard filteredHotel={filteredHotel} />
+      {filteredHotel && <AllAccommodationsCard filteredHotel={filteredHotel} />}
       {days && <DaysDetailsCard days={days} />}
       {/* <DayDetailCard placeInfo={placesDetails} /> */}
       <BudgetTrackerCard />
