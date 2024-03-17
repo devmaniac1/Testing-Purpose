@@ -12,6 +12,8 @@ html {
   margin: 1.6rem auto;
   font-size: 1.6rem;
   transition: all 1s ease;
+  /* position: ab; */
+  z-index: 1;
 }
 
 .navigation-panel {

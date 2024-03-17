@@ -2,8 +2,9 @@ import { Container } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
+// import Typography from "@mui/material/Typography";
+import { Typography, TextField } from "@mui/material";
+// import TextField from "@mui/material/TextField";
 import "./App.css";
 import LoginBgImg from "./images/login1.png";
 
@@ -219,14 +220,18 @@ function SignUp({ handleSignPage }) {
       const email = data.get("email");
       const password = data.get("password");
       console.log(firstName, lastName, email, password);
-      const response = await fetch("http://localhost:3001/api/users/signUp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // body: JSON.stringify({ firstName, lastName, email, password }),
-        body: JSON.stringify({ firstName, lastName, email, password }),
-      });
+      // const response = await fetch("http://localhost:3001/api/users/signUp", {
+      const response = await fetch(
+        "https://us-central1-lankanamigo.cloudfunctions.net/api/api/users/signUp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // body: JSON.stringify({ firstName, lastName, email, password }),
+          body: JSON.stringify({ firstName, lastName, email, password }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Signup failed");
       }

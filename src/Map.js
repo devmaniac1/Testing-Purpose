@@ -2,7 +2,14 @@ import "./Map.css";
 import MapContainer from "./MapContainer";
 import { useState, useEffect, useRef } from "react";
 
-function Map({ fromLocation, toLocation, travelMode }) {
+function Map({
+  fromLocation,
+  toLocation,
+  travelMode,
+  setMap,
+  calculateRoute,
+  directionsResponse,
+}) {
   const column2Ref = useRef(null);
   const [column2Width, setColumn2Width] = useState(0);
 
@@ -34,6 +41,9 @@ function Map({ fromLocation, toLocation, travelMode }) {
         fromLocation={fromLocation}
         toLocation={toLocation}
         travelMode={travelMode}
+        setMap={setMap}
+        calculateRoute={calculateRoute}
+        directionsResponse={directionsResponse}
       />
     </div>
   );

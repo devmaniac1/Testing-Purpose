@@ -13,6 +13,12 @@ import {
   useLocation,
   useParams,
 } from "react-router-dom";
+import {
+  useJsApiLoader,
+  GoogleMap,
+  Marker,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 import Login from "./Login.js";
 
 function App() {
@@ -71,10 +77,48 @@ function ApplicationInterface({
   const params = new URLSearchParams(location.state);
   const { from, to, fromDate, toDate, budget, travelMode } = location.state;
 
-  console.log(location);
-  // const from
-  // const {params} =
-  const style = { position: "relative", color: "#000" };
+  const style = { position: "absolute", color: "#000" };
+
+  ///////////////////////////////////////////////////////////////////////////
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyBkePZHNAeceiSPlP4LuZIPd28NpBJcaF8",
+    libraries: ["places"],
+  });
+  const [map, setMap] = useState(/** @type google.maps.Map */ (null));
+  const [directionsResponse, setDirectionsResponse] = useState(null);
+  if (directionsResponse) {
+    console.log("Rerendering");
+  }
+  if (!isLoaded) {
+    return <div>Loading</div>;
+  }
+
+  async function calculateRoute() {
+    if (from === "" || to === "") {
+      return;
+    }
+
+    let mode = "";
+    mode =
+      travelMode === "bus" || travelMode === "train"
+        ? // eslint-disable-next-line no-undef
+          google.maps.TravelMode.TRANSIT
+        : // eslint-disable-next-line no-undef
+          google.maps.TravelMode.DRIVING;
+    // eslint-disable-next-line no-undef
+    const directionsService = new google.maps.DirectionsService();
+    const results = await directionsService.route({
+      origin: from,
+      destination: to,
+      travelMode: mode,
+    });
+    setDirectionsResponse(results);
+    console.log(results);
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+
   return (
     <div className="App">
       <header className="App-header">
@@ -88,13 +132,28 @@ function ApplicationInterface({
             fromDate={fromDate}
             budget={budget}
             travelMode={travelMode}
+            response={directionsResponse}
           />
         )}
         {currentWindow === "Map" && (
-          <Map fromLocation={from} toLocation={to} travelMode={travelMode} />
+          <Map
+            fromLocation={from}
+            toLocation={to}
+            travelMode={travelMode}
+            setMap={setMap}
+            calculateRoute={calculateRoute}
+            directionsResponse={directionsResponse}
+          />
         )}
         {viewportWidth > 800 && (
-          <Map fromLocation={from} toLocation={to} travelMode={travelMode} />
+          <Map
+            fromLocation={from}
+            toLocation={to}
+            travelMode={travelMode}
+            setMap={setMap}
+            calculateRoute={calculateRoute}
+            directionsResponse={directionsResponse}
+          />
         )}
       </div>
       {viewportWidth <= 800 && (
