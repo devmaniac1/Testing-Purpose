@@ -38,7 +38,9 @@ function Itinerary({
   const [placesData, setPlacesData] = useState(null);
   const [filteredPlacesData, setFilteredPlacesData] = useState(null);
   const [days, setDays] = useState([]);
+
   const [travelBudget, setTravelBudget] = useState([]);
+
 
   const toDateObj = new Date(toDate);
   const fromDateObj = new Date(fromDate);
@@ -227,6 +229,7 @@ function Itinerary({
         fromDate={fromDate}
         toDate={toDate}
       />
+
       <AllAccommodationsCard
         filteredHotel={filteredHotel}
         toLocation={toLocation}
@@ -235,6 +238,7 @@ function Itinerary({
       {days && <DaysDetailsCard days={days} toLocation={toLocation} />}
       {/* <DayDetailCard placeInfo={placesDetails} /> */}
       <BudgetTrackerCard travelBudget={travelBudget} />
+
     </div>
   );
 }
@@ -253,8 +257,7 @@ function BannerContainer({ toLocation, fromDate, toDate }) {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
-            >
+              class="w-6 h-6">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -372,6 +375,7 @@ function Buttons(props) {
 
 //New Components
 
+<<<<<<< HEAD
 function AllAccommodationsCard({ filteredHotel, toLocation, daysNum }) {
   return (
     <Card
@@ -405,6 +409,18 @@ function AllAccommodationsCard({ filteredHotel, toLocation, daysNum }) {
         {filteredHotel &&
           filteredHotel.map((hotel) => <AccommodationCard hotel={hotel} />)}
       </div>
+=======
+function AllAccommodationsCard({ filteredHotel }) {
+  return (
+    <Card
+      variant="outlined"
+      style={{ alignSelf: "center", margin: "2rem 4rem" }}>
+      <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">
+        Your Accommodations
+      </Typography>
+      {filteredHotel &&
+        filteredHotel.map((hotel) => <AccommodationCard hotel={hotel} />)}
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
     </Card>
   );
 }
@@ -444,6 +460,7 @@ function AccommodationCard({ hotel }) {
       <div
         style={{
           display: "flex",
+<<<<<<< HEAD
           margin: "1.6rem 4.8rem",
           justifyContent: "space-between",
           flexDirection: "column",
@@ -457,10 +474,17 @@ function AccommodationCard({ hotel }) {
             flexDirection: "column",
           }}
         >
+=======
+          margin: "1.6rem 2.4rem",
+          justifyContent: "space-between",
+        }}>
+        <div style={{ display: "flex", gap: "1rem" }}>
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
           <div
             style={{
               // border: "1px solid black",
               borderRadius: ".6rem",
+<<<<<<< HEAD
               height: "14.5rem",
               width: "25.8rem",
               backgroundImage: `url(https://serpapi.com/searches/65f0207e9b6472da3937422c/images/29707e339d84248d6b246383910ba13b168eb0570ddb07c7a129cd8d5ef190f7.jpeg)`,
@@ -468,10 +492,19 @@ function AccommodationCard({ hotel }) {
               backgroundPosition: "center",
             }}
           ></div>
+=======
+              height: "10rem",
+              width: "10rem",
+              backgroundImage: `url(https://serpapi.com/searches/65f0207e9b6472da3937422c/images/29707e339d84248d6b246383910ba13b168eb0570ddb07c7a129cd8d5ef190f7.jpeg)`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}></div>
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Typography
               variant="h5"
               fontWeight="bold"
+<<<<<<< HEAD
               sx={{ marginBottom: "1rem" }}
             >
               {hotel.name}
@@ -489,15 +522,31 @@ function AccommodationCard({ hotel }) {
           </div>
         </div>
 
+=======
+              sx={{ marginBottom: "1rem" }}>
+              {hotel.name}
+            </Typography>
+            {hotel.amenities.map((prop) => (
+              <Typography variant="h5">{prop}</Typography>
+            ))}
+          </div>
+        </div>
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
         <div
           style={{
             textAlign: "right",
             display: "flex",
+<<<<<<< HEAD
             // flexDirection: "column",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
+=======
+            flexDirection: "column",
+            justifyContent: "space-around",
+          }}>
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
           <Typography variant="h5" fontWeight="bold">
             Rs. {hotel.total_rate.extracted_lowest * 300}
           </Typography>
@@ -518,6 +567,7 @@ function AccommodationCard({ hotel }) {
   );
 }
 
+<<<<<<< HEAD
 function DaysDetailsCard({ days, toLocation }) {
   return (
     <Card
@@ -533,6 +583,24 @@ function DaysDetailsCard({ days, toLocation }) {
         }}
       >
         Places that can be explored in {toLocation}
+=======
+function DaysDetailsCard({ days }) {
+  return (
+    <Card
+      variant="outlined"
+      style={{ alignSelf: "center", margin: "2rem 4rem" }}>
+      {days &&
+        days.map((day, index) => <DayCard dayNumber={index + 1} day={day} />)}
+    </Card>
+  );
+}
+
+function DayCard({ dayNumber, day }) {
+  return (
+    <Card sx={{ m: "1.6rem" }}>
+      <Typography variant="h4" component="h1" fontWeight="bold">
+        <SingleDayCard dayNumber={dayNumber} day={day} />
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
       </Typography>
       <Typography
         sx={{
@@ -551,6 +619,7 @@ function DaysDetailsCard({ days, toLocation }) {
   );
 }
 
+<<<<<<< HEAD
 function DayCard({ dayNumber, day }) {
   return (
     // <Card sx={{ m: "1.6rem" }}>
@@ -587,10 +656,13 @@ function DayCard({ dayNumber, day }) {
   );
 }
 
+=======
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
 function DayDetailCard(props) {
   return (
     <Card
       variant="outlined"
+<<<<<<< HEAD
       style={{
         width: "33vw",
         alignSelf: "center",
@@ -602,6 +674,9 @@ function DayDetailCard(props) {
         transition: "max-height 0.2s ease-out",
       }}
     >
+=======
+      style={{ width: "33vw", alignSelf: "center", marginTop: "2rem" }}>
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
       {props.placeInfo.map((x, index) => (
         <SingleDayCard x={x} dayIn={index + 1} />
       ))}
@@ -609,6 +684,7 @@ function DayDetailCard(props) {
   );
 }
 
+<<<<<<< HEAD
 function SingleDayCard({ day }) {
   return (
     <div
@@ -638,6 +714,44 @@ function SingleDayCard({ day }) {
             (place, i) =>
               `${place.title}${day.placesToVisit.length === i + 1 ? "." : ", "}`
           )}
+=======
+function SingleDayCard({ dayNumber, day }) {
+  return (
+    <Card variant="outlined" sx={{ m: "1rem", p: "1rem" }}>
+      <Typography variant="h3" component="h1" fontWeight="bold">
+        Day {dayNumber}
+      </Typography>
+      <Typography variant="h4" component="h1" sx={{ mt: "1.5rem" }}>
+        Places to visit:
+      </Typography>
+      {day.placesToVisit.map((place) => (
+        <VisitingPlaceInfo place={place} />
+      ))}
+        
+    </Card>
+  );
+}
+
+function VisitingPlaceInfo({ place }) {
+  return (
+    <div style={{ display: "flex", marginTop: "1rem" }}>
+      <div
+        style={{
+          borderRadius: ".6rem",
+          height: "10rem",
+          width: "10rem",
+          backgroundImage: `url(${place.thumbnail})`,
+        }}></div>
+      <div style={{ marginLeft: "1rem ", marginTop: "0.5rem" }}>
+        <Typography variant="h5" component="h2" fontWeight="bold">
+          {place.title}
+        </Typography>
+        <Typography variant="h5" component="h2">
+          Rating: {place.rating}
+        </Typography>
+        <Typography variant="h5" component="h2">
+          Reviews: {place.reviews}
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
         </Typography>
         <div
           style={{
@@ -705,6 +819,7 @@ function VisitingPlaceInfo({ place }) {
 function BudgetTrackerCard({ travelBudget }) {
   return (
     <Card
+<<<<<<< HEAD
       style={{
         // padding: "20px",
         margin: "1.6rem 4rem",
@@ -719,6 +834,12 @@ function BudgetTrackerCard({ travelBudget }) {
         }}
       >
         Manage Your Expenses
+=======
+      variant="outlined"
+      style={{ width: "33vw", alignSelf: "center", margin: "2rem 0rem" }}>
+      <Typography variant="h4" component="h1" fontWeight="bold" margin="1rem">
+        Budget Tracker
+>>>>>>> 89b8334f00848572aca7d48c2b1777f71fa27cd2
       </Typography>
       <Typography
         sx={{

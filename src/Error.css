@@ -1,0 +1,22 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  position: center;
+  padding: 5%;
+}
+
+.return-button button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.return-button button:hover {
+  background-color: #0056b3;
+}

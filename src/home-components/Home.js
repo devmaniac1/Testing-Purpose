@@ -72,8 +72,7 @@ function Hero({ viewportWidth, scrollToCTA }) {
             fontSize={1.6}
             color={"#fff"}
             padding={"1.6rem 3.2rem"}
-            onClick={handleClick}
-          >
+            onClick={handleClick}>
             Start Planning
           </Button>
           <Link to="/signUp">
@@ -81,8 +80,7 @@ function Hero({ viewportWidth, scrollToCTA }) {
               // handleClick={handleClick}
               fontSize={1.6}
               color={"#fff"}
-              padding={"1.6rem 3.2rem"}
-            >
+              padding={"1.6rem 3.2rem"}>
               Sign Up
             </Button>
           </Link>
@@ -111,8 +109,7 @@ const CTA = React.forwardRef((props, ref) => {
           fontSize={1.4}
           color={"#fff"}
           padding={"1.6rem 2.4rem"}
-          handleClick={handleStartPlan}
-        >
+          handleClick={handleStartPlan}>
           Start Planning
         </Button>
         <Button fontSize={1.4} color={"#fff"} padding={"1.6rem 2.4rem"}>
@@ -193,8 +190,7 @@ function GeneratePlan() {
               value={fromLocation}
               onChange={handleOriginChange}
               onBlur={handleOriginAutocomplete}
-              ref={originRef}
-            ></input>
+              ref={originRef}></input>
           </Autocomplete>
         </div>
         <div className="location--details">
@@ -205,8 +201,7 @@ function GeneratePlan() {
               value={toLocation}
               onChange={handleDestinationChange}
               onBlur={handleDestinationAutocomplete}
-              ref={destiantionRef}
-            ></input>
+              ref={destiantionRef}></input>
           </Autocomplete>
         </div>
         <div className="location--details">
@@ -244,8 +239,7 @@ function GeneratePlan() {
                 toDate: toDate,
                 budget: budget,
                 travelMode: travelMode,
-              }}
-            >
+              }}>
               <button>Generate</button>
             </Link>
           )}
@@ -321,12 +315,12 @@ function Footer() {
           <div className="footer-links-div">
             <h4>Plan Your Trip</h4>
             <div>
-              <a href="/explore">Destination</a>
-              <a href="/accommodation">Accommodations</a>
-              <a href="/activities">Book Activities</a>
-              <a href="/experiences">Discover Experiences</a>
-              <a href="/budgettips">Budgeting Tips</a>
-              <a href="/customizeplan">Customize Your Plan</a>
+              <Link to="/explore">Destination</Link>
+              <Link to="/accommodation">Accommodations</Link>
+              <Link to="/activities">Book Activities</Link>
+              <Link to="/experiences">Discover Experiences</Link>
+              <Link to="/budgettips">Budgeting Tips</Link>
+              <Link to="/customizeplan">Customize Your Plan</Link>
             </div>
           </div>
           <div className="footer-links-div">
@@ -367,8 +361,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.facebook.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaFacebookF />
                   <span>Facebook</span>
                 </a>
@@ -376,8 +369,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.instagram.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaInstagram />
                   <span>Instagram</span>
                 </a>
@@ -391,8 +383,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.linkedin.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaLinkedinIn />
                   <span>LinkedIn</span>
                 </a>
