@@ -5,7 +5,6 @@ import Navbar from "./Navbar.js";
 import Map from "./Map.js";
 import FooterBar from "./FooterBar.js";
 import Home from "./home-components/Home.js";
-import Error from "./Error.js";
 import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
@@ -62,7 +61,6 @@ function App() {
           }
         />
         <Route path="/signUp" element={<Login />} />
-        <Route path="*" element={<Error />} />
         {/* <Route path="/login" element={<SignIn />} /> */}
       </Routes>
     </BrowserRouter>
@@ -120,11 +118,11 @@ function ApplicationInterface({
   }
 
   ///////////////////////////////////////////////////////////////////////////
-
+  const items = ["Home", "Edit Plan", "Reviews"];
   return (
     <div className="App">
       <header className="App-header">
-        <Navbar viewportWidth={viewportWidth} style={style} />
+        <Navbar viewportWidth={viewportWidth} style={style} items={items} />
       </header>
       <div className="main_app">
         {currentWindow === "Itinerary" && (
