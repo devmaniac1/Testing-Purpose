@@ -1,7 +1,8 @@
-import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardContent, Container, List, ListItem, ListItemButton, ListItemText, CssBaseline, Typography, Box } from "@mui/material";
 import Navbar from "./Navbar";
 import LoginBgImg from "./images/login1.png";
 import ProfileImg from "./images/profile.jpg";
+import "./Dashboard.css";
 
 const plans = [
   { planname: 'plan-001', budget: 1000, date: '2024-07-15' },
@@ -13,18 +14,38 @@ const plans = [
 
 function Dashboard() {
   return(
-    <div>   
-      <div className="dashboard--mainContainer" style={{margin: "0 15%", height:"100vh"}}>
-        <ProdileDetails img={ProfileImg} name="John Smith" username="@johnsmith"/>
-        <Card variant="outlined" sx={{p: "0 2vh", m: "2vh 0vw"}}>
-          <h1 style={{padding: "3vh 1vw 1.5vh 1vw", fontSize: "4rem", fontFamily: "roboto"}}>My Plans</h1>
-          {plans.map((plan) => 
-            <TripDetailCard tripname={plan.planname} budget={plan.budget} date={plan.date}/>
-            )}
-        </Card>
-      </div>
+    <>
+      <CssBaseline/>
 
-    </div>
+      <Box display="flex" height="100vh">
+        <Box minWidth="20%" sx={{background: "linear-gradient(45deg, #6D48D9 0%, #8F65B0 100%)"}}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: "column"}}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: "column", m: "8rem"}}>
+              <div style={{borderRadius:"10rem", border:"2px solid white", height:"12rem", width:"12rem"}}>
+
+              </div>
+              <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: "column", marginTop: "2rem"}}>
+                <Typography variant="h5" fontWeight="bold" color="white">User Name Text</Typography>
+                <Typography variant="h6" fontWeight="normal" color="white">@username</Typography>
+              </div>
+            </Box>
+            <Box alignItems="center" display="flex" flexDirection="column" justifyContent="center">
+            
+            <a class="menu__link" href="#">Your Trips</a>
+            <a class="menu__link" href="#">Past Trips</a>
+            <a class="menu__link" href="#">Log out</a>
+
+            </Box>
+          </Box>
+        </Box>
+
+        <Box >
+          <Box minHeight="40rem" margin="10rem" p="2rem" minWidth="60vh" borderRadius="5px" sx={{background: "linear-gradient(45deg, #6D48D9 0%, #8F65B0 100%)"}}> 
+            <TripDetailCard/>
+          </Box>
+        </Box>
+      </Box>
+    </>
 
   )
 }
