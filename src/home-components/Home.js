@@ -78,7 +78,7 @@ function Hero({ viewportWidth, scrollToCTA }) {
           >
             Start Planning
           </Button>
-          <Link to="/signUp">
+          <Link to="/si">
             <Button
               // handleClick={handleClick}
               fontSize={1.6}

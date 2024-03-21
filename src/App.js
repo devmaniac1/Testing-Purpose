@@ -4,6 +4,7 @@ import Itinerary from "./Itinerary.js";
 import Navbar from "./Navbar.js";
 import Map from "./Map.js";
 import FooterBar from "./FooterBar.js";
+import PageNotFound from "./PageNotFound.js";
 import Home from "./home-components/Home.js";
 import React, { useEffect, useState } from "react";
 import {
@@ -62,6 +63,7 @@ function App() {
         />
         <Route path="/signUp" element={<Login />} />
         {/* <Route path="/login" element={<SignIn />} /> */}
+        <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </BrowserRouter>
   );
