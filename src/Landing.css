@@ -1,0 +1,21 @@
+
+
+
+.bannerImgDiv {
+    background-image: url("./images/banner.jpg");
+    min-height: 60vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.landing--inputsContainer {
+    width: 60%;
+    margin: auto;
+    border-radius: 8px;
+    background-color: aliceblue;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.326); /* Add box shadow */
+
+}
+.inputField {
+    margin-bottom: 1rem;
+}

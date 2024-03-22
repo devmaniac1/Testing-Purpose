@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import heroImage from "../images/hero1.jpg";
+import Landing from "../Landing.js";
 import { Link } from "react-router-dom";
 
 /* Slide images */
@@ -42,6 +43,7 @@ function Home({ viewportWidth }) {
 
   return (
     <>
+      <Landing/>
       <Hero viewportWidth={viewportWidth} scrollToCTA={scrollToCTA} />
       <CTA ref={ctaRef} />
       <Features />
