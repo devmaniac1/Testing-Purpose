@@ -42,6 +42,7 @@ function Home({ viewportWidth }) {
 
   return (
     <>
+      <Dashboard/>
       <Hero viewportWidth={viewportWidth} scrollToCTA={scrollToCTA} />
       <CTA ref={ctaRef} />
       <Features />

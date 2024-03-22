@@ -31,8 +31,8 @@ function Dashboard() {
             </Box>
             <Box alignItems="center" display="flex" flexDirection="column" justifyContent="center">
             
-            <a class="menu__link" href="#">Your Trips</a>
-            <a class="menu__link" href="#">Past Trips</a>
+            <a class="menu__link" href="#">Your Plans</a>
+            <a class="menu__link" href="#">Past Plans</a>
             <a class="menu__link" href="#">Log out</a>
 
             </Box>
@@ -40,8 +40,12 @@ function Dashboard() {
         </Box>
 
         <Box >
-          <Box minHeight="40rem" margin="10rem" p="2rem" minWidth="60vh" borderRadius="5px" sx={{background: "linear-gradient(45deg, #6D48D9 0%, #8F65B0 100%)"}}> 
-            <TripDetailCard/>
+          
+          <Box minHeight="40rem" margin="10rem" p="2rem" minWidth="65vw" borderRadius="5px" sx={{background: "linear-gradient(45deg, #6D48D9 0%, #8F65B0 100%)"}}> 
+          <Typography variant="h3" fontWeight="bold" color="white" sx={{m: "2vh 0.5vw 3vh 0.5vw"}}>Your Plans</Typography>
+          {plans.map(trip => (
+            <TripDetailCard tripname={trip.planname} budget={trip.budget} date={trip.date}/>
+          ))}
           </Box>
         </Box>
       </Box>
@@ -53,18 +57,18 @@ function Dashboard() {
 
 function TripDetailCard(props) {
   return(
-    <Card variant="outlined" sx={{m: "2vh 0", backgroundColor: "#ECF4D6", color: "#265073"}}>
+    <Card variant="outlined" sx={{m: "2vh 0", pb:"0",minHeight:"1vh", color: "#265073"}}>
       <CardContent sx={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px"}}>
         
-        <Typography variant="h4" component="h1" fontWeight="bold" style={{minWidth: "20vw"}}>
+        <Typography variant="h5" component="h1" fontWeight="bold" style={{minWidth: "20vw"}}>
           {props.tripname}
         </Typography>
         
-        <Typography variant="h4" component="h1" style={{minWidth: "12vw"}}>
+        <Typography variant="h5" component="h1" style={{minWidth: "12vw"}}>
           Budget: Rs. {props.budget}
         </Typography>
         
-        <Typography variant="h4" component="h1" style={{minWidth: "10vw"}}>
+        <Typography variant="h5" component="h1" style={{minWidth: "10vw"}}>
           Date: {props.date}
         </Typography>
         <Button variant="contained" size="medium" style={{fontSize: "1.2rem"}}>
