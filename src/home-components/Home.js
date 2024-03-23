@@ -6,6 +6,7 @@ import { Fade } from "react-awesome-reveal";
 import { Carousel } from "antd";
 import Kandy1 from "./Images/kandy.jpg";
 import Kandy2 from "./Images/kandy (2).jpg";
+import KommunicateChat from "../Chat.js";
 import { Link } from "react-router-dom";
 import {
   FaFacebookF,
@@ -32,6 +33,7 @@ function App() {
       <HowItWorks />
       <PopularDestination />
       <Footer />
+      <KommunicateChat />
     </div>
   );
 }
@@ -64,8 +66,7 @@ function NavBar() {
             fontSize: "2.4rem",
             margin: "0",
             padding: "0",
-          }}
-        >
+          }}>
           Sign Up
         </Button>
         <Button
@@ -74,8 +75,7 @@ function NavBar() {
             fontSize: "2.4rem",
             margin: "0",
             padding: "0",
-          }}
-        >
+          }}>
           Login{" "}
         </Button>
       </div>
@@ -224,8 +224,7 @@ function GeneratePlan() {
               value={fromLocation}
               onChange={handleOriginChange}
               onBlur={handleOriginAutocomplete}
-              ref={originRef}
-            ></input>
+              ref={originRef}></input>
           </Autocomplete>
         </div>
         <div className="to">
@@ -236,8 +235,7 @@ function GeneratePlan() {
               value={toLocation}
               onChange={handleDestinationChange}
               onBlur={handleDestinationAutocomplete}
-              ref={destiantionRef}
-            ></input>
+              ref={destiantionRef}></input>
           </Autocomplete>
         </div>
         <div className="date--from">
@@ -268,8 +266,7 @@ function GeneratePlan() {
             fontSize: "1.6rem",
             backgroundColor: "#333",
             borderRadius: "0.8rem",
-          }}
-        >
+          }}>
           {line16}
         </Button>
         <Link
@@ -281,16 +278,14 @@ function GeneratePlan() {
             toDate: toDate,
             budget: budget,
             travelMode: travelMode,
-          }}
-        >
+          }}>
           <Button
             sx={{
               fontSize: "1.6rem",
               backgroundColor: "#333",
               borderRadius: "0.8rem",
             }}
-            disabled={!isLoaded || !allInputsFilled()}
-          >
+            disabled={!isLoaded || !allInputsFilled()}>
             {line17}
           </Button>
         </Link>
@@ -312,8 +307,7 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon"
-        >
+          className="w-6 h-6 service--icon">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -331,8 +325,7 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon"
-        >
+          className="w-6 h-6 service--icon">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -350,8 +343,7 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon"
-        >
+          className="w-6 h-6 service--icon">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -369,8 +361,7 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon"
-        >
+          className="w-6 h-6 service--icon">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -393,8 +384,7 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon"
-        >
+          className="w-6 h-6 service--icon">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -449,8 +439,7 @@ function HowItWorks() {
       style={{
         scale: scaleProgress,
         opacity: scrollYProgress,
-      }}
-    >
+      }}>
       <Fade
         direction="up"
         duration={1000}
@@ -492,8 +481,7 @@ function PopularDestination() {
       style={{
         scale: scaleProgress,
         opacity: scrollYProgress,
-      }}
-    >
+      }}>
       <Fade
         direction="up"
         duration={1000}
@@ -594,8 +582,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.facebook.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaFacebookF />
                   <span>Facebook</span>
                 </a>
@@ -603,8 +590,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.instagram.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaInstagram />
                   <span>Instagram</span>
                 </a>
@@ -618,8 +604,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.linkedin.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaLinkedinIn />
                   <span>LinkedIn</span>
                 </a>
