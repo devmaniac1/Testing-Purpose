@@ -4,9 +4,10 @@ import Itinerary from "./Itinerary.js";
 import Navbar from "./Navbar.js";
 import Map from "./Map.js";
 import FooterBar from "./FooterBar.js";
-import PageNotFound from "./PageNotFound.js";
 import Home from "./home-components/Home.js";
 import React, { useEffect, useState } from "react";
+
+import "./home-components/TranslateComponent/i18n.js";
 import {
   BrowserRouter,
   Route,
@@ -20,7 +21,10 @@ import {
   Marker,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import Login from "./Login.js";
+import Login from "./AccountComponents/Login.js";
+import SignUp from "./AccountComponents/SignUp.js";
+import SignIn from "./AccountComponents/SignIn.js";
+import Dashboard from "./Dashboard.js";
 
 function App() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -50,7 +54,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home viewportWidth={viewportWidth} />} />
+        <Route path="/" element={<Home />} />
         <Route
           path="/trip"
           element={
@@ -61,9 +65,14 @@ function App() {
             />
           }
         />
-        <Route path="/signUp" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard viewportWidth={viewportWidth} />}
+        />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/signIn" element={<SignIn />} />
+
         {/* <Route path="/login" element={<SignIn />} /> */}
-        <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </BrowserRouter>
   );
@@ -89,6 +98,22 @@ function ApplicationInterface({
   });
   const [map, setMap] = useState(/** @type google.maps.Map */ (null));
   const [directionsResponse, setDirectionsResponse] = useState(null);
+  const [busRoute, setBusRoute] = useState([]);
+  useEffect(() => {
+    if (directionsResponse) {
+      const newBusRoute = [];
+      directionsResponse.routes[0].legs[0].steps.forEach((step) => {
+        // console.log(step);
+        if (step.transit) {
+          newBusRoute.push(step.transit);
+        }
+      });
+      setBusRoute(newBusRoute);
+    }
+  }, [directionsResponse]);
+
+  console.log(busRoute);
+
   if (directionsResponse) {
     console.log("Rerendering");
   }
@@ -120,7 +145,12 @@ function ApplicationInterface({
   }
 
   ///////////////////////////////////////////////////////////////////////////
-  const items = ["Home", "Edit Plan", "Reviews"];
+
+  const items = [
+    { name: "Home", path: "/" },
+    { name: "Edit Plan", path: "/edit" },
+    { name: "Reviews", path: "/reviews" },
+  ];
   return (
     <div className="App">
       <header className="App-header">
@@ -135,6 +165,7 @@ function ApplicationInterface({
             budget={budget}
             travelMode={travelMode}
             response={directionsResponse}
+            busRoute={busRoute}
           />
         )}
         {currentWindow === "Map" && (

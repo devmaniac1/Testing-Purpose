@@ -8,6 +8,7 @@ const Navbar = ({ viewportWidth, style, items }) => {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const position = style.position;
   const color = style.color;
+  // console.log(color);
 
   const [isSticky, setIsSticky] = useState(false);
   useEffect(() => {
@@ -95,13 +96,16 @@ function SideBarPanel({ sidebarPanelClass, OnViewSideBar, navIsOpen }) {
 }
 
 function DesktopNavigation({ color, items }) {
+  console.log(color);
   return (
     <div className="navigation-panel">
       <img src={logo} alt="logo"></img>
-      <ul className="main-nav-links" style={{ color }}>
+      <ul className="main-nav-links">
         {items.map((item) => (
           <li className="main-nav-link">
-            <Link to="/nav-link">{item}</Link>
+            <Link to={item.path} style={{ color }}>
+              {item.name}
+            </Link>
           </li>
         ))}
         {/* <li className="main-nav-link">Edit</li> */}
@@ -139,7 +143,7 @@ function UserIcon() {
           padding: "0.8rem 1.6rem",
         }}
       >
-        My Account
+        <Link to="/signIn">My Account</Link>
       </Button>
     </div>
   );
