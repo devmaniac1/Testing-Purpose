@@ -6,6 +6,8 @@ import { Fade } from "react-awesome-reveal";
 import { Carousel } from "antd";
 import Kandy1 from "./Images/kandy.jpg";
 import Kandy2 from "./Images/kandy (2).jpg";
+import Galle from "./Images/galle (2).jpg"
+import NuwaraEliya from "./Images/nuwera (3).jpg"
 import KommunicateChat from "../Chat.js";
 import { Link } from "react-router-dom";
 import {
@@ -471,9 +473,10 @@ function PopularDestination() {
   const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
 
   const destinations = [
-    { name: "Kandy", img1: Kandy1, img2: Kandy2 },
-    { name: "Galle" },
-    { name: "Nuwara Eliya" },
+    { name: "Ella", img: Kandy1 },
+    { name: "Kandy", img: Kandy2 },
+    { name: "Galle", img: Galle },
+    { name: "Nuwara Eliya", img: NuwaraEliya },
   ];
   return (
     <motion.section
@@ -485,56 +488,42 @@ function PopularDestination() {
       <Fade
         direction="up"
         duration={1000}
-        // cascade={true}
-        // triggerOnce={true}
       >
         <div className="destination--main">
           <p className="header">{line1}</p>
           <p className="text">{line2}</p>
-          {/* <div className="destinations">
-          <div className="destination">
-          <div>
-              <Carousel autoplay>
-                <img src={Kandy1} />
-                <img src={Kandy2} />
-                </Carousel>
-                </div>
-                </div>
-                <div className="destination fix">
-                <div>
-                <Carousel autoplay>
-                <img src={Kandy1} alt="" />
-                <img src={Kandy2} alt="" />
-                </Carousel>
-                </div>
-                </div>
-                <div className="destination">
-                <Carousel autoplay>
-                <img src={Kandy1} />
-                {/* <img src={Kandy2} /> */}
-          {/* </Carousel> */}
-          {/* </div> */}
-          {/* {destinations.map((destination, index) => (
-          <Destination destination={destination} />
-        ))} */}
-          {/* </div> */}
+          
         </div>
       </Fade>
+      <div className="gallery-grid" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {destinations.map((destination, index) => (
+              <GalleryItem key={index} destination={destination} />
+            ))}
+          </div>
     </motion.section>
+    
   );
 }
-
-function Destination({ destination }) {
+function GalleryItem({ destination }) {
   return (
-    <div className="destination">
-      <Carousel autoplay>
-        <img src={destination.img1} />
-        <img src={destination.img2} />
-      </Carousel>
+    <div className="gallery-item">
+      
+       <img
+        src={destination.img}
+        alt={destination.name}
+        style={{ width: '300px',
+        height: '280px',
+        padding: '5px',
+        borderRadius: '15px',
+        margin: '5px',
+        objectFit: 'cover',}} 
+      />
+        <p className="destination-name" style={{ margin: '5px', fontSize: '2rem', fontFamily: '"Inria Serif", serif', textAlign: 'center' }}>
+        {destination.name}
+      </p>      
     </div>
   );
 }
-
 function Footer() {
   return (
     <div className="footer">
