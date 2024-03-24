@@ -15,9 +15,21 @@ import {
   useScrollTrigger,
   AccordionSummary,
   AccordionDetails,
+  Modal,
+  Box,
+  TextField
 } from "@mui/material";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import testIMG from "./images/Slide images/slideI3.jpg";
+
+
+
+// Event Details Sample Array
+const eventDetails = [
+  {eventName: "Tomorrow Land", price: 10000, date: "2022/02/15"},
+  {eventName: "Tomorrow Land", price: 10000, date: "2022/02/15"},
+];
+
 
 // let days = [];
 
@@ -45,6 +57,10 @@ function Itinerary({
   const fromDateObj = new Date(fromDate);
   const differenceInTime = toDateObj.getTime() - fromDateObj.getTime();
   const numberOfDays = differenceInTime / (1000 * 3600 * 24);
+
+
+  
+
 
   const addDay = (day) => {
     setDays((existingDays) => [...existingDays, day]);
@@ -188,6 +204,7 @@ function Itinerary({
         fromDate={fromDate}
         toDate={toDate}
       />
+      <CustomizePlanModal />
       <AllAccommodationsCard
         filteredHotel={filteredHotel}
         toLocation={toLocation}
@@ -195,6 +212,9 @@ function Itinerary({
       />
       {days && <DaysDetailsCard days={days} toLocation={toLocation} />}
       {/* <DayDetailCard placeInfo={placesDetails} /> */}
+
+      <EventsCard/>
+      
       <BudgetTrackerCard travelBudget={travelBudget} />
     </div>
   );
@@ -786,8 +806,132 @@ function BudgetTrackerCard({ travelBudget }) {
   );
 }
 
+
+
+
+function EventsCard(prop) {
+  return(
+    <div>
+      <Card
+      style={{
+        // padding: "20px",
+        margin: "1.6rem 4rem",
+      }} >
+        <Typography
+        sx={{
+          fontSize: "2.4rem",
+          fontFamily: "Poppins",
+          fontWeight: "700",
+          margin: "1.6rem",
+        }}
+        >
+          Events
+        </Typography>
+        {eventDetails.map((e) => (
+          <SingleEventCard event={e} />
+        ))}
+      </Card>
+    </div>
+  )
+}
+
+function SingleEventCard(props){
+  return(
+    <Card variant="outlined"
+        style={{
+          padding: "20px",
+          margin: "1.6rem 4rem", display: "flex", justifyContent: "space-between"
+        }} >
+      <Typography variant="h5" fontWeight="bold">
+        {props.event.eventName}
+      </Typography>
+
+      <Typography variant="h5" >
+        <span style={{fontWeight: "bold"}}>Price:</span> {props.event.price}.00
+      </Typography>
+
+      <Typography variant="h5" >
+        {props.event.date}
+      </Typography>
+    </Card>
+  )
+}
+
+
 function ExpenseCard() {
   return <div>sgsgsdg</div>;
+}
+
+function CustomizePlanModal() {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleSubmit = () => {
+    // Implement your logic to handle form submission here
+    handleClose(); // Close the modal after submission
+  };
+
+  return (
+    <div>
+      <Button variant="contained" onClick={handleOpen} sx={{ml: "46%"}}>
+        Customize Plan
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="customize-plan-modal"
+        aria-describedby="customize-plan-form"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            width: '40%',
+            borderRadius: 4,
+          }}
+        >
+          <Typography variant="h3" fontWeight="bold" align="center" gutterBottom>
+            Customize Your Plan
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            {/* Two Sample text fields */}
+            <TextField
+              label="Custom Field 1"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Custom Field 2"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+            {/* Add text fields as needed */}
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              size="large"
+              sx={{ mt: 2 }}
+            >
+              Done
+            </Button>
+          </form>
+        </Box>
+      </Modal>
+    </div>
+  );
 }
 
 export default Itinerary;
