@@ -1,200 +1,176 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  Container,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  CssBaseline,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Button, Card, CardContent, Container, List, ListItem, ListItemButton, ListItemText, CssBaseline, Typography, Box } from "@mui/material";
 import Navbar from "./Navbar";
 import LoginBgImg from "./images/login1.png";
 import ProfileImg from "./images/profile.jpg";
 import "./Dashboard.css";
-import { useLocation } from "react-router-dom";
+import React, { useState } from 'react';
+
 
 const plans = [
-  { planname: "plan-001", budget: 1000, date: "2024-07-15" },
-  { planname: "Trip to galle", budget: 5000, date: "2024-09-01" },
-  { planname: "Ella Trip", budget: 8000, date: "2025-01-10" },
-  { planname: "Camping trip 2", budget: 20000, date: "2024-12-31" },
+  { planname: 'plan-001', budget: 1000, date: '2024-07-15' },
+  { planname: 'Trip to galle', budget: 5000, date: '2024-09-01' },
+  { planname: 'Ella Trip', budget: 8000, date: '2025-01-10' },
+  { planname: 'Camping trip 2', budget: 20000, date: '2024-12-31' }
 ];
 
-function Dashboard({ viewportWidth }) {
-  const location = useLocation();
-  const data = location.state;
-  console.log(data);
-  const style = {
-    position: "absolute",
-    color: "#000",
+const pastPlans = [
+  { planname: 'plan-001', budget: 1000, date: '2024-07-15' },
+  { planname: 'Trip to galle', budget: 5000, date: '2024-09-01' },
+  { planname: 'Ella Trip', budget: 8000, date: '2025-01-10' },
+  
+];
+
+const profileDetails = {
+  firstname: 'Sidu',
+  lastname: 'Gamage',
+  username: 'sidugamage',
+  email: 'sidugamage@gmail.com'
+
+}
+
+
+function Dashboard() {
+  const [displayedContent, setDisplayedContent] = useState('yourPlans');
+
+  const handleYourPlansClick = () => {
+    setDisplayedContent('yourPlans');
   };
-  const items = [{ name: "Home", path: "/" }];
+
+  const handlePastPlansClick = () => {
+    setDisplayedContent('pastPlans');
+  };
+
+  const handleYourProfileClick = () => {
+    setDisplayedContent('yourProfile');
+  };
+
   return (
     <>
-      <CssBaseline />
-      <Navbar style={style} viewportWidth={viewportWidth} items={items} />
-      <Box display="flex" height="100vh">
-        <Box
-          minWidth="20%"
-          sx={{
-            background: "linear-gradient(45deg, #6D48D9 0%, #8F65B0 100%)",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                m: "8rem",
-              }}
-            >
-              <div
-                style={{
-                  borderRadius: "10rem",
-                  border: "2px solid white",
-                  height: "12rem",
-                  width: "12rem",
-                }}
-              ></div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  marginTop: "2rem",
-                }}
-              >
-                <Typography variant="h5" fontWeight="bold" color="white">
-                  {data.data.user.firstName + " " + data.data.user.lastName}
-                </Typography>
-                <Typography variant="h6" fontWeight="normal" color="white">
-                  @
-                  {data.data.user.firstName.toLowerCase() +
-                    data.data.user.lastName.toLowerCase()}
-                </Typography>
+      <CssBaseline/>
+
+      <Box display="flex" minHeight="100vh">
+        <Box minWidth="20%" sx={{background: "linear-gradient(45deg, #6D48D9 0%, #8F65B0 100%)"}}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: "column"}}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: "column", m: "8rem"}}>
+              <div style={{borderRadius:"10rem", border:"2px solid white", height:"12rem", width:"12rem"}}>
+
+              </div>
+              <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: "column", marginTop: "2rem"}}>
+                <Typography variant="h5" fontWeight="bold" color="white">User Name Text</Typography>
+                <Typography variant="h6" fontWeight="normal" color="white">@username</Typography>
               </div>
             </Box>
-            <Box
-              alignItems="center"
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-            >
-              <a class="menu__link" href="#">
-                Your Trips
-              </a>
-              <a class="menu__link" href="#">
-                Past Trips
-              </a>
-              <a class="menu__link" href="#">
-                Log out
-              </a>
+            <Box alignItems="center" display="flex" flexDirection="column" justifyContent="center">
+              {/* Handle clicks on anchor tags */}
+              <a class="menu__link" href="#" onClick={handleYourProfileClick}>Your Profile</a>
+              <a class="menu__link" href="#" onClick={handleYourPlansClick}>Your Plans</a>
+              <a class="menu__link" href="#" onClick={handlePastPlansClick}>Past Plans</a>
+              <a class="menu__link" href="#">Log Out</a>
+
             </Box>
           </Box>
         </Box>
 
-        <Box>
-          <Box
-            minHeight="40rem"
-            margin="10rem"
-            p="2rem"
-            minWidth="60vh"
-            borderRadius="5px"
-            sx={{
-              background: "linear-gradient(45deg, #6D48D9 0%, #8F65B0 100%)",
-            }}
-          >
-            <TripDetailCard />
+        <Box >
+          <Box minHeight="40rem" margin="10rem 10rem 2rem 10rem" p="2rem" minWidth="65vw" borderRadius="5px" sx={{background: "linear-gradient(45deg, #6D48D9 0%, #8F65B0 100%)"}}> 
+          
+            {/* Conditionally render content based on displayedContent state */}
+            {displayedContent === 'yourPlans' && (
+              <>
+                <Typography variant="h3" fontWeight="bold" color="white" sx={{m: "2vh 0.5vw 3vh 0.5vw"}}>Your Plans</Typography>
+                {plans.map(trip => (
+                  <TripDetailCard tripname={trip.planname} budget={trip.budget} date={trip.date} key={trip.planname}/>
+                ))}
+              </>
+            )}
+
+            {displayedContent === 'pastPlans' && (
+              <>
+                <Typography variant="h3" fontWeight="bold" color="white" sx={{m: "2vh 0.5vw 3vh 0.5vw"}}>Past Plans</Typography>
+                {/* Render past plans here */}
+                {pastPlans.map(trip => (
+                  <TripDetailCard tripname={trip.planname} budget={trip.budget} date={trip.date} key={trip.planname}/>
+                ))}
+              </>
+            )}
+
+            {displayedContent === 'yourProfile' && (
+              <>
+                <Typography variant="h3" fontWeight="bold" color="white" sx={{m: "2vh 0.5vw 3vh 0.5vw"}}>Your Profile</Typography>
+                <YourProfile prof={profileDetails}/>
+              </>
+            )}
+            
           </Box>
+          <Button variant="contained" size="large" sx={{ml: "10rem", fontSize: "1.2rem"}}>
+              Back to home
+            </Button>
         </Box>
       </Box>
     </>
-  );
+  )
 }
 
+
+
 function TripDetailCard(props) {
-  return (
-    <Card
-      variant="outlined"
-      sx={{ m: "2vh 0", backgroundColor: "#ECF4D6", color: "#265073" }}
-    >
-      <CardContent
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "16px",
-        }}
-      >
-        <Typography
-          variant="h4"
-          component="h1"
-          fontWeight="bold"
-          style={{ minWidth: "20vw" }}
-        >
+  return(
+    <Card variant="outlined" sx={{m: "2vh 0", pb:"0",minHeight:"1vh", color: "#265073"}}>
+      <CardContent sx={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px"}}>
+        
+        <Typography variant="h5" component="h1" fontWeight="bold" style={{minWidth: "20vw"}}>
           {props.tripname}
         </Typography>
-
-        <Typography variant="h4" component="h1" style={{ minWidth: "12vw" }}>
+        
+        <Typography variant="h5" component="h1" style={{minWidth: "12vw"}}>
           Budget: Rs. {props.budget}
         </Typography>
-
-        <Typography variant="h4" component="h1" style={{ minWidth: "10vw" }}>
+        
+        <Typography variant="h5" component="h1" style={{minWidth: "10vw"}}>
           Date: {props.date}
         </Typography>
-        <Button
-          variant="contained"
-          size="medium"
-          style={{ fontSize: "1.2rem" }}
-        >
+        <Button variant="contained" size="medium" style={{fontSize: "1.2rem"}}>
           VIEW
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-function ProdileDetails(props) {
-  return (
-    <div style={{ padding: "5vh ", display: "flex", alignItems: "center" }}>
-      <img
-        src={props.img}
-        style={{
-          width: "10rem",
-          height: "10rem",
-          borderRadius: "5rem",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
-      <div style={{ marginLeft: "1vw" }}>
-        <Typography variant="h3" fontWeight="bold">
-          {props.name}
-        </Typography>
-        <Typography variant="h4" component="h1" color="rgba(0, 0, 0, 0.49)">
-          {props.username}
-        </Typography>
-      </div>
-    </div>
+function YourProfile(props) {
 
-    // <div style={{width: "10rem", height: "10rem", border: "1px solid black", borderRadius: "5rem"}}>
+  return(
+    <>
+      <Card variant="outlined" sx={{m: "2vh 0", p:"2rem",minHeight:"40vh", color: "#265073", display: "flex"}}>
+        <div style={{margin: "3rem"}}>
+          <div style={{borderRadius:"10rem", border:"2px solid black", height:"14rem", width:"14rem"}}>
+        </div>
+        </div>
+        <div style={{margin: "3rem"}}>
+          <div>
+            <Typography variant="h3" component="h1" fontWeight="bold">
+              {props.prof.firstname} {props.prof.lastname}
+            </Typography>
+            <Typography variant="h4" component="h1">
+              @{props.prof.username}
+            </Typography>
+          </div>
 
-    // </div>
-  );
+          <div style={{margin: "2vh 0"}}>
+            <Typography variant="h5" component="h1">
+              <span style={{fontWeight:"bold"}}>email:</span> {props.prof.email}
+
+            </Typography>
+          </div>
+          <Button variant="outlined">
+              Edit profile
+            </Button>
+        </div>
+
+        
+      </Card>
+    </>
+  )
 }
 
-export default Dashboard;
+export default Dashboard;
