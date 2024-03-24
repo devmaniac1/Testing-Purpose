@@ -17,19 +17,16 @@ import {
   AccordionDetails,
   Modal,
   Box,
-  TextField
+  TextField,
 } from "@mui/material";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import testIMG from "./images/Slide images/slideI3.jpg";
 
-
-
 // Event Details Sample Array
 const eventDetails = [
-  {eventName: "Tomorrow Land", price: 10000, date: "2022/02/15"},
-  {eventName: "Tomorrow Land", price: 10000, date: "2022/02/15"},
+  { eventName: "Tomorrow Land", price: 10000, date: "2022/02/15" },
+  { eventName: "Tomorrow Land", price: 10000, date: "2022/02/15" },
 ];
-
 
 // let days = [];
 
@@ -52,15 +49,12 @@ function Itinerary({
   const [filteredPlacesData, setFilteredPlacesData] = useState(null);
   const [days, setDays] = useState([]);
   const [travelBudget, setTravelBudget] = useState(null);
+  const [events, setEvents] = useState(null);
 
   const toDateObj = new Date(toDate);
   const fromDateObj = new Date(fromDate);
   const differenceInTime = toDateObj.getTime() - fromDateObj.getTime();
   const numberOfDays = differenceInTime / (1000 * 3600 * 24);
-
-
-  
-
 
   const addDay = (day) => {
     setDays((existingDays) => [...existingDays, day]);
@@ -93,6 +87,18 @@ function Itinerary({
           }
         );
         setPlacesData(reponcePlaces.data.top_sights.sights);
+
+        const responseEvents = await axios.get(
+          "http://localhost:3001/serpAPI/events",
+          {
+            params: {
+              toLocation: toLocation,
+              fromDate: fromDate,
+            },
+          }
+        );
+
+        setEvents(responseEvents.data.events_results);
 
         if (busRoute) {
           // console.log(busRoute);
@@ -213,8 +219,8 @@ function Itinerary({
       {days && <DaysDetailsCard days={days} toLocation={toLocation} />}
       {/* <DayDetailCard placeInfo={placesDetails} /> */}
 
-      <EventsCard/>
-      
+      {events && <EventsCard events={events}></EventsCard>}
+
       <BudgetTrackerCard travelBudget={travelBudget} />
     </div>
   );
@@ -806,57 +812,57 @@ function BudgetTrackerCard({ travelBudget }) {
   );
 }
 
-
-
-
-function EventsCard(prop) {
-  return(
+function EventsCard({ events }) {
+  return (
     <div>
       <Card
-      style={{
-        // padding: "20px",
-        margin: "1.6rem 4rem",
-      }} >
-        <Typography
-        sx={{
-          fontSize: "2.4rem",
-          fontFamily: "Poppins",
-          fontWeight: "700",
-          margin: "1.6rem",
+        style={{
+          // padding: "20px",
+          margin: "1.6rem 4rem",
         }}
+      >
+        <Typography
+          sx={{
+            fontSize: "2.4rem",
+            fontFamily: "Poppins",
+            fontWeight: "700",
+            margin: "1.6rem",
+          }}
         >
           Events
         </Typography>
-        {eventDetails.map((e) => (
-          <SingleEventCard event={e} />
+        {events.map((event) => (
+          <SingleEventCard event={event} />
         ))}
       </Card>
     </div>
-  )
+  );
 }
 
-function SingleEventCard(props){
-  return(
-    <Card variant="outlined"
-        style={{
-          padding: "20px",
-          margin: "1.6rem 4rem", display: "flex", justifyContent: "space-between"
-        }} >
+function SingleEventCard({ event }) {
+  return (
+    <Card
+      variant="outlined"
+      style={{
+        padding: "20px",
+        margin: "1.6rem 4rem",
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
       <Typography variant="h5" fontWeight="bold">
-        {props.event.eventName}
+        {event.title}
       </Typography>
 
-      <Typography variant="h5" >
-        <span style={{fontWeight: "bold"}}>Price:</span> {props.event.price}.00
+      <Typography variant="h5">
+        <span style={{ fontWeight: "bold" }}>Price:</span>
+        .00
       </Typography>
 
-      <Typography variant="h5" >
-        {props.event.date}
-      </Typography>
+      <Typography variant="h5">{event.date.start_date}</Typography>
     </Card>
-  )
+  );
 }
-
 
 function ExpenseCard() {
   return <div>sgsgsdg</div>;
@@ -875,7 +881,7 @@ function CustomizePlanModal() {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen} sx={{ml: "46%"}}>
+      <Button variant="contained" onClick={handleOpen} sx={{ ml: "46%" }}>
         Customize Plan
       </Button>
       <Modal
@@ -884,21 +890,26 @@ function CustomizePlanModal() {
         aria-labelledby="customize-plan-modal"
         aria-describedby="customize-plan-form"
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Box
           sx={{
-            bgcolor: 'background.paper',
+            bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
-            width: '40%',
+            width: "40%",
             borderRadius: 4,
           }}
         >
-          <Typography variant="h3" fontWeight="bold" align="center" gutterBottom>
+          <Typography
+            variant="h3"
+            fontWeight="bold"
+            align="center"
+            gutterBottom
+          >
             Customize Your Plan
           </Typography>
           <form onSubmit={handleSubmit}>
