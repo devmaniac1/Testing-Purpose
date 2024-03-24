@@ -1,131 +1,139 @@
-import React, { useState, useEffect, useRef } from "react";
-import heroImage from "../images/hero1.jpg";
-import { Link } from "react-router-dom";
-
-/* Slide images */
-import slideI1 from "../images/Slide images/slideI1.jpg";
-import slideI2 from "../images/Slide images/slideI2.jpg";
-import slideI3 from "../images/Slide images/slideI3.jpg";
-import slideI4 from "../images/Slide images/slideI4.jpg";
-
+import "./TranslateComponent/i18n.js";
 import "./Home.css";
-import Navbar from "../Navbar.js";
-// import Login from "../Login.js";
+import { ReactTyped } from "react-typed";
+import { Button, Card } from "@mui/material";
+import { Fade } from "react-awesome-reveal";
+import { Carousel } from "antd";
+import Kandy1 from "./Images/kandy.jpg";
+import Kandy2 from "./Images/kandy (2).jpg";
+import Galle from "./Images/galle (2).jpg"
+import NuwaraEliya from "./Images/nuwera (3).jpg"
+import KommunicateChat from "../Chat.js";
+import { Link } from "react-router-dom";
 import {
   FaFacebookF,
   FaInstagram,
   FaTwitter,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { useScroll, motion, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
-import Dashboard from "../Dashboard.js";
-import Itinerary from "../Itinerary.js";
+import Navbar from "./Navbar";
+import { useTranslation } from "react-i18next";
 
-const Items = ["Popular Destinations", "About", "Contact Us"];
+// import { useTranslation } from "react-i18next";
 
-function Home({ viewportWidth }) {
-  const ctaRef = useRef(null);
-  // const [signUp, setSignUp] = useState(false);
-  // const navigate = useNavigate();
-  // const handleGenerateClick = () => {
-  //   // Perform form validation or data processing here (if needed)
-  //   navigate("/applicationInterface"); // Navigate to the desired route
-  // };
-  // unction handleClick(e) {
-  //   e.preventDefault();
-  //   setSignUp(!signUp);
-  // }f
-  const scrollToCTA = (e) => {
-    e.preventDefault();
-    ctaRef.current.scrollIntoView({ behavior: "smooth" });
-  };
-
+function App() {
   return (
-    <>
-      <Dashboard/>
-      <Hero viewportWidth={viewportWidth} scrollToCTA={scrollToCTA} />
-      <CTA ref={ctaRef} />
-      <Features />
-      <HowWorksItems />
+
+    <div className="app">
+      <Navbar />
+
+      <Header />
+
+      <Services />
+      <HowItWorks />
+      <PopularDestination />
+
       <Footer />
-    </>
+      <KommunicateChat />
+    </div>
   );
 }
 
-function Hero({ viewportWidth, scrollToCTA }) {
-  const handleClick = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    scrollToCTA(); // Call scrollToCTA function when clicked
-  };
-  const style = { position: "absolute", color: "#fff" };
+function NavBar() {
+  const { t } = useTranslation();
 
   return (
-    <section className="section section--hero">
-      <Navbar viewportWidth={viewportWidth} style={style} items={Items} />
-      <img src={heroImage} alt="hero" />
-      <div className="hero--textbox">
-        <p className="hero-header">Explore the World with Travel Amigo</p>
-        <p className="hero-text">
-          Are you ready to embark on the journey of a lifetime? At Travel Amigo,
-          we specialize in crafting unforgettable travel experiences tailored to
-          your desires.
-        </p>
-        <div className="btns--cta">
-          <Button
-            fontSize={1.6}
-            color={"#fff"}
-            padding={"1.6rem 3.2rem"}
-            onClick={handleClick}
-          >
-            Start Planning
-          </Button>
-          <Link to="/signUp">
-            <Button
-              // handleClick={handleClick}
-              fontSize={1.6}
-              color={"#fff"}
-              padding={"1.6rem 3.2rem"}
-            >
-              Sign Up
-            </Button>
-          </Link>
-        </div>
-      </div>
-      <Button color={"#fff"} fontSize={1.6} padding={"1.6rem 3.2rem"}>
-        Learn More<span> &darr;</span>
-      </Button>
-    </section>
-  );
-}
+    <div className="main--navigation">
+      <h4>Lankan Amigo</h4>
 
-const CTA = React.forwardRef((props, ref) => {
-  const [startPlan, setStartPlan] = useState(false);
+      <nav>
+        <ul>
+          <li>Home</li>
 
-  function handleStartPlan(e) {
-    e.preventDefault();
-    setStartPlan(!startPlan);
-  }
+          <li>Feature</li>
 
-  return (
-    <section className="section--cta" ref={ref}>
-      <p className="cta--header">Start Planning and save your time by half</p>
-      <div className="btns--cta">
+          <li>Team</li>
+
+          <li>Ask Amigo</li>
+
+          <li>Contact</li>
+        </ul>
+      </nav>
+
+      <div style={{ display: "flex", alignItems: "center", gap: "1.6rem" }}>
         <Button
-          fontSize={1.4}
-          color={"#fff"}
-          padding={"1.6rem 2.4rem"}
-          handleClick={handleStartPlan}
-        >
-          Start Planning
-        </Button>
-        <Button fontSize={1.4} color={"#fff"} padding={"1.6rem 2.4rem"}>
+          sx={{
+            fontFamily: "Poppins",
+            fontSize: "2.4rem",
+            margin: "0",
+            padding: "0",
+          }}>
           Sign Up
         </Button>
+        <Button
+          sx={{
+            fontFamily: "Poppins",
+            fontSize: "2.4rem",
+            margin: "0",
+            padding: "0",
+          }}>
+          Login{" "}
+        </Button>
       </div>
-      {startPlan && <GeneratePlan />}
-    </section>
+    </div>
   );
-});
+}
+
+function Header() {
+  const { t } = useTranslation();
+  const {
+    line1,
+    line2,
+    line3,
+    line4,
+    line5,
+    line6,
+    line7,
+    line8,
+    line9,
+    line10,
+    line11,
+    line12,
+    line13,
+    line14,
+    line15,
+    line16,
+    line17,
+    line18,
+  } = t("header");
+  return (
+    <div className="main--header">
+      <div className="main--header--text">
+        <Fade direction="up" duration={500} cascade={true}>
+          <p>{line1}</p>
+        </Fade>
+        <Fade direction="up" delay={200} duration={500}>
+          <p className="header--subtext">{line2}</p>
+        </Fade>
+        <Fade>
+          <p className="header--typed">
+            {line3}{" "}
+            <ReactTyped
+              strings={[`${line4}`, line5, line6]}
+              typeSpeed={40}
+              backSpeed={50}
+              loop
+            />
+          </p>
+        </Fade>
+      </div>
+      <GeneratePlan />
+    </div>
+  );
+}
 
 function GeneratePlan() {
   const [fromLocation, setFromLocation] = useState("");
@@ -138,12 +146,13 @@ function GeneratePlan() {
     googleMapsApiKey: "AIzaSyBkePZHNAeceiSPlP4LuZIPd28NpBJcaF8",
     libraries: ["places"],
   });
+  const { t } = useTranslation();
   /** @type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef();
   /** @type React.MutableRefObject<HTMLInputElement> */
   const destiantionRef = useRef();
   if (!isLoaded) {
-    return <div>Wrong Api</div>;
+    return <div>Loading....</div>;
   }
 
   const handleSubmit = (e) => {
@@ -181,47 +190,68 @@ function GeneratePlan() {
     setTravelMode(e.target.value);
   };
 
-  // const handled
+  const allInputsFilled = () => {
+    return (
+      fromLocation.trim() !== "" &&
+      toLocation.trim() !== "" &&
+      fromDate.trim() !== "" &&
+      toDate.trim() !== "" &&
+      // budget.trim() !== "" &&
+      travelMode.trim() !== ""
+    );
+  };
+
+  const {
+    line7,
+    line8,
+    line9,
+    line10,
+    line11,
+    line12,
+    line13,
+    line14,
+    line15,
+    line16,
+    line17,
+    line18,
+  } = t("header");
 
   return (
-    <section className="section--generate">
-      <p className="generate--header">Create your plan</p>
-      <p className="generate--text">Select location and dates to get started</p>
-      <form onSubmit={handleSubmit}>
-        <div className="location--details">
-          <label>From</label>
+    <div className="main--generate">
+      <p className="generate--header">{line18}</p>
+      <div className="generate--grid">
+        <div className="from">
+          <label>{line7}</label>
           <Autocomplete>
             <input
               type="text"
               value={fromLocation}
               onChange={handleOriginChange}
               onBlur={handleOriginAutocomplete}
-              ref={originRef}
-            ></input>
+              ref={originRef}></input>
           </Autocomplete>
         </div>
-        <div className="location--details">
-          <label>Destination</label>
+        <div className="to">
+          <label>{line8}</label>
           <Autocomplete>
             <input
               type="text"
               value={toLocation}
               onChange={handleDestinationChange}
               onBlur={handleDestinationAutocomplete}
-              ref={destiantionRef}
-            ></input>
+              ref={destiantionRef}></input>
           </Autocomplete>
         </div>
-        <div className="location--details">
-          <label>Start Date</label>
+        <div className="date--from">
+          <label>{line9}</label>
           <input type="date" onChange={handleFromDate} value={fromDate}></input>
         </div>
-        <div className="location--details">
-          <label>End Date</label>
+        <div className="date--to">
+          <label>{line10}</label>
           <input type="date" onChange={handleToDate} value={toDate}></input>
         </div>
-        <div className="location--details">
-          <label>Mode</label>
+        <div className="mode">
+          <label>{line11}</label>
           <select onChange={handleTravelMode} value={travelMode}>
             <option value="">Select mode</option>
             <option value="bus">Bus</option>
@@ -229,93 +259,275 @@ function GeneratePlan() {
             <option value="own vehicle">Own Vehicle</option>
           </select>
         </div>
-        <div className="location--details">
-          <label>Budget</label>
+        <div className="budget">
+          <label>{line15}</label>
           <input type="number" onChange={handleBudget} value={budget}></input>
         </div>
-        {/* Testing Purpose OnMouseEnter */}
-        {originRef.current &&
-          destiantionRef.current &&
-          originRef.current.value &&
-          destiantionRef.current.value && (
-            <Link
-              to="/trip"
-              state={{
-                from: fromLocation,
-                to: toLocation,
-                fromDate: fromDate,
-                toDate: toDate,
-                budget: budget,
-                travelMode: travelMode,
-              }}
-            >
-              <button>Generate</button>
-            </Link>
-          )}
-      </form>
-    </section>
-  );
-}
-
-/*How Works JS*/
-
-function StepBox({ text, number, style }) {
-  return (
-    <div className={`step-box ${style}`}>
-      <div className="step-content">
-        <div className="step-number">{number}</div>
-        <div className="step-text">{text}</div>
+      </div>
+      <div className="cta--btns">
+        <Button
+          sx={{
+            fontSize: "1.6rem",
+            backgroundColor: "#333",
+            borderRadius: "0.8rem",
+          }}>
+          {line16}
+        </Button>
+        <Link
+          to="/trip"
+          state={{
+            from: fromLocation,
+            to: toLocation,
+            fromDate: fromDate,
+            toDate: toDate,
+            budget: budget,
+            travelMode: travelMode,
+          }}>
+          <Button
+            sx={{
+              fontSize: "1.6rem",
+              backgroundColor: "#333",
+              borderRadius: "0.8rem",
+            }}
+            disabled={!isLoaded || !allInputsFilled()}>
+            {line17}
+          </Button>
+        </Link>
       </div>
     </div>
   );
 }
 
-function HowWorksItems() {
-  const steps = [
-    "Select Your Destination",
-    "Choose Your Accommodations",
-    "Get Recommendations & Plan Your Trip",
-    "Have a great time with your Friends!",
-  ];
-  const images = [slideI1, slideI2, slideI3, slideI4];
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  return (
-    <>
-      <p className="header">
-        How <span className="lankan-amigo">Lankan Amigo</span> Works!
-      </p>
-      <div className="HowWorksContainer">
-        <div className="steps">
-          {steps.map((step, index) => (
-            <StepBox
-              key={index}
-              text={step}
-              number={index + 1}
-              style={index % 2 === 0 ? "stepstyle1" : "stepstyle2"}
-            />
-          ))}
-        </div>
-
-        <div className="slideshow">
-          <img
-            src={images[currentImageIndex]}
-            alt={`Slide ${currentImageIndex + 1}`}
+function Services() {
+  const { t } = useTranslation();
+  const { line1, line2, line3, line4, line5, line6 } = t("services");
+  const services = [
+    {
+      service: line2,
+      svg: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 service--icon">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
           />
-        </div>
+        </svg>
+      ),
+    },
+    {
+      service: line3,
+      svg: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 service--icon">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+          />
+        </svg>
+      ),
+    },
+    {
+      service: line4,
+      svg: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 service--icon">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+          />
+        </svg>
+      ),
+    },
+    {
+      service: line5,
+      svg: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 service--icon">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+          />
+        </svg>
+      ),
+    },
+    {
+      service: line6,
+      svg: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 service--icon">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      ),
+    },
+  ];
+  return (
+    <div className="services--main">
+      <p className="services--header">{line1}</p>
+
+      <div className="all--services">
+        {services.map((service, index) => (
+          <Fade
+            cascade={false}
+            delay={index * 50}
+            direction="up"
+            // triggerOnce={true}
+          >
+            <Service service={service} />
+          </Fade>
+        ))}
       </div>
-    </>
+    </div>
   );
 }
 
+function Service({ service }) {
+  return (
+    <div className="service">
+      {service.svg}
+      <p>{service.service}</p>
+    </div>
+  );
+}
+
+function HowItWorks() {
+  const { t } = useTranslation();
+  const { line1, line2 } = t("howItWorks");
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["0 1", "1.33 1"],
+  });
+  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
+
+  return (
+    <motion.section
+      ref={ref}
+      style={{
+        scale: scaleProgress,
+        opacity: scrollYProgress,
+      }}>
+      <Fade
+        direction="up"
+        duration={1000}
+        // cascade={true}
+        //  triggerOnce={true}
+      >
+        <div className="works--main">
+          <p className="header">{line1}</p>
+          <p className="text">{line2}</p>
+          <div className="works--steps">
+            <div className="work--step"></div>
+            <div className="work--step"></div>
+            <div className="work--step"></div>
+          </div>
+        </div>
+      </Fade>
+    </motion.section>
+  );
+}
+
+function PopularDestination() {
+  const { t } = useTranslation();
+  const { line1, line2, line3 } = t("popularDestination");
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["0 1", "1.33 1"],
+  });
+  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
+
+  const destinations = [
+    { name: "Ella", img: Kandy1 },
+    { name: "Kandy", img: Kandy2 },
+    { name: "Galle", img: Galle },
+    { name: "Nuwara Eliya", img: NuwaraEliya },
+  ];
+  return (
+    <motion.section
+      ref={ref}
+      style={{
+        scale: scaleProgress,
+        opacity: scrollYProgress,
+      }}>
+      <Fade
+        direction="up"
+        duration={1000}
+      >
+        <div className="destination--main">
+          <p className="header">{line1}</p>
+          <p className="text">{line2}</p>
+          
+        </div>
+
+        <div className="gallery-grid" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {destinations.map((destination, index) => (
+              <GalleryItem key={index} destination={destination} />
+            ))}
+          </div>
+      </Fade>
+      
+    </motion.section>
+    
+  );
+}
+function GalleryItem({ destination }) {
+  return (
+    <div className="gallery-item">
+      
+       <img
+        src={destination.img}
+        alt={destination.name}
+        style={{ width: '300px',
+        height: '280px',
+        padding: '5px',
+        borderRadius: '15px',
+        margin: '5px',
+        objectFit: 'cover',}} 
+      />
+        <p className="destination-name" style={{ margin: '5px', fontSize: '2rem', fontFamily: '"Inria Serif", serif', textAlign: 'center' }}>
+        {destination.name}
+      </p>      
+    </div>
+  );
+}
 function Footer() {
   return (
     <div className="footer">
@@ -323,14 +535,7 @@ function Footer() {
         <div className="footer-links">
           <div className="footer-links-div">
             <h4>Plan Your Trip</h4>
-            <div>
-              <Link to="/explore">Destination</Link>
-              <Link to="/accommodation">Accommodations</Link>
-              <Link to="/activities">Book Activities</Link>
-              <Link to="/experiences">Discover Experiences</Link>
-              <Link to="/budgettips">Budgeting Tips</Link>
-              <Link to="/customizeplan">Customize Your Plan</Link>
-            </div>
+            <div></div>
           </div>
           <div className="footer-links-div">
             <h4>Our Partners</h4>
@@ -370,8 +575,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.facebook.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaFacebookF />
                   <span>Facebook</span>
                 </a>
@@ -379,8 +583,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.instagram.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaInstagram />
                   <span>Instagram</span>
                 </a>
@@ -394,8 +597,7 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.linkedin.com"
-                  className="social-media-link"
-                >
+                  className="social-media-link">
                   <FaLinkedinIn />
                   <span>LinkedIn</span>
                 </a>
@@ -420,52 +622,4 @@ function Footer() {
   );
 }
 
-function Button({ fontSize, color, padding, handleClick, children }) {
-  const buttonStyle = {
-    color: color,
-    fontSize: `${fontSize}rem`,
-    padding: padding,
-  };
-  return (
-    <button style={buttonStyle} className="btn-cta" onClick={handleClick}>
-      {children}
-    </button>
-  );
-}
-
-/* Features page */
-function Features() {
-  return (
-    <div className="features--mainContainer">
-      <p className="features--header">
-        <span>LANKAN AMIGO</span> Features
-      </p>
-      <div className="features--CardsContainer">
-        <FeatureCards />
-      </div>
-    </div>
-  );
-}
-
-function FeatureCards() {
-  const featureList = [
-    "Sample feature sample sample 1",
-    "Sample feature sample sample 2",
-    "Sample feature sample sample 3",
-    "Sample feature sample sample 4",
-  ];
-
-  return (
-    <div className="features--featureCard">
-      {featureList.map((step, index) => (
-        <StepBox
-          key={index}
-          text={step}
-          style={index % 2 === 0 ? "stepstyle1" : "stepstyle2"}
-        />
-      ))}
-    </div>
-  );
-}
-
-export default Home;
+export default App;

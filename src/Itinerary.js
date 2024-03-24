@@ -15,9 +15,21 @@ import {
   useScrollTrigger,
   AccordionSummary,
   AccordionDetails,
+  Modal,
+  Box,
+  TextField
 } from "@mui/material";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import testIMG from "./images/Slide images/slideI3.jpg";
+
+
+
+// Event Details Sample Array
+const eventDetails = [
+  {eventName: "Tomorrow Land", price: 10000, date: "2022/02/15"},
+  {eventName: "Tomorrow Land", price: 10000, date: "2022/02/15"},
+];
+
 
 // let days = [];
 
@@ -28,6 +40,7 @@ function Itinerary({
   // budget,
   travelMode,
   response,
+  busRoute,
 }) {
   // const toLocation = "Nuwara Eliya, Sri Lanka";
   // const toDate = "2024-03-13";
@@ -38,25 +51,26 @@ function Itinerary({
   const [placesData, setPlacesData] = useState(null);
   const [filteredPlacesData, setFilteredPlacesData] = useState(null);
   const [days, setDays] = useState([]);
-  const [travelBudget, setTravelBudget] = useState([]);
+  const [travelBudget, setTravelBudget] = useState(null);
 
   const toDateObj = new Date(toDate);
   const fromDateObj = new Date(fromDate);
   const differenceInTime = toDateObj.getTime() - fromDateObj.getTime();
   const numberOfDays = differenceInTime / (1000 * 3600 * 24);
 
+
+  
+
+
   const addDay = (day) => {
     setDays((existingDays) => [...existingDays, day]);
   };
 
-  // const numberOfDays = 3; //Temporary
-  // console.log(numberOfDays);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log((budget * 0.6) / 307.56 / numberOfDays);
         const response = await axios.get(
-          "http://localhost:3001/serpAPI/Google-hotels",
+          "https://pear-wandering-sea-lion.cyclic.app/serpAPI/Google-hotels",
           {
             params: {
               toLocation: toLocation,
@@ -67,12 +81,11 @@ function Itinerary({
             },
           }
         );
-        // console.log(response);
 
         setHotelsData(response.data.properties);
         // console.log(toLocation);
         const reponcePlaces = await axios.get(
-          "http://localhost:3001/serpAPI/places",
+          "https://pear-wandering-sea-lion.cyclic.app/serpAPI/places",
           {
             params: {
               toLocation: toLocation,
@@ -80,13 +93,32 @@ function Itinerary({
           }
         );
         setPlacesData(reponcePlaces.data.top_sights.sights);
+
+        if (busRoute) {
+          // console.log(busRoute);
+          const busRequests = busRoute.map(async (bus) => {
+            if (bus.num_stops) {
+              console.log(bus.num_stops);
+              const res = await axios.get(
+                "https://pear-wandering-sea-lion.cyclic.app/busFare",
+                {
+                  params: { StopFare: bus.num_stops },
+                }
+              );
+              return res.data;
+            }
+          });
+          setTravelBudget(await Promise.all(busRequests));
+
+          // console.log("Bus Fares :", travelBudget);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [busRoute]);
 
   useEffect(() => {
     if (hotelsData && placesData) {
@@ -121,11 +153,7 @@ function Itinerary({
 
   function filterNearby(placesData) {
     placesData.sort((a, b) => b.rating - a.rating);
-    // const meanReviews =
-    //   placesData.reduce((acc, cur) => {
-    //     typeof cur.reviews === "number" ? (acc += cur.reviews) : (acc += 0);
-    //     return acc;
-    //   }, 0) / placesData.length;
+
     const filteredData = placesData.filter(
       (place) =>
         place.description === "Tourist attraction" ||
@@ -168,57 +196,6 @@ function Itinerary({
       }
     }
   };
-  // const getTransportBudget = async (routeCode) => {
-  //   try {
-  //     console.log("fafa");
-  //     const routePrice = await axios.get("http://localhost:3001/busFare", {
-  //       params: { routeNumber: routeCode },
-  //     });
-  //     console.log(routePrice);
-  //     setTravelBudget((existingPrice) => ({ ...existingPrice, routePrice }));
-  //     console.log(travelBudget);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // response &&
-  //   response.routes[0].legs[0].steps.map((step) => {
-  //     step.transit &&
-  //       step.transit.line &&
-  //       step.transit.line.short_name &&
-  //       getTransportBudget(step.transit.line.short_name);
-  //   });
-  // const getTransportBudget = async (RouteNumber) => {
-  //   try {
-  //     const response = await axios.get("http://localhost:3001/busFare", {
-  //       params: { RouteNumber: RouteNumber },
-  //     });
-  //     console.log("Route price response:", response.data);
-  //     // const routePrice = response.data;
-  //     response.data[0] &&
-  //       setTravelBudget((existingBudget) => [
-  //         ...existingBudget,
-  //         response.data[0],
-  //       ]);
-  //     console.log(travelBudget);
-  //   } catch (error) {
-  //     console.error("Error fetching route price:", error);
-  //   }
-  // };
-  useEffect(() => {
-    // setTravelBudget([]);
-    response &&
-      response.routes[0].legs[0].steps.forEach((step, index) => {
-        // console.log(index);
-        if (step.transit && step.transit.line && step.transit.line.short_name)
-          console.log();
-        // getTransportBudget(step.transit.line.short_name);
-        // step.transit &&
-        //   step.transit.line &&
-        //   step.transit.line.short_name &&
-        //   getTransportBudget(step.transit.line.short_name);
-      });
-  });
 
   return (
     <div className="main_itinerary">
@@ -227,6 +204,7 @@ function Itinerary({
         fromDate={fromDate}
         toDate={toDate}
       />
+      <CustomizePlanModal />
       <AllAccommodationsCard
         filteredHotel={filteredHotel}
         toLocation={toLocation}
@@ -234,6 +212,9 @@ function Itinerary({
       />
       {days && <DaysDetailsCard days={days} toLocation={toLocation} />}
       {/* <DayDetailCard placeInfo={placesDetails} /> */}
+
+      <EventsCard/>
+      
       <BudgetTrackerCard travelBudget={travelBudget} />
     </div>
   );
@@ -271,104 +252,9 @@ function BannerContainer({ toLocation, fromDate, toDate }) {
   );
 }
 
-/* Full Plan Details component */
-// function FullPlan() {
-//   return (
-//     <div className="Full-Plan">
-//       <div>
-//         <h1>Full Plan</h1>
-//         <div>
-//           <Buttons name="Edit plan" />
-//         </div>
-//         <div>
-//           <Buttons name="Add to my plans" />
-//         </div>
-//       </div>
-//       <AllDates />
-//     </div>
-//   );
-// }
-
 function Buttons(props) {
   return <button className="btn">{props.name}</button>;
 }
-
-// function AllDates() {
-//   return (
-//     <div className="All-Dates">
-//       <VerticalTimeline layout={"1-column-left"} lineColor={"#254E72"}>
-//         {days.map((day) => {
-//           return (
-//             <VerticalTimelineElement
-//               key={day.day}
-//               iconStyle={{ background: "#254E72" }}
-//               contentStyle={{
-//                 backgroundColor: "#e2f5f3",
-//                 boxShadow: "0px 0px 0px 0px",
-//               }}
-//               iconClassName="icon"
-//               contentArrowStyle={{ display: "none" }}
-//             >
-//               <div className="day">DAY {day.day}</div>
-//               <div className="items">
-//                 <div>
-//                   <span>Date : </span>
-//                   {day.date}
-//                 </div>
-//                 <div>
-//                   <span>Location : </span>
-//                   {day.location}
-//                 </div>
-//                 <div>
-//                   <span>Accomadation : </span>
-//                   {day.accommadation}
-//                 </div>
-//                 <div>
-//                   <span>Accom. Price : </span>
-//                   {day.accPrice}
-//                 </div>
-//                 <div>
-//                   <span>Places to visit : </span>
-//                 </div>
-//                 <div className="sub-items">
-//                   {day.placesToVisit.length !== 0 &&
-//                     day.placesToVisit.map((place) => {
-//                       return <div>{place}</div>;
-//                     })}
-//                 </div>
-//                 {day.events !== 0 && (
-//                   <div>
-//                     <span>Events : </span>
-//                     {day.events.length === 0
-//                       ? "No events for this day"
-//                       : day.events.join(", ")}
-//                   </div>
-//                 )}
-//                 <div>
-//                   <span>Food allocation per head : </span>
-//                 </div>
-//                 <div className="sub-items">
-//                   <div>
-//                     <span>Breakfast : </span>
-//                     {day.foodAlloc.breakfast}
-//                   </div>
-//                   <div>
-//                     <span>Lunch : </span>
-//                     {day.foodAlloc.lunch}
-//                   </div>
-//                   <div>
-//                     <span>Dinner : </span>
-//                     {day.foodAlloc.dinner}
-//                   </div>
-//                 </div>
-//               </div>
-//             </VerticalTimelineElement>
-//           );
-//         })}
-//       </VerticalTimeline>
-//     </div>
-//   );
-// }
 
 //New Components
 
@@ -553,7 +439,6 @@ function DaysDetailsCard({ days, toLocation }) {
 
 function DayCard({ dayNumber, day }) {
   return (
-    // <Card sx={{ m: "1.6rem" }}>
     <Accordion
       sx={{
         margin: "1.6rem 1rem 2.4rem 1rem",
@@ -580,32 +465,6 @@ function DayCard({ dayNumber, day }) {
         <SingleDayCard dayNumber={dayNumber} day={day} />
       </AccordionDetails>
     </Accordion>
-    // <Typography variant="h4" component="h1" fontWeight="bold">
-    //   <SingleDayCard dayNumber={dayNumber} day={day} />
-    // </Typography>
-    // </Card>
-  );
-}
-
-function DayDetailCard(props) {
-  return (
-    <Card
-      variant="outlined"
-      style={{
-        width: "33vw",
-        alignSelf: "center",
-        marginTop: "2rem",
-        padding: "0 18px",
-        backgroundColor: "white",
-        maxHeight: "0",
-        overflow: "hidden",
-        transition: "max-height 0.2s ease-out",
-      }}
-    >
-      {props.placeInfo.map((x, index) => (
-        <SingleDayCard x={x} dayIn={index + 1} />
-      ))}
-    </Card>
   );
 }
 
@@ -786,7 +645,12 @@ function BudgetTrackerCard({ travelBudget }) {
                 margin: "0 1.6rem 1.6rem 4.8rem",
               }}
             >
-              1,500.00
+              {/* {travelBudget &&
+                travelBudget.reduce((accumulator, currentValue) => {
+                  // console.log(currentValue[0]);
+                  return accumulator + currentValue[0].RouteFare; */}
+              {/* }, 0) * 2} */}
+              .00
             </Typography>
           </div>
           <div
@@ -815,6 +679,46 @@ function BudgetTrackerCard({ travelBudget }) {
               }}
             >
               1,000.00
+            </Typography>
+          </div>
+        </div>
+        <div>
+          <Typography
+            sx={{
+              fontSize: "1.6rem",
+              fontFamily: "Poppins",
+              fontWeight: "400",
+              margin: "0 4.8rem 1.6rem 4.8rem",
+            }}
+          >
+            Accommodation Expenses
+          </Typography>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              margin: "0 4.8rem 1.6rem 4.8rem",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "1.6rem",
+                fontFamily: "Poppins",
+                fontWeight: "400",
+                margin: "0 1.6rem 1.6rem 4.8rem",
+              }}
+            >
+              Selected Accommodation
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "1.6rem",
+                fontFamily: "Poppins",
+                fontWeight: "400",
+                margin: "0 1.6rem 1.6rem 4.8rem",
+              }}
+            >
+              here .00
             </Typography>
           </div>
         </div>
@@ -902,8 +806,132 @@ function BudgetTrackerCard({ travelBudget }) {
   );
 }
 
+
+
+
+function EventsCard(prop) {
+  return(
+    <div>
+      <Card
+      style={{
+        // padding: "20px",
+        margin: "1.6rem 4rem",
+      }} >
+        <Typography
+        sx={{
+          fontSize: "2.4rem",
+          fontFamily: "Poppins",
+          fontWeight: "700",
+          margin: "1.6rem",
+        }}
+        >
+          Events
+        </Typography>
+        {eventDetails.map((e) => (
+          <SingleEventCard event={e} />
+        ))}
+      </Card>
+    </div>
+  )
+}
+
+function SingleEventCard(props){
+  return(
+    <Card variant="outlined"
+        style={{
+          padding: "20px",
+          margin: "1.6rem 4rem", display: "flex", justifyContent: "space-between"
+        }} >
+      <Typography variant="h5" fontWeight="bold">
+        {props.event.eventName}
+      </Typography>
+
+      <Typography variant="h5" >
+        <span style={{fontWeight: "bold"}}>Price:</span> {props.event.price}.00
+      </Typography>
+
+      <Typography variant="h5" >
+        {props.event.date}
+      </Typography>
+    </Card>
+  )
+}
+
+
 function ExpenseCard() {
   return <div>sgsgsdg</div>;
+}
+
+function CustomizePlanModal() {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleSubmit = () => {
+    // Implement your logic to handle form submission here
+    handleClose(); // Close the modal after submission
+  };
+
+  return (
+    <div>
+      <Button variant="contained" onClick={handleOpen} sx={{ml: "46%"}}>
+        Customize Plan
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="customize-plan-modal"
+        aria-describedby="customize-plan-form"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            width: '40%',
+            borderRadius: 4,
+          }}
+        >
+          <Typography variant="h3" fontWeight="bold" align="center" gutterBottom>
+            Customize Your Plan
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            {/* Two Sample text fields */}
+            <TextField
+              label="Custom Field 1"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Custom Field 2"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+            {/* Add text fields as needed */}
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              size="large"
+              sx={{ mt: 2 }}
+            >
+              Done
+            </Button>
+          </form>
+        </Box>
+      </Modal>
+    </div>
+  );
 }
 
 export default Itinerary;
