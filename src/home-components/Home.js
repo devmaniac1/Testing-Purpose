@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 
 function App() {
   return (
+
     <div className="app">
       <Navbar />
 
@@ -34,6 +35,7 @@ function App() {
       <Services />
       <HowItWorks />
       <PopularDestination />
+
       <Footer />
       <KommunicateChat />
     </div>
