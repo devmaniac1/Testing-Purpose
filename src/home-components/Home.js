@@ -494,12 +494,14 @@ function PopularDestination() {
           <p className="text">{line2}</p>
           
         </div>
-      </Fade>
-      <div className="gallery-grid" style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+        <div className="gallery-grid" style={{ display: 'flex', justifyContent: 'space-between' }}>
             {destinations.map((destination, index) => (
               <GalleryItem key={index} destination={destination} />
             ))}
           </div>
+      </Fade>
+      
     </motion.section>
     
   );
