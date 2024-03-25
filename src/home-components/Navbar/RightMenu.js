@@ -4,6 +4,7 @@ import { UserOutlined, CodeOutlined, LogoutOutlined } from "@ant-design/icons";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Switch, Space } from "antd";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 const RightMenu = ({ mode }) => {
   const [language, setLanguage] = useState("en");
   const { t, i18n } = useTranslation();
@@ -30,17 +31,18 @@ const RightMenu = ({ mode }) => {
             <Avatar icon={<UserOutlined style={{ height: "1.6rem" }} />} />
             <span className="username">John Doe</span>
           </>
-        }
-      >
+        }>
         <Menu.Item key="project">
           <CodeOutlined /> Projects
         </Menu.Item>
         <Menu.Item key="about-us">
           <UserOutlined /> Profile
         </Menu.Item>
-        <Menu.Item key="log-out">
-          <LogoutOutlined /> Logout
-        </Menu.Item>
+        <Link to="/signUp">
+          <Menu.Item key="log-out">
+            <LogoutOutlined /> Account
+          </Menu.Item>
+        </Link>
       </Menu.SubMenu>
     </Menu>
   );

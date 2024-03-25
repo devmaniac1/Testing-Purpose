@@ -5,8 +5,8 @@ import { Button, Card, Grid, Typography } from "@mui/material";
 import { Fade } from "react-awesome-reveal";
 import Kandy1 from "./Images/kandy.jpg";
 import Kandy2 from "./Images/kandy (2).jpg";
-import Galle from "./Images/galle (2).jpg"
-import NuwaraEliya from "./Images/nuwera (3).jpg"
+import Galle from "./Images/galle (2).jpg";
+import NuwaraEliya from "./Images/nuwera (3).jpg";
 import KommunicateChat from "../Chat.js";
 import { Link } from "react-router-dom";
 import {
@@ -25,7 +25,6 @@ import { useTranslation } from "react-i18next";
 
 function App() {
   return (
-
     <div className="app">
       <Navbar />
 
@@ -33,8 +32,8 @@ function App() {
 
       <Services />
       <HowItWorks />
-      <div style={{backgroundColor: "black"}}>
-      <PopularDestination />
+      <div style={{ backgroundColor: "#fff" }}>
+        <PopularDestination />
       </div>
 
       <Footer />
@@ -271,7 +270,7 @@ function GeneratePlan() {
             fontSize: "1.6rem",
             backgroundColor: "#333",
             borderRadius: "0.8rem",
-            color: "white"
+            color: "white",
           }}>
           {line16}
         </Button>
@@ -290,7 +289,7 @@ function GeneratePlan() {
               fontSize: "1.6rem",
               borderRadius: "0.8rem",
               backgroundColor: "#333",
-              color: "white"
+              color: "white",
             }}
             disabled={!isLoaded || !allInputsFilled()}>
             {line17}
@@ -454,8 +453,12 @@ function HowItWorks() {
         //  triggerOnce={true}
       >
         <div className="works--main">
-          <p className="header" style={{color: "black"}}>{line1}</p>
-          <p className="text" style={{color: "black"}}>{line2}</p>
+          <p className="header" style={{ color: "black" }}>
+            {line1}
+          </p>
+          <p className="text" style={{ color: "black" }}>
+            {line2}
+          </p>
           <div className="works--steps">
             <div className="work--step"></div>
             <div className="work--step"></div>
@@ -485,16 +488,22 @@ const PopularDestination = () => {
   ];
 
   return (
-    <motion.section ref={ref} style={{ scale: scaleProgress, opacity: scrollYProgress }}>
+    <motion.section
+      ref={ref}
+      style={{ scale: scaleProgress, opacity: scrollYProgress }}>
       <Fade direction="up" duration={1000}>
         <div className="destination--main">
           <p className="header">{line1}</p>
           <p className="text">{line2}</p>
         </div>
 
-        <Grid container spacing={2}> {/* Add spacing between grid items */}
+        <Grid container spacing={2}>
+          {" "}
+          {/* Add spacing between grid items */}
           {destinations.map((destination, index) => (
-            <Grid item xs={12} sm={6} md={6} lg={3} key={index}> {/* Responsive sizing */}
+            <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
+              {" "}
+              {/* Responsive sizing */}
               <GalleryItem key={index} destination={destination} />
             </Grid>
           ))}
@@ -505,21 +514,27 @@ const PopularDestination = () => {
 };
 function GalleryItem({ destination }) {
   return (
-    <div className="gallery-item" style={{textAlign: "center"}}>
-      
-       <img
+    <div className="gallery-item" style={{ textAlign: "center" }}>
+      <img
         src={destination.img}
         alt={destination.name}
-        style={{ width: '300px',
-        height: '280px',
-        padding: '5px',
-        borderRadius: '15px',
-        margin: '5px',
-        objectFit: 'cover',}} 
+        style={{
+          width: "300px",
+          height: "280px",
+          padding: "5px",
+          borderRadius: "15px",
+          margin: "5px",
+          objectFit: "cover",
+        }}
       />
-        <Typography variant="h5" color="white" fontWeight="bold" component="h1" sx={{mb: "3rem"}}>
+      <Typography
+        variant="h5"
+        color="#000"
+        fontWeight="bold"
+        component="h1"
+        sx={{ mb: "3rem" }}>
         {destination.name}
-        </Typography>
+      </Typography>
     </div>
   );
 }

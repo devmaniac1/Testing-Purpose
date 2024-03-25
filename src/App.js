@@ -5,7 +5,7 @@ import Navbar from "./Navbar.js";
 import Map from "./Map.js";
 import FooterBar from "./FooterBar.js";
 import Home from "./home-components/Home.js";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import "./home-components/TranslateComponent/i18n.js";
 import {
@@ -98,14 +98,14 @@ function ApplicationInterface({
   });
   const [map, setMap] = useState(/** @type google.maps.Map */ (null));
   const [directionsResponse, setDirectionsResponse] = useState(null);
-  const [busRoute, setBusRoute] = useState([]);
+  const [busRoute, setBusRoute] = useState(null);
   useEffect(() => {
     if (directionsResponse) {
       const newBusRoute = [];
       directionsResponse.routes[0].legs[0].steps.forEach((step) => {
         // console.log(step);
-        if (step.transit) {
-          newBusRoute.push(step.transit);
+        if (step.transit && step.transit.num_stops) {
+          newBusRoute.push(step.transit.num_stops);
         }
       });
       setBusRoute(newBusRoute);

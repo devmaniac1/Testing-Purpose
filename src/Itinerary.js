@@ -1,11 +1,16 @@
 import "./Itinerary.css";
+import "./home-components/Home.js";
+import "./home-components/Home.css";
+
+import { Link } from "react-router-dom";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 
 import "react-vertical-timeline-component/style.min.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import {
   Accordion,
@@ -64,7 +69,7 @@ function Itinerary({
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://pear-wandering-sea-lion.cyclic.app/serpAPI/Google-hotels",
+          "https://lankanamigov2backend.onrender.com/serpAPI/Google-hotels",
           {
             params: {
               toLocation: toLocation,
@@ -77,9 +82,9 @@ function Itinerary({
         );
 
         setHotelsData(response.data.properties);
-        // console.log(toLocation);
+
         const reponcePlaces = await axios.get(
-          "https://pear-wandering-sea-lion.cyclic.app/serpAPI/places",
+          "https://lankanamigov2backend.onrender.com/serpAPI/places",
           {
             params: {
               toLocation: toLocation,
@@ -89,7 +94,7 @@ function Itinerary({
         setPlacesData(reponcePlaces.data.top_sights.sights);
 
         const responseEvents = await axios.get(
-          "http://localhost:3001/serpAPI/events",
+          "https://lankanamigov2backend.onrender.com/serpAPI/events",
           {
             params: {
               toLocation: toLocation,
@@ -101,22 +106,15 @@ function Itinerary({
         setEvents(responseEvents.data.events_results);
 
         if (busRoute) {
-          // console.log(busRoute);
-          const busRequests = busRoute.map(async (bus) => {
-            if (bus.num_stops) {
-              console.log(bus.num_stops);
-              const res = await axios.get(
-                "https://pear-wandering-sea-lion.cyclic.app/busFare",
-                {
-                  params: { StopFare: bus.num_stops },
-                }
-              );
-              return res.data;
+          const StopFare = busRoute.reduce((acc, curr) => acc + curr, 0);
+          const res = await axios.get(
+            "https://lankanamigov2backend.onrender.com/busFare",
+            {
+              params: { StopFare: StopFare },
             }
-          });
-          setTravelBudget(await Promise.all(busRequests));
+          );
 
-          // console.log("Bus Fares :", travelBudget);
+          setTravelBudget(res.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -192,9 +190,7 @@ function Itinerary({
           date: "2024-03-10",
           location: toLocation.split(",")[0],
           accommadation: filteredHotel[0].name,
-          accPrice: `${
-            filteredHotel[0].total_rate.extracted_lowest * 307.5
-          } rupees`,
+          accPrice: filteredHotel[0].total_rate.extracted_lowest * 307.5,
           placesToVisit: slicedObjects.map((obj) => obj),
           events: ["a"],
           foodAlloc: { breakfast: 200, lunch: 600, dinner: 800 },
@@ -220,8 +216,8 @@ function Itinerary({
       {/* <DayDetailCard placeInfo={placesDetails} /> */}
 
       {events && <EventsCard events={events}></EventsCard>}
-
-      <BudgetTrackerCard travelBudget={travelBudget} />
+      {/* <GeneratePlan /> */}
+      <BudgetTrackerCard travelBudget={travelBudget} days={days} />
     </div>
   );
 }
@@ -240,8 +236,7 @@ function BannerContainer({ toLocation, fromDate, toDate }) {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
-            >
+              class="w-6 h-6">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -268,15 +263,13 @@ function AllAccommodationsCard({ filteredHotel, toLocation, daysNum }) {
   return (
     <Card
       // variant="outlined"
-      style={{ alignSelf: "center", margin: "2rem 4rem" }}
-    >
+      style={{ alignSelf: "center", margin: "2rem 4rem" }}>
       <Typography
         variant="h4"
         component="h1"
         fontWeight="bold"
         margin="1rem"
-        fontFamily="Poppins"
-      >
+        fontFamily="Poppins">
         See Accommodations Available in {toLocation}
       </Typography>
       <Typography
@@ -285,17 +278,17 @@ function AllAccommodationsCard({ filteredHotel, toLocation, daysNum }) {
         fontWeight="400"
         margin="1rem"
         fontSize="1.6rem"
-        fontFamily="Poppins"
-      >
+        fontFamily="Poppins">
         Get to stay in one our handpicked hotel that can make your stay
         memorable All hotels are priced for your {daysNum} day travel.
       </Typography>
       <div
         className="accommmodations--grid"
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
-      >
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
         {filteredHotel &&
-          filteredHotel.map((hotel) => <AccommodationCard hotel={hotel} />)}
+          filteredHotel.map((hotel, index) => (
+            <AccommodationCard hotel={hotel} key={index} />
+          ))}
       </div>
     </Card>
   );
@@ -340,15 +333,13 @@ function AccommodationCard({ hotel }) {
           justifyContent: "space-between",
           flexDirection: "column",
           gap: "2.4rem",
-        }}
-      >
+        }}>
         <div
           style={{
             display: "flex",
             gap: "1rem",
             flexDirection: "column",
-          }}
-        >
+          }}>
           <div
             style={{
               // border: "1px solid black",
@@ -358,21 +349,19 @@ function AccommodationCard({ hotel }) {
               backgroundImage: `url(https://serpapi.com/searches/65f0207e9b6472da3937422c/images/29707e339d84248d6b246383910ba13b168eb0570ddb07c7a129cd8d5ef190f7.jpeg)`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-            }}
-          ></div>
+            }}></div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Typography
               variant="h5"
               fontWeight="bold"
-              sx={{ marginBottom: "1rem" }}
-            >
+              sx={{ marginBottom: "1rem" }}>
               {hotel.name}
             </Typography>
             <div style={{ display: "flex", gap: "0.8rem" }}>
               {hotel.amenities.map(
                 (prop, i) =>
                   i < 3 && (
-                    <Typography variant="h5" sx={{}}>
+                    <Typography variant="h5" sx={{}} key={i}>
                       {prop}
                     </Typography>
                   )
@@ -388,8 +377,7 @@ function AccommodationCard({ hotel }) {
             // flexDirection: "column",
             justifyContent: "space-between",
             alignItems: "center",
-          }}
-        >
+          }}>
           <Typography variant="h5" fontWeight="bold">
             Rs. {hotel.total_rate.extracted_lowest * 300}
           </Typography>
@@ -400,8 +388,7 @@ function AccommodationCard({ hotel }) {
               borderRadius: "50rem",
               boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.3)",
               padding: "0.8rem 1.6rem",
-            }}
-          >
+            }}>
             View Deal
           </Button>
         </div>
@@ -414,16 +401,14 @@ function DaysDetailsCard({ days, toLocation }) {
   return (
     <Card
       // variant="outlined"
-      style={{ alignSelf: "center", margin: "9.6rem 4rem" }}
-    >
+      style={{ alignSelf: "center", margin: "9.6rem 4rem" }}>
       <Typography
         sx={{
           fontWeight: "700",
           fontSize: "2.4rem",
           fontFamily: "Poppins",
           margin: "1.6rem 1rem 2.4rem 1rem",
-        }}
-      >
+        }}>
         Places that can be explored in {toLocation}
       </Typography>
       <Typography
@@ -432,13 +417,14 @@ function DaysDetailsCard({ days, toLocation }) {
           fontSize: "1.6rem",
           fontFamily: "Poppins",
           margin: "1.6rem 1rem 2.4rem 1rem",
-        }}
-      >
+        }}>
         View places in {toLocation} which includes landmarks, tourist attraction
         and many more. Please ensure to protect your belongings while visiting.
       </Typography>
       {days &&
-        days.map((day, index) => <DayCard dayNumber={index + 1} day={day} />)}
+        days.map((day, index) => (
+          <DayCard dayNumber={index + 1} day={day} key={index} />
+        ))}
     </Card>
   );
 }
@@ -448,22 +434,19 @@ function DayCard({ dayNumber, day }) {
     <Accordion
       sx={{
         margin: "1.6rem 1rem 2.4rem 1rem",
-      }}
-    >
+      }}>
       <AccordionSummary
         expandIcon={"+"}
         aria-controls="panel1-content"
         id="panel1-header"
-        sx={{ backgroundColor: "#ddd" }}
-      >
+        sx={{ backgroundColor: "#ddd" }}>
         <Typography
           sx={{
             fontFamily: "Poppins",
             fontWeight: "600",
             fontSize: "1.6rem",
             margin: "0 2.4rem",
-          }}
-        >
+          }}>
           Day {dayNumber}
         </Typography>
       </AccordionSummary>
@@ -474,12 +457,11 @@ function DayCard({ dayNumber, day }) {
   );
 }
 
-function SingleDayCard({ day }) {
+function SingleDayCard({ day, dayNumber }) {
   return (
     <div
       className="item"
-      style={{ marginBottom: "5px", padding: "10px 20px " }}
-    >
+      style={{ marginBottom: "5px", padding: "10px 20px " }}>
       <div
         className="title"
         style={{
@@ -496,9 +478,8 @@ function SingleDayCard({ day }) {
             fontSize: "1.6rem",
             fontFamily: "Poppins",
             margin: "2.4rem 0rem",
-          }}
-        >
-          On day 01. The places that can be visited are{" "}
+          }}>
+          On day 0{dayNumber}. The places that can be visited are{" "}
           {day.placesToVisit.map(
             (place, i) =>
               `${place.title}${day.placesToVisit.length === i + 1 ? "." : ", "}`
@@ -510,10 +491,9 @@ function SingleDayCard({ day }) {
             gridTemplateColumns: "1fr 1fr ",
             justifyItems: "center",
             rowGap: "4.8rem",
-          }}
-        >
-          {day.placesToVisit.map((place) => (
-            <VisitingPlaceInfo place={place} />
+          }}>
+          {day.placesToVisit.map((place, i) => (
+            <VisitingPlaceInfo place={place} key={i} />
           ))}
         </div>
       </div>
@@ -528,8 +508,7 @@ function VisitingPlaceInfo({ place }) {
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
-      }}
-    >
+      }}>
       <div
         style={{
           borderRadius: ".6rem",
@@ -539,8 +518,7 @@ function VisitingPlaceInfo({ place }) {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
-        }}
-      ></div>
+        }}></div>
       <div style={{ display: "flex", flexDirection: "column", gap: ".4rem" }}>
         <Typography variant="h5" component="h2" fontWeight="bold">
           {place.title}
@@ -559,30 +537,27 @@ function VisitingPlaceInfo({ place }) {
           alignSelf: "center",
           color: "#fff",
           fontSize: "1rem",
-        }}
-      >
+        }}>
         View Location
       </Button>
     </div>
   );
 }
 
-function BudgetTrackerCard({ travelBudget }) {
+function BudgetTrackerCard({ travelBudget, days }) {
   return (
     <Card
       style={{
         // padding: "20px",
         margin: "1.6rem 4rem",
-      }}
-    >
+      }}>
       <Typography
         sx={{
           fontSize: "2.4rem",
           fontFamily: "Poppins",
           fontWeight: "700",
           margin: "1.6rem",
-        }}
-      >
+        }}>
         Manage Your Expenses
       </Typography>
       <Typography
@@ -591,8 +566,7 @@ function BudgetTrackerCard({ travelBudget }) {
           fontFamily: "Poppins",
           fontWeight: "400",
           margin: "0 1.6rem 1.6rem 1.6rem",
-        }}
-      >
+        }}>
         Track your expenses and have a full breakdown on the travel expense
       </Typography>
       <div
@@ -602,16 +576,14 @@ function BudgetTrackerCard({ travelBudget }) {
             // borderBottom: "1px solid #ddd",
             // paddingBottom: "10px",
           }
-        }
-      >
+        }>
         <Typography
           sx={{
             fontSize: "1.6rem",
             fontFamily: "Poppins",
             fontWeight: "400",
             margin: "0 1.6rem 1.6rem 1.6rem",
-          }}
-        >
+          }}>
           Expense Breakdown
         </Typography>
 
@@ -622,26 +594,25 @@ function BudgetTrackerCard({ travelBudget }) {
               fontFamily: "Poppins",
               fontWeight: "400",
               margin: "0 4.8rem 1.6rem 4.8rem",
-            }}
-          >
+            }}>
             Travel Expenses
           </Typography>
+
+          {/* Bus Ok */}
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               margin: "0 4.8rem 1.6rem 4.8rem",
-            }}
-          >
+            }}>
             <Typography
               sx={{
                 fontSize: "1.6rem",
                 fontFamily: "Poppins",
                 fontWeight: "400",
                 margin: "0 1.6rem 1.6rem 4.8rem",
-              }}
-            >
-              Bus Fare
+              }}>
+              Bus Fare (Up & Down)
             </Typography>
             <Typography
               sx={{
@@ -649,31 +620,25 @@ function BudgetTrackerCard({ travelBudget }) {
                 fontFamily: "Poppins",
                 fontWeight: "400",
                 margin: "0 1.6rem 1.6rem 4.8rem",
-              }}
-            >
-              {/* {travelBudget &&
-                travelBudget.reduce((accumulator, currentValue) => {
-                  // console.log(currentValue[0]);
-                  return accumulator + currentValue[0].RouteFare; */}
-              {/* }, 0) * 2} */}
+              }}>
+              {travelBudget && travelBudget[0].RouteFare * 2}
               .00
             </Typography>
           </div>
+
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               margin: "0 4.8rem 1.6rem 4.8rem",
-            }}
-          >
+            }}>
             <Typography
               sx={{
                 fontSize: "1.6rem",
                 fontFamily: "Poppins",
                 fontWeight: "400",
                 margin: "0 1.6rem 1.6rem 4.8rem",
-              }}
-            >
+              }}>
               Location Travel Charges
             </Typography>
             <Typography
@@ -682,12 +647,13 @@ function BudgetTrackerCard({ travelBudget }) {
                 fontFamily: "Poppins",
                 fontWeight: "400",
                 margin: "0 1.6rem 1.6rem 4.8rem",
-              }}
-            >
+              }}>
               1,000.00
             </Typography>
           </div>
         </div>
+
+        {/* {Accoomodation Ok} */}
         <div>
           <Typography
             sx={{
@@ -695,26 +661,23 @@ function BudgetTrackerCard({ travelBudget }) {
               fontFamily: "Poppins",
               fontWeight: "400",
               margin: "0 4.8rem 1.6rem 4.8rem",
-            }}
-          >
-            Accommodation Expenses
+            }}>
+            Accommodation Expenses (Best Available)
           </Typography>
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               margin: "0 4.8rem 1.6rem 4.8rem",
-            }}
-          >
+            }}>
             <Typography
               sx={{
                 fontSize: "1.6rem",
                 fontFamily: "Poppins",
                 fontWeight: "400",
                 margin: "0 1.6rem 1.6rem 4.8rem",
-              }}
-            >
-              Selected Accommodation
+              }}>
+              {days && days[0] && days[0].accommadation}
             </Typography>
             <Typography
               sx={{
@@ -722,9 +685,45 @@ function BudgetTrackerCard({ travelBudget }) {
                 fontFamily: "Poppins",
                 fontWeight: "400",
                 margin: "0 1.6rem 1.6rem 4.8rem",
-              }}
-            >
-              here .00
+              }}>
+              {days && days[0] && days[0].accPrice}.00
+            </Typography>
+          </div>
+        </div>
+
+        <div>
+          <Typography
+            sx={{
+              fontSize: "1.6rem",
+              fontFamily: "Poppins",
+              fontWeight: "400",
+              margin: "0 4.8rem 1.6rem 4.8rem",
+            }}>
+            Food Expenses
+          </Typography>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              margin: "0 4.8rem 1.6rem 4.8rem",
+            }}>
+            <Typography
+              sx={{
+                fontSize: "1.6rem",
+                fontFamily: "Poppins",
+                fontWeight: "400",
+                margin: "0 1.6rem 1.6rem 4.8rem",
+              }}>
+              Food Rough Expense
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "1.6rem",
+                fontFamily: "Poppins",
+                fontWeight: "400",
+                margin: "0 1.6rem 1.6rem 4.8rem",
+              }}>
+              1500.00
             </Typography>
           </div>
         </div>
@@ -819,20 +818,18 @@ function EventsCard({ events }) {
         style={{
           // padding: "20px",
           margin: "1.6rem 4rem",
-        }}
-      >
+        }}>
         <Typography
           sx={{
             fontSize: "2.4rem",
             fontFamily: "Poppins",
             fontWeight: "700",
             margin: "1.6rem",
-          }}
-        >
+          }}>
           Events
         </Typography>
-        {events.map((event) => (
-          <SingleEventCard event={event} />
+        {events.map((event, i) => (
+          <SingleEventCard event={event} key={i} />
         ))}
       </Card>
     </div>
@@ -848,8 +845,7 @@ function SingleEventCard({ event }) {
         margin: "1.6rem 4rem",
         display: "flex",
         justifyContent: "space-between",
-      }}
-    >
+      }}>
       <Typography variant="h5" fontWeight="bold">
         {event.title}
       </Typography>
@@ -893,8 +889,7 @@ function CustomizePlanModal() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-        }}
-      >
+        }}>
         <Box
           sx={{
             bgcolor: "background.paper",
@@ -902,46 +897,147 @@ function CustomizePlanModal() {
             p: 4,
             width: "40%",
             borderRadius: 4,
-          }}
-        >
+          }}>
           <Typography
             variant="h3"
             fontWeight="bold"
             align="center"
-            gutterBottom
-          >
+            gutterBottom>
             Customize Your Plan
           </Typography>
           <form onSubmit={handleSubmit}>
             {/* Two Sample text fields */}
-            <TextField
-              label="Custom Field 1"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Custom Field 2"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
-            {/* Add text fields as needed */}
-
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              size="large"
-              sx={{ mt: 2 }}
-            >
-              Done
-            </Button>
+            <GeneratePlan />
           </form>
         </Box>
       </Modal>
     </div>
+  );
+}
+function GeneratePlan() {
+  const [fromLocation, setFromLocation] = useState("");
+  const [toLocation, setToLocation] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [budget, setBudget] = useState("");
+  const [travelMode, setTravelMode] = useState("");
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyBkePZHNAeceiSPlP4LuZIPd28NpBJcaF8",
+    libraries: ["places"],
+  });
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const originRef = useRef();
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destiantionRef = useRef();
+  if (!isLoaded) {
+    return <div>Loading....</div>;
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleOriginChange = (e) => {
+    setFromLocation(e.target.value);
+  };
+
+  const handleDestinationChange = (e) => {
+    setToLocation(e.target.value);
+  };
+
+  const handleOriginAutocomplete = (e) => {
+    setFromLocation(e.target.value);
+  };
+
+  const handleDestinationAutocomplete = (e) => {
+    setToLocation(e.target.value);
+  };
+
+  const handleFromDate = (e) => {
+    setFromDate(e.target.value);
+  };
+
+  const handleToDate = (e) => {
+    setToDate(e.target.value);
+  };
+
+  const handleBudget = (e) => {
+    setBudget(Number(e.target.value));
+  };
+  const handleTravelMode = (e) => {
+    setTravelMode(e.target.value);
+  };
+
+  // const handled
+
+  return (
+    <section className="section--generate">
+      <p className="generate--header">Create your plan</p>
+      <p className="generate--text">Select location and dates to get started</p>
+      <form onSubmit={handleSubmit}>
+        <div className="location--details">
+          <label>From</label>
+          <Autocomplete>
+            <input
+              type="text"
+              value={fromLocation}
+              onChange={handleOriginChange}
+              onBlur={handleOriginAutocomplete}
+              ref={originRef}></input>
+          </Autocomplete>
+        </div>
+        <div className="location--details">
+          <label>Destination</label>
+          <Autocomplete>
+            <input
+              type="text"
+              value={toLocation}
+              onChange={handleDestinationChange}
+              onBlur={handleDestinationAutocomplete}
+              ref={destiantionRef}></input>
+          </Autocomplete>
+        </div>
+        <div className="location--details">
+          <label>Start Date</label>
+          <input type="date" onChange={handleFromDate} value={fromDate}></input>
+        </div>
+        <div className="location--details">
+          <label>End Date</label>
+          <input type="date" onChange={handleToDate} value={toDate}></input>
+        </div>
+        <div className="location--details">
+          <label>Mode</label>
+          <select onChange={handleTravelMode} value={travelMode}>
+            <option value="">Select mode</option>
+            <option value="bus">Bus</option>
+            <option value="train">Train</option>
+            <option value="own vehicle">Own Vehicle</option>
+          </select>
+        </div>
+        <div className="location--details">
+          <label>Budget</label>
+          <input type="number" onChange={handleBudget} value={budget}></input>
+        </div>
+        {/* Testing Purpose OnMouseEnter */}
+        {originRef.current &&
+          destiantionRef.current &&
+          originRef.current.value &&
+          destiantionRef.current.value && (
+            <Link
+              to="/trip"
+              state={{
+                from: fromLocation,
+                to: toLocation,
+                fromDate: fromDate,
+                toDate: toDate,
+                budget: budget,
+                travelMode: travelMode,
+              }}>
+              <button>Generate</button>
+            </Link>
+          )}
+      </form>
+    </section>
   );
 }
 

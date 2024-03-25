@@ -9,7 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import { useHistory } from "react-router-dom";
 
 const defaultTheme = createTheme();
@@ -17,6 +17,18 @@ const defaultTheme = createTheme();
 function SignUp() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const isAuthenticated = () => {
+    const token = localStorage.getItem("token");
+    return token !== null;
+  };
+
+  useEffect(() => {
+    // Check authentication status when the component mounts
+    if (isAuthenticated()) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,7 +56,7 @@ function SignUp() {
       }
 
       const response = await fetch(
-        "https://pear-wandering-sea-lion.cyclic.app/api/users/signUp",
+        "https://lankanamigov2backend.onrender.com/api/users/signUp",
         {
           method: "POST",
           headers: {
@@ -76,8 +88,7 @@ function SignUp() {
         height: "100vh",
         backgroundBlendMode: "overlay",
         backgroundColor: "hsla(0, 0%, 0%, 0.3)",
-      }}
-    >
+      }}>
       <Container
         sx={{
           width: "70%",
@@ -85,16 +96,14 @@ function SignUp() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}
-      >
+        }}>
         <Box
           sx={{
             minWidth: 275,
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <Typography
             variant="h1"
             sx={{
@@ -104,8 +113,7 @@ function SignUp() {
               fontSize: "8rem",
               color: "WHITE",
               mx: 8,
-            }}
-          >
+            }}>
             Lankan Amigo
           </Typography>
           <Card variant="outlined" sx={{ width: "25vw", pb: 4, my: 4, mx: 8 }}>
@@ -118,13 +126,11 @@ function SignUp() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                  }}
-                >
+                  }}>
                   <Typography
                     component="h1"
                     variant="h4"
-                    sx={{ fontWeight: "bold", fontFamily: "Poppins" }}
-                  >
+                    sx={{ fontWeight: "bold", fontFamily: "Poppins" }}>
                     Sign up
                   </Typography>
                   <Typography
@@ -132,8 +138,7 @@ function SignUp() {
                       fontFamily: "Poppins",
                       fontSize: "1.2rem",
                       marginTop: 2,
-                    }}
-                  >
+                    }}>
                     Plan your trips effortlessly and focus on what matters - the
                     adventure!
                   </Typography>
@@ -141,8 +146,7 @@ function SignUp() {
                     component="form"
                     noValidate
                     onSubmit={handleSubmit}
-                    sx={{ mt: 2 }}
-                  >
+                    sx={{ mt: 2 }}>
                     <Grid container spacing={2}>
                       <Grid item xs={12}>
                         <Typography
@@ -150,8 +154,7 @@ function SignUp() {
                             color: "red",
                             fontFamily: "Poppins",
                             fontWeight: "600",
-                          }}
-                        >
+                          }}>
                           {errorMessage ? errorMessage : " "}
                         </Typography>
                       </Grid>
@@ -224,16 +227,14 @@ function SignUp() {
                       type="submit"
                       fullWidth
                       variant="contained"
-                      sx={{ mt: 3, mb: 3, bgcolor: "#265073" }}
-                    >
+                      sx={{ mt: 3, mb: 3, bgcolor: "#265073" }}>
                       Sign Up
                     </Button>
                     <Grid container justifyContent="space-between">
                       <Grid item>
                         <RouterLink to="/signIn">
                           <Typography
-                            sx={{ color: "#265073", fontFamily: "Poppins" }}
-                          >
+                            sx={{ color: "#265073", fontFamily: "Poppins" }}>
                             Already have an account? Sign in
                           </Typography>
                         </RouterLink>
@@ -242,8 +243,7 @@ function SignUp() {
                       <Grid item>
                         <RouterLink to="/">
                           <Typography
-                            sx={{ color: "#265073", fontFamily: "Poppins" }}
-                          >
+                            sx={{ color: "#265073", fontFamily: "Poppins" }}>
                             Back to home
                           </Typography>
                         </RouterLink>

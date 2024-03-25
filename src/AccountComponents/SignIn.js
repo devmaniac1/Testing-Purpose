@@ -32,13 +32,16 @@ function SignIn() {
         setErrorMessage("Enter Required Details.");
         return;
       }
-      const response = await fetch("http://localhost:3001/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://lankanamigov2backend.onrender.com/api/users/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Invalid credentials");
       }
@@ -67,8 +70,7 @@ function SignIn() {
         height: "100vh",
         backgroundBlendMode: "overlay",
         backgroundColor: "hsla(0, 0%, 0%, 0.3)",
-      }}
-    >
+      }}>
       <Container
         sx={{
           width: "70%",
@@ -76,16 +78,14 @@ function SignIn() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}
-      >
+        }}>
         <Box
           sx={{
             minWidth: 275,
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <Typography
             variant="h1"
             sx={{
@@ -95,8 +95,7 @@ function SignIn() {
               fontSize: "8rem",
               color: "WHITE",
               mx: 8,
-            }}
-          >
+            }}>
             Lankan Amigo
           </Typography>
           <Card variant="outlined" sx={{ width: "25vw", pb: 4, my: 4, mx: 8 }}>
@@ -109,13 +108,11 @@ function SignIn() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                  }}
-                >
+                  }}>
                   <Typography
                     component="h1"
                     variant="h4"
-                    sx={{ fontWeight: "bold" }}
-                  >
+                    sx={{ fontWeight: "bold" }}>
                     Sign in
                   </Typography>
 
@@ -123,15 +120,13 @@ function SignIn() {
                     component="form"
                     onSubmit={handleSubmit}
                     noValidate
-                    sx={{ mt: 1 }}
-                  >
+                    sx={{ mt: 1 }}>
                     <Typography
                       sx={{
                         color: "red",
                         fontFamily: "Poppins",
                         fontWeight: "600",
-                      }}
-                    >
+                      }}>
                       {errorMessage ? errorMessage : " "}
                     </Typography>
                     <TextField
@@ -162,16 +157,14 @@ function SignIn() {
                       type="submit"
                       fullWidth
                       variant="contained"
-                      sx={{ mt: 3, mb: 2, bgcolor: "green" }}
-                    >
+                      sx={{ mt: 3, mb: 2, bgcolor: "green" }}>
                       Sign In
                     </Button>
                     <Grid container spacing={1} justifyContent="center">
                       <Grid item xs>
                         <RouterLink to="/ass">
                           <Typography
-                            sx={{ color: "#265073", fontFamily: "Poppins" }}
-                          >
+                            sx={{ color: "#265073", fontFamily: "Poppins" }}>
                             Forgot Password
                           </Typography>
                         </RouterLink>
@@ -179,8 +172,7 @@ function SignIn() {
                       <Grid item>
                         <RouterLink to="/signUp">
                           <Typography
-                            sx={{ color: "#265073", fontFamily: "Poppins" }}
-                          >
+                            sx={{ color: "#265073", fontFamily: "Poppins" }}>
                             Don't have an account? Sign Up
                           </Typography>
                         </RouterLink>
