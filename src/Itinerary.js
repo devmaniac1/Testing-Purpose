@@ -874,16 +874,32 @@ function CustomizePlanModal() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = () => {
-    // Implement your logic to handle form submission here
-    handleClose(); // Close the modal after submission
+  const handleSubmit = async () => {
+    try {
+      // Implement your logic to handle form submission here
+      // Make an API call to save the plan
+      const response = await axios.post("/api/save-plan", {
+        // Pass any data needed for saving the plan
+        // For example, you can pass form data here
+      });
+      console.log("Plan saved successfully:", response.data);
+    } catch (error) {
+      console.error("Error saving plan:", error);
+    } finally {
+      handleClose(); // Close the modal after submission
+    }
   };
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen} sx={{ ml: "46%" }}>
-        Customize Plan
-      </Button>
+      <div style={{ display: "inline-block", marginLeft: "42%" }}>
+        <Button variant="contained" onClick={handleOpen} sx={{mr: "1rem"}}>
+          Customize Plan
+        </Button>
+        <Button variant="contained" onClick={handleSubmit}>
+          Save Plan
+        </Button>
+      </div>
       <Modal
         open={open}
         onClose={handleClose}

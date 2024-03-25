@@ -1,4 +1,6 @@
 import "./TranslateComponent/i18n.js";
+import mobileScreen1 from "./Images/sample display1.png"
+import mobileScreen2 from "./Images/sample display2.png"
 import "./Home.css";
 import { ReactTyped } from "react-typed";
 import { Button, Card, Grid, Typography } from "@mui/material";
@@ -21,6 +23,8 @@ import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import Navbar from "./Navbar";
 import { useTranslation } from "react-i18next";
 
+
+
 // import { useTranslation } from "react-i18next";
 
 function App() {
@@ -33,9 +37,7 @@ function App() {
 
       <Services />
       <HowItWorks />
-      <div style={{backgroundColor: "black"}}>
       <PopularDestination />
-      </div>
 
       <Footer />
       <KommunicateChat />
@@ -456,10 +458,32 @@ function HowItWorks() {
         <div className="works--main">
           <p className="header" style={{color: "black"}}>{line1}</p>
           <p className="text" style={{color: "black"}}>{line2}</p>
-          <div className="works--steps">
-            <div className="work--step"></div>
-            <div className="work--step"></div>
-            <div className="work--step"></div>
+          <div >
+            <Grid container style={{display: "flex", marginTop: "5rem"}}>
+              <Grid item lg={6} sx={{alignContent: "center", display: "flex", justifyContent: "space-around"}}>
+                <div>
+                <img src={mobileScreen1} style={{width: "180px"}}/>
+                <img src={mobileScreen2} style={{width: "180px"}}/>
+                </div>
+              </Grid>
+              <Grid item lg={6}>
+                <div style={{marginTop: "10rem"}}>
+                  <Typography variant="h2" fontWeight="bold" sx={{fontSize: "24px"}}>
+                    INPUT REQUIREMENTS
+                  </Typography>
+                  <Typography variant="h2" fontWeight="bold" >
+                    SELECT THE PLAN
+                  </Typography>
+                  <Typography variant="h1" fontWeight="bold">
+                    SAVE TIME & ENJOY!
+                  </Typography>
+
+                  <Typography variant="h4" component="h1">
+                  Leveraging advanced technology and local expertise, Lankan Amigo simplifies the travel planning process, providing personalized guidance and support for an unforgettable journey through the world!
+                  </Typography>
+                </div>
+              </Grid>
+            </Grid>
           </div>
         </div>
       </Fade>
@@ -492,14 +516,15 @@ const PopularDestination = () => {
           <p className="text">{line2}</p>
         </div>
 
-        <Grid container spacing={2}> {/* Add spacing between grid items */}
+        
+      </Fade>
+      <Grid container spacing={2}> {/* Add spacing between grid items */}
           {destinations.map((destination, index) => (
             <Grid item xs={12} sm={6} md={6} lg={3} key={index}> {/* Responsive sizing */}
               <GalleryItem key={index} destination={destination} />
             </Grid>
           ))}
         </Grid>
-      </Fade>
     </motion.section>
   );
 };
@@ -517,7 +542,7 @@ function GalleryItem({ destination }) {
         margin: '5px',
         objectFit: 'cover',}} 
       />
-        <Typography variant="h5" color="white" fontWeight="bold" component="h1" sx={{mb: "3rem"}}>
+        <Typography variant="h5" fontWeight="bold" component="h1" sx={{mb: "3rem"}}>
         {destination.name}
         </Typography>
     </div>
