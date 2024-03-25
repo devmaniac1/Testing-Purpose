@@ -273,7 +273,6 @@ function GeneratePlan() {
             fontSize: "1.6rem",
             backgroundColor: "#333",
             borderRadius: "0.8rem",
-            color: "white"
           }}>
           {line16}
         </Button>
