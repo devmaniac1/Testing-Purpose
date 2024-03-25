@@ -1,6 +1,7 @@
 import "./Itinerary.css";
 import "./home-components/Home.js";
 import "./home-components/Home.css";
+import { jwtDecode } from "jwt-decode";
 
 import { Link } from "react-router-dom";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
@@ -39,7 +40,7 @@ function Itinerary({
   toLocation,
   toDate,
   fromDate,
-  // budget,
+  budget,
   travelMode,
   response,
   busRoute,
@@ -47,7 +48,7 @@ function Itinerary({
   // const toLocation = "Nuwara Eliya, Sri Lanka";
   // const toDate = "2024-03-13";
   // const fromDate = "2024-03-10";
-  const budget = 25000;
+  // const budget = 25000;
   const [hotelsData, setHotelsData] = useState(null);
   const [filteredHotel, setFIlteredHotel] = useState(null);
   const [placesData, setPlacesData] = useState(null);
@@ -75,7 +76,9 @@ function Itinerary({
               toLocation: toLocation,
               toDate: toDate,
               fromDate: fromDate,
-              budget: Math.trunc((budget * 0.5) / 307.56 / numberOfDays),
+              budget: Math.trunc(
+                (Number(budget) * 0.5) / 307.56 / numberOfDays
+              ),
               travelMode: travelMode,
             },
           }
@@ -187,7 +190,8 @@ function Itinerary({
         index += placePerDay;
         addDay({
           day: i,
-          date: "2024-03-10",
+          fromate: fromDate,
+          toDate: toDate,
           location: toLocation.split(",")[0],
           accommadation: filteredHotel[0].name,
           accPrice: filteredHotel[0].total_rate.extracted_lowest * 307.5,
@@ -206,7 +210,7 @@ function Itinerary({
         fromDate={fromDate}
         toDate={toDate}
       />
-      <CustomizePlanModal />
+      <CustomizePlanModal days={days} />
       <AllAccommodationsCard
         filteredHotel={filteredHotel}
         toLocation={toLocation}
@@ -358,14 +362,15 @@ function AccommodationCard({ hotel }) {
               {hotel.name}
             </Typography>
             <div style={{ display: "flex", gap: "0.8rem" }}>
-              {hotel.amenities.map(
-                (prop, i) =>
-                  i < 3 && (
-                    <Typography variant="h5" sx={{}} key={i}>
-                      {prop}
-                    </Typography>
-                  )
-              )}
+              {hotel.amenities &&
+                hotel.amenities.map(
+                  (prop, i) =>
+                    i < 3 && (
+                      <Typography variant="h5" sx={{}} key={i}>
+                        {prop}
+                      </Typography>
+                    )
+                )}
             </div>
           </div>
         </div>
@@ -864,21 +869,53 @@ function ExpenseCard() {
   return <div>sgsgsdg</div>;
 }
 
-function CustomizePlanModal() {
+function CustomizePlanModal({ days }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = () => {
-    // Implement your logic to handle form submission here
-    handleClose(); // Close the modal after submission
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Token not found");
+        return;
+      }
+
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      const userId = decodedToken.id;
+      console.log(userId);
+      const response = await fetch(
+        `https://lankanamigov2backend.onrender.com/api/users/${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ days: days, userId: userId }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to save plan data");
+      }
+
+      handleClose(); // Close the modal after successful submission
+    } catch (error) {
+      console.error("Error saving plan data:", error);
+      // Handle error (e.g., display error message)
+    }
   };
 
   return (
-    <div>
-      <Button variant="contained" onClick={handleOpen} sx={{ ml: "46%" }}>
+    <div style={{ display: "flex", justifyContent: "end", gap: "2.4rem" }}>
+      <Button variant="contained" onClick={handleOpen} sx={{}}>
         Customize Plan
+      </Button>
+      <Button variant="contained" onClick={handleSubmit} sx={{}}>
+        Save Plan
       </Button>
       <Modal
         open={open}

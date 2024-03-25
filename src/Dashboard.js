@@ -197,14 +197,11 @@ function Dashboard() {
                   sx={{ m: "2vh 0.5vw 3vh 0.5vw" }}>
                   Your Plans
                 </Typography>
-                {plans.map((trip) => (
-                  <TripDetailCard
-                    tripname={trip.planname}
-                    budget={trip.budget}
-                    date={trip.date}
-                    key={trip.planname}
-                  />
-                ))}
+                {userData &&
+                  userData.days &&
+                  userData.days.map((trip, i) => {
+                    trip !== null && <TripDetailCard trip={trip} />;
+                  })}
               </>
             )}
 
@@ -218,14 +215,14 @@ function Dashboard() {
                   Past Plans
                 </Typography>
                 {/* Render past plans here */}
-                {pastPlans.map((trip) => (
+                {/* {pastPlans.map((trip) => (
                   <TripDetailCard
                     tripname={trip.planname}
                     budget={trip.budget}
                     date={trip.date}
                     key={trip.planname}
                   />
-                ))}
+                ))} */}
               </>
             )}
 
@@ -256,7 +253,8 @@ function Dashboard() {
   );
 }
 
-function TripDetailCard(props) {
+function TripDetailCard({ trip, index }) {
+  console.log(trip);
   return (
     <Card
       variant="outlined"
@@ -273,15 +271,15 @@ function TripDetailCard(props) {
           component="h1"
           fontWeight="bold"
           style={{ minWidth: "20vw" }}>
-          {props.tripname}
+          Plan
         </Typography>
 
         <Typography variant="h5" component="h1" style={{ minWidth: "12vw" }}>
-          Budget: Rs. {props.budget}
+          {/* Budget: Rs. {props.budget} */}
         </Typography>
 
         <Typography variant="h5" component="h1" style={{ minWidth: "10vw" }}>
-          Date: {props.date}
+          Date: {trip[0].fromDate}
         </Typography>
         <Button
           variant="contained"
