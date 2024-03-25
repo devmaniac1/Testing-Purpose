@@ -889,6 +889,7 @@ function CustomizePlanModal() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          zIndex: "1",
         }}>
         <Box
           sx={{
