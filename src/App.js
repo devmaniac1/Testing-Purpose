@@ -1,4 +1,4 @@
-// import logo from "./logo.svg";
+import logo from "./logo.svg";
 import "./App.css";
 import Itinerary from "./Itinerary.js";
 import Navbar from "./Navbar.js";
@@ -25,6 +25,8 @@ import Login from "./AccountComponents/Login.js";
 import SignUp from "./AccountComponents/SignUp.js";
 import SignIn from "./AccountComponents/SignIn.js";
 import Dashboard from "./Dashboard.js";
+import Error from "./Error.js";
+import About from "./home-components/About us/about.js";
 
 function App() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -71,6 +73,8 @@ function App() {
         />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/signIn" element={<SignIn />} />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<Error />} />
 
         {/* <Route path="/login" element={<SignIn />} /> */}
       </Routes>

@@ -9,6 +9,8 @@ import Galle from "./Images/galle (2).jpg";
 import NuwaraEliya from "./Images/nuwera (3).jpg";
 import KommunicateChat from "../Chat.js";
 import { Link } from "react-router-dom";
+import mobileScreen1 from "./Images/display1.png";
+import mobileScreen2 from "./Images/display2.png";
 import {
   FaFacebookF,
   FaInstagram,
@@ -70,7 +72,8 @@ function NavBar() {
             fontSize: "2.4rem",
             margin: "0",
             padding: "0",
-          }}>
+          }}
+        >
           Sign Up
         </Button>
         <Button
@@ -79,7 +82,8 @@ function NavBar() {
             fontSize: "2.4rem",
             margin: "0",
             padding: "0",
-          }}>
+          }}
+        >
           Login{" "}
         </Button>
       </div>
@@ -228,7 +232,8 @@ function GeneratePlan() {
               value={fromLocation}
               onChange={handleOriginChange}
               onBlur={handleOriginAutocomplete}
-              ref={originRef}></input>
+              ref={originRef}
+            ></input>
           </Autocomplete>
         </div>
         <div className="to">
@@ -239,7 +244,8 @@ function GeneratePlan() {
               value={toLocation}
               onChange={handleDestinationChange}
               onBlur={handleDestinationAutocomplete}
-              ref={destiantionRef}></input>
+              ref={destiantionRef}
+            ></input>
           </Autocomplete>
         </div>
         <div className="date--from">
@@ -265,17 +271,8 @@ function GeneratePlan() {
         </div>
       </div>
       <div className="cta--btns">
-        <Button
-          sx={{
-            fontSize: "1.6rem",
-            backgroundColor: "#333",
-            borderRadius: "0.8rem",
-            color: "white",
-          }}>
-          {line16}
-        </Button>
         <Link
-          to="/trip"
+          to={allInputsFilled() ? "/trip" : "#"}
           state={{
             from: fromLocation,
             to: toLocation,
@@ -283,7 +280,8 @@ function GeneratePlan() {
             toDate: toDate,
             budget: budget,
             travelMode: travelMode,
-          }}>
+          }}
+        >
           <Button
             sx={{
               fontSize: "1.6rem",
@@ -291,7 +289,8 @@ function GeneratePlan() {
               backgroundColor: "#333",
               color: "white",
             }}
-            disabled={!isLoaded || !allInputsFilled()}>
+            disabled={!isLoaded || !allInputsFilled()}
+          >
             {line17}
           </Button>
         </Link>
@@ -313,7 +312,8 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon">
+          className="w-6 h-6 service--icon"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -331,7 +331,8 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon">
+          className="w-6 h-6 service--icon"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -349,7 +350,8 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon">
+          className="w-6 h-6 service--icon"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -367,7 +369,8 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon">
+          className="w-6 h-6 service--icon"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -390,7 +393,8 @@ function Services() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 service--icon">
+          className="w-6 h-6 service--icon"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -445,7 +449,8 @@ function HowItWorks() {
       style={{
         scale: scaleProgress,
         opacity: scrollYProgress,
-      }}>
+      }}
+    >
       <Fade
         direction="up"
         duration={1000}
@@ -459,10 +464,86 @@ function HowItWorks() {
           <p className="text" style={{ color: "black" }}>
             {line2}
           </p>
-          <div className="works--steps">
-            <div className="work--step"></div>
-            <div className="work--step"></div>
-            <div className="work--step"></div>
+          <div>
+            <Grid
+              container
+              style={{
+                display: "flex",
+                marginTop: "5rem",
+                alignItems: "center",
+              }}
+            >
+              <Grid
+                item
+                lg={6}
+                sx={
+                  {
+                    // alignContent: "center",
+                    // display: "flex",
+                    // justifyContent: "space-around",
+                  }
+                }
+              >
+                <img
+                  src={mobileScreen1}
+                  style={{
+                    width: "30rem",
+                    filter: "drop-shadow(0 0 0.75rem black)",
+                  }}
+                />
+                <img
+                  src={mobileScreen2}
+                  style={{
+                    width: "30rem",
+                    filter: "drop-shadow(0 0 0.75rem black)",
+                  }}
+                />
+              </Grid>
+              <Grid item lg={6}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    fontFamily: "Poppins",
+                    width: "75%",
+                  }}
+                >
+                  <Typography
+                    variant="h2"
+                    fontWeight="bold"
+                    sx={{ fontSize: "2.4rem", fontFamily: "Poppins" }}
+                  >
+                    INPUT REQUIREMENTS
+                  </Typography>
+                  <Typography
+                    variant="h2"
+                    fontWeight="bold"
+                    sx={{ fontSize: "3rem", fontFamily: "Poppins" }}
+                  >
+                    SELECT THE PLAN
+                  </Typography>
+                  <Typography
+                    variant="h1"
+                    fontWeight="bold"
+                    sx={{ fontSize: "3.4rem", fontFamily: "Poppins" }}
+                  >
+                    SAVE TIME & ENJOY!
+                  </Typography>
+
+                  <Typography
+                    variant="h4"
+                    component="h1"
+                    sx={{ fontSize: "2rem", fontFamily: "Poppins" }}
+                  >
+                    Leveraging advanced technology and local expertise, Lankan
+                    Amigo simplifies the travel planning process, providing
+                    personalized guidance and support for an unforgettable
+                    journey through the world!
+                  </Typography>
+                </div>
+              </Grid>
+            </Grid>
           </div>
         </div>
       </Fade>
@@ -488,28 +569,35 @@ const PopularDestination = () => {
   ];
 
   return (
-    <motion.section
-      ref={ref}
-      style={{ scale: scaleProgress, opacity: scrollYProgress }}>
-      <Fade direction="up" duration={1000}>
-        <div className="destination--main">
-          <p className="header">{line1}</p>
-          <p className="text">{line2}</p>
-        </div>
+    // <motion.section
+    //   ref={ref}
+    //   style={{ scale: scaleProgress, opacity: scrollYProgress }}
+    // >
+    <>
+      {/* <Fade direction="up" duration={200}> */}
+      <div className="destination--main">
+        <p className="header" style={{ color: "#000" }}>
+          {line1}
+        </p>
+        <p className="text" style={{ color: "#000" }}>
+          {line2}
+        </p>
+      </div>
 
-        <Grid container spacing={2}>
-          {" "}
-          {/* Add spacing between grid items */}
-          {destinations.map((destination, index) => (
-            <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
-              {" "}
-              {/* Responsive sizing */}
-              <GalleryItem key={index} destination={destination} />
-            </Grid>
-          ))}
-        </Grid>
-      </Fade>
-    </motion.section>
+      <Grid container spacing={2}>
+        {" "}
+        {/* Add spacing between grid items */}
+        {destinations.map((destination, index) => (
+          <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
+            {" "}
+            {/* Responsive sizing */}
+            <GalleryItem key={index} destination={destination} />
+          </Grid>
+        ))}
+      </Grid>
+    </>
+
+    // </motion.section>
   );
 };
 function GalleryItem({ destination }) {
@@ -532,7 +620,8 @@ function GalleryItem({ destination }) {
         color="#000"
         fontWeight="bold"
         component="h1"
-        sx={{ mb: "3rem" }}>
+        sx={{ mb: "3rem" }}
+      >
         {destination.name}
       </Typography>
     </div>
@@ -585,7 +674,8 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.facebook.com"
-                  className="social-media-link">
+                  className="social-media-link"
+                >
                   <FaFacebookF />
                   <span>Facebook</span>
                 </a>
@@ -593,7 +683,8 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.instagram.com"
-                  className="social-media-link">
+                  className="social-media-link"
+                >
                   <FaInstagram />
                   <span>Instagram</span>
                 </a>
@@ -607,7 +698,8 @@ function Footer() {
               <div className="social-media-set">
                 <a
                   href="https://www.linkedin.com"
-                  className="social-media-link">
+                  className="social-media-link"
+                >
                   <FaLinkedinIn />
                   <span>LinkedIn</span>
                 </a>

@@ -2,7 +2,6 @@ import { Container, Card } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Typography, TextField } from "@mui/material";
-// import "./../App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -23,7 +22,6 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // const { email, password } = this.state;
     try {
       const userData = new FormData(event.currentTarget);
       const email = userData.get("email");
@@ -46,13 +44,9 @@ function SignIn() {
         throw new Error("Invalid credentials");
       }
       const data = await response.json();
-      console.log(data);
       localStorage.setItem("token", data.token);
       setErrorMessage("");
-
       navigate("/dashboard", { state: data });
-      // console.log("Ok Logged");
-      // Redirect or set authenticated state
     } catch (error) {
       setErrorMessage("Wrong Credentials.");
       console.error("Login failed:", error.message);
@@ -70,35 +64,41 @@ function SignIn() {
         height: "100vh",
         backgroundBlendMode: "overlay",
         backgroundColor: "hsla(0, 0%, 0%, 0.3)",
-      }}>
+      }}
+    >
       <Container
         sx={{
-          width: "70%",
+          width: "100%",
           height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Box
           sx={{
-            minWidth: 275,
+            width: { xs: "90%", sm: "80%", md: "70%" },
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-          }}>
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
           <Typography
             variant="h1"
             sx={{
               fontFamily: '"Katibeh", serif',
               fontStyle: "normal",
               fontWeight: "bold",
-              fontSize: "8rem",
+              fontSize: { xs: "6rem", sm: "8rem" },
               color: "WHITE",
-              mx: 8,
-            }}>
+              mx: 4,
+              textAlign: "center",
+            }}
+          >
             Lankan Amigo
           </Typography>
-          <Card variant="outlined" sx={{ width: "25vw", pb: 4, my: 4, mx: 8 }}>
+          <Card variant="outlined" sx={{ width: "100%", pb: 4, my: 4 }}>
             <ThemeProvider theme={defaultTheme}>
               <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -108,11 +108,13 @@ function SignIn() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   <Typography
                     component="h1"
                     variant="h4"
-                    sx={{ fontWeight: "bold" }}>
+                    sx={{ fontWeight: "bold" }}
+                  >
                     Sign in
                   </Typography>
 
@@ -120,13 +122,15 @@ function SignIn() {
                     component="form"
                     onSubmit={handleSubmit}
                     noValidate
-                    sx={{ mt: 1 }}>
+                    sx={{ mt: 1 }}
+                  >
                     <Typography
                       sx={{
                         color: "red",
                         fontFamily: "Poppins",
                         fontWeight: "600",
-                      }}>
+                      }}
+                    >
                       {errorMessage ? errorMessage : " "}
                     </Typography>
                     <TextField
@@ -157,14 +161,20 @@ function SignIn() {
                       type="submit"
                       fullWidth
                       variant="contained"
-                      sx={{ mt: 3, mb: 2, bgcolor: "green" }}>
+                      sx={{ mt: 3, mb: 2, bgcolor: "green" }}
+                    >
                       Sign In
                     </Button>
                     <Grid container spacing={1} justifyContent="center">
                       <Grid item xs>
                         <RouterLink to="/ass">
                           <Typography
-                            sx={{ color: "#265073", fontFamily: "Poppins" }}>
+                            sx={{
+                              color: "#265073",
+                              fontFamily: "Poppins",
+                              textAlign: "center",
+                            }}
+                          >
                             Forgot Password
                           </Typography>
                         </RouterLink>
@@ -172,25 +182,16 @@ function SignIn() {
                       <Grid item>
                         <RouterLink to="/signUp">
                           <Typography
-                            sx={{ color: "#265073", fontFamily: "Poppins" }}>
+                            sx={{
+                              color: "#265073",
+                              fontFamily: "Poppins",
+                              textAlign: "center",
+                            }}
+                          >
                             Don't have an account? Sign Up
                           </Typography>
                         </RouterLink>
                       </Grid>
-
-                      {/* Back To Home Link in Sign Up Page */}
-
-                      {/* <Grid item>
-                        <Link
-                          href="/"
-                          variant="Itinerary"
-                          style={{
-                            fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-                          }}
-                        >
-                          Back to home
-                        </Link>
-                      </Grid> */}
                     </Grid>
                   </Box>
                 </Box>

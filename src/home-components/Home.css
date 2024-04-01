@@ -23,7 +23,7 @@ html {
   border-bottom: solid 1px #e8e8e8;
   box-shadow: 0 3px 6px -2px rgba(0, 0, 0, 0.12),
     0 6px 16px -11px rgba(0, 0, 0, 0.08);
-  position: sticky;
+  /* position: sticky; */
   top: 0;
   margin-bottom: 20px;
   z-index: 99990;
@@ -37,7 +37,7 @@ html {
   border-bottom: 0;
   padding: 0 4px 0 24px;
   /* background-color: rgba(0, 0, 0, 0.5); */
-  backdrop-filter: blur(50px);
+  /* backdrop-filter: blur(50px); */
   opacity: 0.9;
 }
 
@@ -57,6 +57,7 @@ html {
   /* float: left; */
   display: flex;
   justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 .navbar-menu .ant-layout-header {
@@ -65,6 +66,7 @@ html {
 
 .navbar-menu .ant-menu-horizontal {
   border-bottom: 0;
+  justify-content: flex-end;
 }
 
 .navbar-menu .ant-menu-item {
@@ -72,13 +74,14 @@ html {
 }
 
 .navbar-menu .leftMenu {
-  float: left;
+  /* float: left; */
+  width: 100%;
 }
 
 .navbar-menu .rightMenu {
-  float: right;
+  /* float: right; */
   /* display: flex; */
-  width: 10%;
+  width: 100%;
 }
 
 .menuButton {
@@ -153,7 +156,7 @@ html {
   gap: 3.2rem;
   align-items: center;
   font-family: "Poppins", sans-serif;
-  backdrop-filter: blur(10px);
+  /* backdrop-filter: blur(10px); */
 }
 
 .main--navigation ul {
@@ -262,8 +265,9 @@ html {
 
 .cta--btns {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 3.2rem 6.4rem;
+  color: #fff;
 }
 
 .services--main {
@@ -323,7 +327,7 @@ html {
   text-align: center;
   font-family: "Poppins", sans-serif;
   font-size: 2.4rem;
-  color: white;
+  /* color: white; */
 }
 
 .destinations {
@@ -538,6 +542,25 @@ a {
   html {
     font-size: 43.75%;
   }
+  .generate--grid {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+  .cta--btns {
+    padding: 3.2rem 0;
+  }
+  .generate--grid .from,
+  .generate--grid .to {
+    grid-column: span 1;
+  }
+  .services--header {
+    padding: 30.4rem 0 2.4rem 0;
+  }
+  .all--services {
+    grid-template-columns: 1fr 1fr;
+    padding: 0 4.8rem;
+    font-size: 1.4rem;
+  }
 }
 @media (max-width: 34.375em) {
   html {
@@ -548,14 +571,32 @@ a {
   }
 }
 @media (max-width: 30em) {
-  /* html {
-    /* font-size: 37.5%; */
-  /* } */
+  html {
+    font-size: 30%;
+  }
   .generate--grid {
     grid-template-columns: 1fr;
+    padding: 0;
+  }
+  .cta--btns {
+    padding: 3.2rem 0;
   }
   .generate--grid .from,
   .generate--grid .to {
     grid-column: span 1;
+  }
+}
+
+@media (max-width: 28em) {
+  html {
+    font-size: 25%;
+  }
+  .services--header {
+    padding: 30.4rem 0 2.4rem 0;
+  }
+  .all--services {
+    grid-template-columns: 1fr 1fr;
+    padding: 0 4.8rem;
+    font-size: 1.4rem;
   }
 }

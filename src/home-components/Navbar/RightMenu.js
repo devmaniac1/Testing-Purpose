@@ -31,10 +31,8 @@ const RightMenu = ({ mode }) => {
             <Avatar icon={<UserOutlined style={{ height: "1.6rem" }} />} />
             <span className="username">John Doe</span>
           </>
-        }>
-        <Menu.Item key="project">
-          <CodeOutlined /> Projects
-        </Menu.Item>
+        }
+      >
         <Menu.Item key="about-us">
           <UserOutlined /> Profile
         </Menu.Item>

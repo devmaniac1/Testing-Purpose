@@ -1,16 +1,13 @@
-import { Container, Card } from "@mui/material";
+import { Container, Card, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import LoginBgImg from "./../images/login1.png";
 import { Typography, TextField } from "@mui/material";
-// import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-// import { useHistory } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
@@ -62,7 +59,6 @@ function SignUp() {
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify({ firstName, lastName, email, password }),
         }
       );
@@ -88,35 +84,41 @@ function SignUp() {
         height: "100vh",
         backgroundBlendMode: "overlay",
         backgroundColor: "hsla(0, 0%, 0%, 0.3)",
-      }}>
+      }}
+    >
       <Container
         sx={{
-          width: "70%",
+          width: "100%",
           height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Box
           sx={{
-            minWidth: 275,
+            width: { xs: "90%", sm: "80%", md: "70%" },
             alignItems: "center",
             display: "flex",
             justifyContent: "space-between",
-          }}>
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
           <Typography
             variant="h1"
             sx={{
               fontFamily: '"Katibeh", serif',
               fontStyle: "normal",
               fontWeight: "bold",
-              fontSize: "8rem",
+              fontSize: { xs: "6rem", sm: "8rem" },
               color: "WHITE",
-              mx: 8,
-            }}>
+              mx: 4,
+              textAlign: "center",
+            }}
+          >
             Lankan Amigo
           </Typography>
-          <Card variant="outlined" sx={{ width: "25vw", pb: 4, my: 4, mx: 8 }}>
+          <Card variant="outlined" sx={{ width: "100%", pb: 4, my: 4 }}>
             <ThemeProvider theme={defaultTheme}>
               <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -126,11 +128,13 @@ function SignUp() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   <Typography
                     component="h1"
                     variant="h4"
-                    sx={{ fontWeight: "bold", fontFamily: "Poppins" }}>
+                    sx={{ fontWeight: "bold", fontFamily: "Poppins" }}
+                  >
                     Sign up
                   </Typography>
                   <Typography
@@ -138,7 +142,9 @@ function SignUp() {
                       fontFamily: "Poppins",
                       fontSize: "1.2rem",
                       marginTop: 2,
-                    }}>
+                      textAlign: "center",
+                    }}
+                  >
                     Plan your trips effortlessly and focus on what matters - the
                     adventure!
                   </Typography>
@@ -146,7 +152,8 @@ function SignUp() {
                     component="form"
                     noValidate
                     onSubmit={handleSubmit}
-                    sx={{ mt: 2 }}>
+                    sx={{ mt: 2 }}
+                  >
                     <Grid container spacing={2}>
                       <Grid item xs={12}>
                         <Typography
@@ -154,11 +161,12 @@ function SignUp() {
                             color: "red",
                             fontFamily: "Poppins",
                             fontWeight: "600",
-                          }}>
+                          }}
+                        >
                           {errorMessage ? errorMessage : " "}
                         </Typography>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sm={6}>
                         <TextField
                           autoComplete="given-name"
                           name="firstName"
@@ -169,7 +177,7 @@ function SignUp() {
                           autoFocus
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sm={6}>
                         <TextField
                           required
                           fullWidth
@@ -179,15 +187,6 @@ function SignUp() {
                           autoComplete="family-name"
                         />
                       </Grid>
-                      {/* <Grid item xs={12}>
-                        <TextField
-                          required
-                          fullWidth
-                          id="phone"
-                          label="Phone Number"
-                          name="phone"
-                        />
-                      </Grid> */}
                       <Grid item xs={12}>
                         <TextField
                           required
@@ -198,7 +197,6 @@ function SignUp() {
                           autoComplete="email"
                         />
                       </Grid>
-
                       <Grid item xs={12}>
                         <TextField
                           required
@@ -219,7 +217,6 @@ function SignUp() {
                           type="password"
                           id="confirm-password"
                           autoComplete="off"
-                          sx={{ fontSize: "4rem" }}
                         />
                       </Grid>
                     </Grid>
@@ -227,23 +224,25 @@ function SignUp() {
                       type="submit"
                       fullWidth
                       variant="contained"
-                      sx={{ mt: 3, mb: 3, bgcolor: "#265073" }}>
+                      sx={{ mt: 3, mb: 3, bgcolor: "#265073" }}
+                    >
                       Sign Up
                     </Button>
                     <Grid container justifyContent="space-between">
                       <Grid item>
                         <RouterLink to="/signIn">
                           <Typography
-                            sx={{ color: "#265073", fontFamily: "Poppins" }}>
+                            sx={{ color: "#265073", fontFamily: "Poppins" }}
+                          >
                             Already have an account? Sign in
                           </Typography>
                         </RouterLink>
                       </Grid>
-
                       <Grid item>
                         <RouterLink to="/">
                           <Typography
-                            sx={{ color: "#265073", fontFamily: "Poppins" }}>
+                            sx={{ color: "#265073", fontFamily: "Poppins" }}
+                          >
                             Back to home
                           </Typography>
                         </RouterLink>

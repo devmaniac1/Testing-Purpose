@@ -13,17 +13,17 @@ a {
 }
 
 .menu__link::before {
-  content: '';
+  content: "";
   width: 0;
   height: 2px;
   border-radius: 2px;
   background-color: #fff;
   position: absolute;
-  bottom: -.25rem;
+  bottom: -0.25rem;
   left: 0;
-  transition: width .4s;
+  transition: width 0.4s;
 }
 
 .menu__link:hover::before {
-  width: 100%;
+    width: 100%;
 }
